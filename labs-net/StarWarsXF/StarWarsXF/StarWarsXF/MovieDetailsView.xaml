@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             mc:Ignorable="d"
+             x:Class="StarWarsXF.MovieDetailsView">
+    <ContentPage.Content>
+        <Grid Padding="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <!--<Image x:Name="PosterImage" Aspect="AspectFit" Grid.Row="1" HorizontalOptions="Start"/>-->
+            <ffimageloading:CachedImage Grid.Row="1" x:Name="PosterImage"
+                                        WidthRequest="300" HeightRequest="300"
+                                        DownsampleToViewSize="true">
+            </ffimageloading:CachedImage>
+            <StackLayout Grid.Row="2">
+                <Label Text="Release Date" Style="{DynamicResource SubtitleStyle}" />
+                <Label x:Name="ReleaseDateLabel" Style="{DynamicResource BodyStyle}" />
+                <Label Text="Director" Style="{DynamicResource SubtitleStyle}" />
+                <Label x:Name="DirectorLabel" Style="{DynamicResource BodyStyle}" />
+                <Label Text="Producer" Style="{DynamicResource SubtitleStyle}" />
+                <Label x:Name="ProducerLabel" Style="{DynamicResource BodyStyle}" />
+                <Label Text="Rating" Style="{DynamicResource SubtitleStyle}" />
+                <ProgressBar x:Name="RatingProgress" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" Grid.Row="3" Spacing="8" HorizontalOptions="Center">
+                <Button Text="Down" x:Name="DownButton" Clicked="DownButton_Clicked"/>
+                <Button Text="Up" x:Name="UpButton" Clicked="UpButton_Clicked" />
+                <Button Text="Show Planets" x:Name="PlanetsButton" Clicked="PlanetsButton_OnClicked" />
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
