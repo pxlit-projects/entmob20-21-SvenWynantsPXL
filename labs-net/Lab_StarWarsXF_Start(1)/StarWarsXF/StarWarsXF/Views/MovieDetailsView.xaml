@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:converters="clr-namespace:StarWarsXF.Converters;assembly=StarWarsXF"
+             mc:Ignorable="d"
+             x:Class="StarWarsXF.Views.MovieDetailsView">
+    <ContentPage.Resources>
+        <converters:MovieTitleToImageSourceConverter
+            x:Key="MovieTitleConverter"></converters:MovieTitleToImageSourceConverter>
+        <converters:RatingConverter
+            x:Key="RatingConverter"></converters:RatingConverter>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid Padding="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <!--<Image x:Name="PosterImage" Aspect="AspectFit" Grid.Row="1" HorizontalOptions="Start"/>-->
+            <ffimageloading:CachedImage Source="{Binding CurrentMovie.Title, Converter={StaticResource MovieTitleConverter}}"
+                Grid.Row="1" x:Name="PosterImage"
+                                        WidthRequest="300" HeightRequest="300"
+                                        DownsampleToViewSize="true">
+            </ffimageloading:CachedImage>
+            <StackLayout Grid.Row="2">
+                <Label Text="Release Date" Style="{DynamicResource SubtitleStyle}" />
+                <Label Text="{Binding CurrentMovie.ReleaseDate}" Style="{DynamicResource BodyStyle}" />
+                <Label Text="Director" Style="{DynamicResource SubtitleStyle}" />
+                <Label Text="{Binding CurrentMovie.Director}" Style="{DynamicResource BodyStyle}" />
+                <Label Text="Producer" Style="{DynamicResource SubtitleStyle}" />
+                <Label Text="{Binding CurrentMovie.Producer}" Style="{DynamicResource BodyStyle}" />
+                <Label Text="Rating" Style="{DynamicResource SubtitleStyle}" />
+                <ProgressBar Progress="{Binding CurrentMovie.Rating, Converter={StaticResource RatingConverter}}" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" Grid.Row="3" Spacing="8" HorizontalOptions="Center">
+                <Button Text="Down" Command="{Binding RateDownCommand}"/>
+                <Button Text="Up" Command="{Binding RateUpCommand}" />
+                <Button Text="Show Planets" Command="{Binding ShowPlanetsCommand}" />
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

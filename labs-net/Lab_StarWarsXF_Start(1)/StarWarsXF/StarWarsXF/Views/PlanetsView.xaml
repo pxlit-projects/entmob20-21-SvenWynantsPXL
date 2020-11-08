@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="StarWarsXF.Views.PlanetsView">
+    <ContentPage.Content>
+        <ListView ItemsSource="{Binding Planets}"  Margin="20"
+                  RowHeight="120">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.View>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Label Text="{Binding Name}" Style="{DynamicResource SubtitleStyle}"
+                                       Grid.Row="0" Grid.Column="0" />
+                                <StackLayout Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
+                                    <Label Text="Climate: " Style="{DynamicResource BodyStyle}"/>
+                                    <Label Text="{Binding Climate}" Style="{DynamicResource BodyStyle}" />
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="0">
+                                    <Label Text="Gravity: " Style="{DynamicResource BodyStyle}"/>
+                                    <Label Text="{Binding Gravity}" Style="{DynamicResource BodyStyle}" />
+                                </StackLayout>
+                                <Label Text="{Binding Terrain}" Style="{DynamicResource BodyStyle}" Grid.Row="3" Grid.Column="0"/>
+                            </Grid>
+                        </ViewCell.View>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage.Content>
+</ContentPage>
