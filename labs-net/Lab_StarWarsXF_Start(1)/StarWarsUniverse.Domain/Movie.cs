@@ -27,8 +27,17 @@ namespace StarWarsUniverse.Domain
         [JsonProperty(PropertyName = "planets")]
         public List<string> PlanetUris { get; set; }
 
+        private float _rating;
         [JsonIgnore]
-        public float Rating { get; set; }
+        public float Rating
+        {
+            get => _rating;
+            set
+            {
+                _rating = value;
+                OnPropertyChanged();
+            }
+        }
 
     }
 }

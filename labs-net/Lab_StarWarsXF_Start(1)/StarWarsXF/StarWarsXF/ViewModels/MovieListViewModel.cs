@@ -42,6 +42,8 @@ namespace StarWarsXF.ViewModels
             var viewModel = (MovieDetailsViewModel) movieDetailsView.BindingContext;
             viewModel.CurrentMovie = movie;
 
+            viewModel.RefreshCanExecutes();
+
             //Hide master page
             mainView.IsPresented = false;
         }

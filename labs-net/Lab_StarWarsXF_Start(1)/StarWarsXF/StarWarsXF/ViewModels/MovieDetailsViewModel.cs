@@ -33,7 +33,7 @@ namespace StarWarsXF.ViewModels
 
         public bool OnCanExecuteRateUp()
         {
-            if (CurrentMovie.Rating < 10)
+            if (CurrentMovie != null && CurrentMovie.Rating < 10)
             {
                 return true;
             }
@@ -43,7 +43,7 @@ namespace StarWarsXF.ViewModels
 
         public bool OnCanExecuteRateDown()
         {
-            if (CurrentMovie.Rating > 0)
+            if (CurrentMovie != null && CurrentMovie.Rating > 0)
             {
                 return true;
             }
@@ -63,10 +63,11 @@ namespace StarWarsXF.ViewModels
             RefreshCanExecutes();
         }
 
-        private void RefreshCanExecutes()
+        public void RefreshCanExecutes()
         {
             (RateDownCommand as Command).ChangeCanExecute();
             (RateUpCommand as Command).ChangeCanExecute();
+            (ShowPlanetsCommand as Command).ChangeCanExecute();
         }
 
         private async void OnShowPlanets()
