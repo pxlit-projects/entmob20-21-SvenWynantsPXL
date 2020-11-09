@@ -1,10 +1,13 @@
 ﻿using System;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using StarWarsUniverse.Domain.Annotations;
 
 namespace StarWarsUniverse.Domain
 {
-    public class Movie : Resource
+    public class Movie : Resource, INotifyPropertyChanged
     {
         public string Title { get; set; }
 
@@ -39,5 +42,12 @@ namespace StarWarsUniverse.Domain
             }
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
