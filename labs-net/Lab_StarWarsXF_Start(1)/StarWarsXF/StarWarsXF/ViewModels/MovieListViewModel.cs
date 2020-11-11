@@ -4,6 +4,8 @@ using StarWarsUniverse.Data;
 using StarWarsUniverse.Data.Repositories;
 using StarWarsUniverse.Data.Repositories.Db;
 using StarWarsUniverse.Domain;
+using StarWarsXF.Services;
+using StarWarsXF.Util;
 using StarWarsXF.Views;
 using Xamarin.Forms;
 
@@ -11,41 +13,24 @@ namespace StarWarsXF.ViewModels
 {
     public class MovieListViewModel : ViewModelBase
     {
+        private readonly INavigationService _navigationService;
         public IList<Movie> Movies { get; set; }
 
         public Command MovieSelectedCommand => new Command<Movie>(OnMovieSelected);
 
-        public MovieListViewModel()
+        public MovieListViewModel(IMovieRepository movieRepository, INavigationService navigationService)
         {
-            IMovieRepository repository = new MovieDbRepository(StarWarsContextFactory.Create());
-            Movies = repository.GetAllMovies();
+            _navigationService = navigationService;
+            
+            Movies = movieRepository.GetAllMovies();
+
         }
 
         private async void OnMovieSelected(Movie movie)
         {
-            //Navigate to the detail view
-            var mainView = (MainView) Application.Current.MainPage;
-            var detailNavigationPage = (NavigationPage) mainView.Detail;
-
-            var movieDetailsView = detailNavigationPage.CurrentPage as MovieDetailsView;
-
-            if (movieDetailsView == null)
-            {
-                movieDetailsView = new MovieDetailsView
-                {
-                    BindingContext = new MovieDetailsViewModel()
-                };
-                await detailNavigationPage.PushAsync(movieDetailsView);
-            }
-
-            //Set the selected movie
-            var viewModel = (MovieDetailsViewModel) movieDetailsView.BindingContext;
-            viewModel.CurrentMovie = movie;
-
-            viewModel.RefreshCanExecutes();
-
-            //Hide master page
-            mainView.IsPresented = false;
+            await _navigationService.NavigateToAsync<MovieDetailsViewModel>();
+            
+            MessagingCenter.Instance.Send(this, MessageConstants.MovieSelected, movie);
         }
     }
 }

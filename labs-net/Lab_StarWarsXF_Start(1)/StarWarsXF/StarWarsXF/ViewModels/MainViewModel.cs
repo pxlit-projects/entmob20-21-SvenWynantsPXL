@@ -1,4 +1,8 @@
-﻿namespace StarWarsXF.ViewModels
+﻿using StarWarsUniverse.Data.Repositories;
+using StarWarsXF.Services;
+using StarWarsXF.Util;
+
+namespace StarWarsXF.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
@@ -6,7 +10,7 @@
 
         public MainViewModel()
         {
-            MovieListViewModel = new MovieListViewModel();
+            MovieListViewModel = new MovieListViewModel(AppContainer.Resolve<IMovieRepository>(), AppContainer.Resolve<INavigationService>());
         }
     }
 }

@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using StarWarsUniverse.Domain;
+using StarWarsXF.Services;
+using StarWarsXF.Util;
 using StarWarsXF.Views;
 using Xamarin.Forms;
 
@@ -7,6 +10,7 @@ namespace StarWarsXF.ViewModels
 {
     public class MovieDetailsViewModel : ViewModelBase
     {
+        private readonly INavigationService _navigationService;
         private Movie _currentMovie;
 
         private Command _rateDownCommand;
@@ -19,6 +23,13 @@ namespace StarWarsXF.ViewModels
         public Command RateUpCommand => _rateUpCommand ?? (_rateUpCommand = new Command(OnRateUp, OnCanExecuteRateUp));
 
         public Command ShowPlanetsCommand => new Command(OnShowPlanets);
+
+        public MovieDetailsViewModel(INavigationService navigationService)
+        {
+            _navigationService = navigationService;
+            MessagingCenter.Instance.Subscribe<MovieListViewModel, Movie>(this, MessageConstants.MovieSelected,
+                (sender, movie) => { CurrentMovie = movie; });
+        }
 
         public Movie CurrentMovie
         {
@@ -67,26 +78,15 @@ namespace StarWarsXF.ViewModels
         {
             (RateDownCommand as Command).ChangeCanExecute();
             (RateUpCommand as Command).ChangeCanExecute();
-            (ShowPlanetsCommand as Command).ChangeCanExecute();
         }
 
         private async void OnShowPlanets()
         {
-            //Navigate to the detail view
-            var mainView = (MainView) Application.Current.MainPage;
-            var detailNavigationPage = (NavigationPage) mainView.Detail;
+            string title = $"{_currentMovie.Title} - planets";
+            await _navigationService.NavigateToAsync<PlanetsViewModel>();
 
-            var planetsView = new PlanetsView
-            {
-                BindingContext = new PlanetsViewModel()
-            };
-
-            await detailNavigationPage.PushAsync(planetsView);
-
-            //Set planets
-            var viewModel = (PlanetsViewModel) planetsView.BindingContext;
-
-            viewModel.Planets = CurrentMovie.MoviePlanets.Select(mp => mp.Planet).ToList();
+            IList<Planet> planets = CurrentMovie.MoviePlanets.Select(mp => mp.Planet).ToList();
+            MessagingCenter.Instance.Send(this, MessageConstants.ShowMoviePlanets, planets);
         }
     }
 }

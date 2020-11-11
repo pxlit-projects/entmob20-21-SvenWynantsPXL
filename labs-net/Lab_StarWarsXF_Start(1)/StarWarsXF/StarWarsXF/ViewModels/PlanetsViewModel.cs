@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using StarWarsUniverse.Domain;
+using StarWarsXF.Util;
+using Xamarin.Forms;
 
 namespace StarWarsXF.ViewModels
 {
@@ -15,6 +17,12 @@ namespace StarWarsXF.ViewModels
                 _planets = value;
                 OnPropertyChanged();
             }
+        }
+
+        public PlanetsViewModel()
+        {
+            MessagingCenter.Instance.Subscribe<MovieDetailsViewModel, IList<Planet>>(this, MessageConstants.ShowMoviePlanets,
+                (sender, planets) => { Planets = planets; });
         }
 
     }
