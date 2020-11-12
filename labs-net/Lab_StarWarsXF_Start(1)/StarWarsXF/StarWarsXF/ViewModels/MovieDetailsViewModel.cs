@@ -29,6 +29,8 @@ namespace StarWarsXF.ViewModels
             _navigationService = navigationService;
             MessagingCenter.Instance.Subscribe<MovieListViewModel, Movie>(this, MessageConstants.MovieSelected,
                 (sender, movie) => { CurrentMovie = movie; });
+
+            RefreshCanExecutes();
         }
 
         public Movie CurrentMovie

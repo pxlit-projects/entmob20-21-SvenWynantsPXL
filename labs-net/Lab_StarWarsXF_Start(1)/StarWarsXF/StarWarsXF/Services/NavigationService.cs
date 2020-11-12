@@ -52,8 +52,8 @@ namespace StarWarsXF.Services
         private Page CreateViewFor(Type viewModelType)
         {
             var viewType = GetViewTypeForViewModel(viewModelType);
-            Page view = AppContainer.Resolve(viewType) as Page;
-
+            //Page view = AppContainer.Resolve(viewType) as Page;
+            Page view = Activator.CreateInstance(viewType) as Page;
             object viewModel = AppContainer.Resolve(viewModelType);
             view.BindingContext = viewModel;
 
