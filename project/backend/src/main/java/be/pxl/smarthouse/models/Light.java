@@ -1,10 +1,11 @@
-package com.lightsbackend.project.models;
+package be.pxl.smarthouse.models;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
 public class Light {
+    private String key;
     private State state;
     private Swupdate swupdate;
     private String type;

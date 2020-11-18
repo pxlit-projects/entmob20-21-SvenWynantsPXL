@@ -1,4 +1,4 @@
-package com.lightsbackend.project.models;
+package be.pxl.smarthouse.models;
 
 public class Config {
     private String archetype;

@@ -1,4 +1,4 @@
-package com.lightsbackend.project;
+package be.pxl.smarthouse;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

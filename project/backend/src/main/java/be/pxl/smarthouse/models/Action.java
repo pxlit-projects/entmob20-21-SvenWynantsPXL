@@ -1,41 +1,31 @@
-package com.lightsbackend.project.models;
+package be.pxl.smarthouse.models;
 
 import java.util.List;
 
-public class State {
-    private int bri;
+public class Action {
     private boolean on;
+    private String bri;
     private int hue;
     private int sat;
+    private String effect;
     private List<Float> xy;
     private int ct;
     private String alert;
-    private String effect;
     private String colormode;
-    private boolean reachable;
 
-    public State() {
-    }
-
-    public State(int bri, boolean on, int hue, int sat, List<Float> xy, int ct, String alert, String effect, String colormode, boolean reachable) {
-        this.bri = bri;
+    public Action(boolean on, String bri, int hue, int sat, String effect, List<Float> xy, int ct, String alert, String colormode) {
         this.on = on;
+        this.bri = bri;
         this.hue = hue;
         this.sat = sat;
+        this.effect = effect;
         this.xy = xy;
         this.ct = ct;
         this.alert = alert;
-        this.effect = effect;
         this.colormode = colormode;
-        this.reachable = reachable;
     }
 
-    public int getBri() {
-        return bri;
-    }
-
-    public void setBri(int bri) {
-        this.bri = bri;
+    public Action() {
     }
 
     public boolean isOn() {
@@ -44,6 +34,14 @@ public class State {
 
     public void setOn(boolean on) {
         this.on = on;
+    }
+
+    public String getBri() {
+        return bri;
+    }
+
+    public void setBri(String bri) {
+        this.bri = bri;
     }
 
     public int getHue() {
@@ -60,6 +58,14 @@ public class State {
 
     public void setSat(int sat) {
         this.sat = sat;
+    }
+
+    public String getEffect() {
+        return effect;
+    }
+
+    public void setEffect(String effect) {
+        this.effect = effect;
     }
 
     public List<Float> getXy() {
@@ -86,27 +92,11 @@ public class State {
         this.alert = alert;
     }
 
-    public String getEffect() {
-        return effect;
-    }
-
-    public void setEffect(String effect) {
-        this.effect = effect;
-    }
-
     public String getColormode() {
         return colormode;
     }
 
     public void setColormode(String colormode) {
         this.colormode = colormode;
-    }
-
-    public boolean isReachable() {
-        return reachable;
-    }
-
-    public void setReachable(boolean reachable) {
-        this.reachable = reachable;
     }
 }
