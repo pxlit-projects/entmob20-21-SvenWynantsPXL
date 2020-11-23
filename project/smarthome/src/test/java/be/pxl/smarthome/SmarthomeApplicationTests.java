@@ -1,10 +1,10 @@
-package be.pxl.smarthouse;
+package be.pxl.smarthome;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ProjectApplicationTests {
+class SmarthomeApplicationTests {
 
     @Test
     void contextLoads() {
