@@ -1,31 +1,32 @@
 package be.pxl.smarthome.models;
-
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class LightGroup {
-    private String key;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String name;
-    private List<Integer> lightIds;
+    @OneToMany
+    private List<Light> lights;
     private State state;
     private String type;
 
-    public LightGroup(String key, String name, String type) {
-        this.key = key;
+    public LightGroup(int id, String name, String type) {
+        this.id = id;
         this.name = name;
-        this.lightIds = new ArrayList<Integer>();
+        this.lights = new ArrayList<Light>();
         this.type = type;
+        this.state = new State();
     }
 
     public LightGroup() {
     }
 
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -36,10 +37,10 @@ public class LightGroup {
         this.name = name;
     }
 
-    public List<Integer> getLights() { return lightIds; }
+    public List<Light> getLights() { return lights; }
 
-    public void setLights(List<Integer> lightIds) {
-        this.lightIds = lightIds;
+    public void setLights(List<Light> lightIds) {
+        this.lights = lights;
     }
 
     public String getType() {

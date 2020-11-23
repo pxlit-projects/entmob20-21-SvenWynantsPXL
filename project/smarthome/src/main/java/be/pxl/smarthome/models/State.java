@@ -4,14 +4,19 @@ import java.util.List;
 
 public class State {
     private int bri;
-    private boolean on;
+    private boolean hasOn;
+    private boolean allOn;
 
     public State() {
+        this.bri = 0;
+        this.hasOn = false;
+        this.allOn = false;
     }
 
-    public State(int bri, boolean on) {
+    public State(int bri, boolean hasOn, boolean allOn) {
         this.bri = bri;
-        this.on = on;
+        this.hasOn = hasOn;
+        this.allOn = allOn;
     }
 
     public int getBri() {
@@ -22,11 +27,19 @@ public class State {
         this.bri = bri;
     }
 
-    public boolean isOn() {
-        return on;
+    public boolean isHasOn() {
+        return hasOn;
     }
 
-    public void setOn(boolean on) {
-        this.on = on;
+    public void setHasOn(boolean hasOn) {
+        this.hasOn = hasOn;
+    }
+
+    public boolean isAllOn() {
+        return allOn;
+    }
+
+    public void setAllOn(boolean allOn) {
+        this.allOn = allOn;
     }
 }

@@ -5,9 +5,19 @@ import be.pxl.smarthome.models.Light;
 
 import java.util.List;
 
-public class LightDaoImpl implements LightDao {
+public class DummyLightDaoImpl implements LightDao {
+
+    public DummyLightDaoImpl(){
+
+    }
+
     @Override
     public List<Light> getAllLights() {
+        return null;
+    }
+
+    @Override
+    public Light addLight(Light light) {
         return null;
     }
 }

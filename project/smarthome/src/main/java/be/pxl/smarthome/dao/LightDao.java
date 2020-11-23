@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface LightDao {
     List<Light> getAllLights();
+    Light addLight(Light light);
 }

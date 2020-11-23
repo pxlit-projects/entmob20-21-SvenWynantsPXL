@@ -1,15 +1,22 @@
 package be.pxl.smarthome.models;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.persistence.*;
 
-
+@Entity
 public class Light {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private State state;
     private String type;
     private String name;
-    private String manufacturername;
+    private String manufacturerName;
+    @ManyToOne
+    private LightGroup group;
+
+    public int getId() {
+        return id;
+    }
 
     public State getState() {
         return state;
@@ -35,11 +42,19 @@ public class Light {
         this.name = name;
     }
 
-    public String getManufacturername() {
-        return manufacturername;
+    public String getManufacturerName() {
+        return manufacturerName;
     }
 
-    public void setManufacturername(String manufacturername) {
-        this.manufacturername = manufacturername;
+    public void setManufacturerName(String manufacturerName) {
+        this.manufacturerName = manufacturerName;
+    }
+
+    public LightGroup getGroup() {
+        return group;
+    }
+
+    public void setGroup(LightGroup group) {
+        this.group = group;
     }
 }
