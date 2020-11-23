@@ -7,6 +7,7 @@ public class LightGroup {
     private String key;
     private String name;
     private List<Integer> lightIds;
+    private State state;
     private String type;
 
     public LightGroup(String key, String name, String type) {
@@ -47,5 +48,13 @@ public class LightGroup {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 }
