@@ -1,7 +1,6 @@
 package be.pxl.smarthome.controllers;
 
 import be.pxl.smarthome.dto.LightDto;
-import be.pxl.smarthome.models.Light;
 import be.pxl.smarthome.service.LightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,5 +27,7 @@ public class LightsController {
 
         return new ResponseEntity(HttpStatus.OK);
     }
+
+
 
 }

@@ -3,27 +3,37 @@ package be.pxl.smarthome.models;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "lights")
 public class Light {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private State state;
+    private Integer id;
+    private int brightness;
+    private boolean isOnState;
     private String type;
     private String name;
     private String manufacturerName;
     @ManyToOne
     private LightGroup group;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public State getState() {
-        return state;
+    public int getBrightness() {
+        return brightness;
     }
 
-    public void setState(State state) {
-        this.state = state;
+    public void setBrightness(int brightness) {
+        this.brightness = brightness;
+    }
+
+    public boolean isOnState() {
+        return isOnState;
+    }
+
+    public void setOnState(boolean onState) {
+        isOnState = onState;
     }
 
     public String getType() {

@@ -1,10 +1,10 @@
 package be.pxl.smarthome.dao;
 
 import be.pxl.smarthome.models.Light;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
+@Repository
+public interface LightDao extends JpaRepository<Light, Integer> {
 
-public interface LightDao {
-    List<Light> getAllLights();
-    Light addLight(Light light);
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "lightgroups")
 public class LightGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -11,19 +12,9 @@ public class LightGroup {
     private String name;
     @OneToMany
     private List<Light> lights;
-    private State state;
-    private String type;
-
-    public LightGroup(int id, String name, String type) {
-        this.id = id;
-        this.name = name;
-        this.lights = new ArrayList<Light>();
-        this.type = type;
-        this.state = new State();
-    }
-
-    public LightGroup() {
-    }
+    private boolean hasOnState;
+    private boolean allOnState;
+    private int brightness;
 
     public int getId() {
         return id;
@@ -43,19 +34,27 @@ public class LightGroup {
         this.lights = lights;
     }
 
-    public String getType() {
-        return type;
+    public boolean isHasOnState() {
+        return hasOnState;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setHasOnState(boolean hasOnState) {
+        this.hasOnState = hasOnState;
     }
 
-    public State getState() {
-        return state;
+    public boolean isAllOnState() {
+        return allOnState;
     }
 
-    public void setState(State state) {
-        this.state = state;
+    public void setAllOnState(boolean allOnState) {
+        this.allOnState = allOnState;
+    }
+
+    public int getBrightness() {
+        return brightness;
+    }
+
+    public void setBrightness(int brightness) {
+        this.brightness = brightness;
     }
 }

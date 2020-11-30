@@ -1,5 +1,6 @@
 package be.pxl.smarthome;
 
+import be.pxl.smarthome.service.LightApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,8 +17,12 @@ import javax.sql.DataSource;
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SmarthomeApplication extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private static LightApiService apiService;
+
     public static void main(String[] args) {
         SpringApplication.run(SmarthomeApplication.class, args);
+        apiService.getAllLightsInNetwork();
     }
 
     @Override
