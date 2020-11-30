@@ -10,6 +10,7 @@ import java.util.List;
 public interface LightService {
     //POST
     Light addLight(LightDto light);
+    Light addLight(Light light);
     //GET
     Light getLightById(Integer lightId);
     List<Light> getAllLights();

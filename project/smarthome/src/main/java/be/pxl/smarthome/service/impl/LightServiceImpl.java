@@ -27,6 +27,12 @@ public class LightServiceImpl implements LightService {
     }
 
     @Override
+    public Light addLight(Light light) {
+        dao.save(light);
+        return light;
+    }
+
+    @Override
     public Light getLightById(Integer lightId) {
         Optional<Light> optLight = dao.findById(lightId);
         return optLight.orElse(null);
