@@ -16,7 +16,7 @@ public class LightsController {
     private LightService service;
 
     @PostMapping(value = "/light")
-    @Secured({"ROLE_ADMIN"})
+    @Secured({"ADMIN"})
     public ResponseEntity addLight(@RequestBody LightDto lightDto) {
         try {
             service.addLight(lightDto);
