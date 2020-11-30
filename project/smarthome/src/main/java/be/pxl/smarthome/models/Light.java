@@ -5,6 +5,19 @@ import javax.persistence.*;
 @Entity
 @Table(name = "lights")
 public class Light {
+
+    public Light() {
+    }
+
+    //to fill dummyApi
+    public Light(int brightness, boolean isOnState, String type, String name, String manufacturerName) {
+        this.brightness = brightness;
+        this.isOnState = isOnState;
+        this.type = type;
+        this.name = name;
+        this.manufacturerName = manufacturerName;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
