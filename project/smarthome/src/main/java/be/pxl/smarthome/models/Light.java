@@ -27,6 +27,7 @@ public class Light {
     private String name;
     private String manufacturerName;
     @ManyToOne
+    @JoinColumn(name = "group_id", nullable = true)
     private LightGroup group;
 
     public Integer getId() {
