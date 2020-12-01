@@ -1,8 +1,5 @@
 package be.pxl.smarthome;
 
-import be.pxl.smarthome.models.Light;
-import be.pxl.smarthome.service.LightApiService;
-import be.pxl.smarthome.service.LightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,27 +11,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.sql.DataSource;
-import java.util.List;
 
 @SpringBootApplication
 @EnableGlobalMethodSecurity(securedEnabled = true)
-public class SmarthomeApplication extends WebSecurityConfigurerAdapter {
-
-    @Autowired
-    private static LightApiService apiService;
-    @Autowired
-    private static LightService lightService;
-
+public class SmarthomeApplication extends WebSecurityConfigurerAdapter{
     public static void main(String[] args) {
         SpringApplication.run(SmarthomeApplication.class, args);
-        List<Light> apiLights = apiService.getAllLightsInNetwork();
-        List<Light> myLights = lightService.getAllLights();
-
-        for (Light light : apiLights) {
-            if (!myLights.contains(light)) {
-                lightService.addLight(light);
-            }
-        }
     }
 
     @Override
