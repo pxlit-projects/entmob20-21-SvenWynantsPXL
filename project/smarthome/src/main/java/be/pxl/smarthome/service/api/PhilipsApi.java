@@ -1,2 +1,4 @@
-package be.pxl.smarthome.service.api;public interface PhilipsApi {
+package be.pxl.smarthome.service.api;
+
+public interface PhilipsApi extends LightApi{
 }

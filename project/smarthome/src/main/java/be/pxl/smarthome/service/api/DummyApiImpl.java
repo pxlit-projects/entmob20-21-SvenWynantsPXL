@@ -3,15 +3,16 @@ package be.pxl.smarthome.service.api;
 import be.pxl.smarthome.models.Light;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DummyApi {
+@Service
+public class DummyApiImpl implements DummyApi {
     private List<Light> lights;
-    private static Logger logger = LogManager.getLogger(DummyApi.class);
+    private static Logger logger = LogManager.getLogger(DummyApiImpl.class);
 
     @PostConstruct
     public void seedData() {
@@ -23,6 +24,7 @@ public class DummyApi {
     }
 
     public List<Light> getAllLights(){
+        logger.debug("All lights from dummy database returned");
         return lights;
     }
 
