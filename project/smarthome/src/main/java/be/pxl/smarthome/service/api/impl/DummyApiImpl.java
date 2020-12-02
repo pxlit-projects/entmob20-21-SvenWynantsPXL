@@ -2,6 +2,7 @@ package be.pxl.smarthome.service.api.impl;
 
 import be.pxl.smarthome.dao.LightGroupDao;
 import be.pxl.smarthome.models.Light;
+import be.pxl.smarthome.models.LightManufacturer;
 import be.pxl.smarthome.service.api.LightApi;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,11 +23,11 @@ public class DummyApiImpl implements LightApi {
     @PostConstruct
     public void seedData() {
         lights = new ArrayList<>();
-        Light light1 = new Light(100, false, "dummy light", "Dummy light 1", "Dummy");
+        Light light1 = new Light(100, false, "dummy light", "Dummy light 1", LightManufacturer.DUMMY);
         light1.setGroup(groupDao.findById(1).orElse(null));
-        Light light2 = new Light(100, false, "dummy light", "Dummy light 2", "Dummy");
+        Light light2 = new Light(100, false, "dummy light", "Dummy light 2", LightManufacturer.DUMMY);
         light2.setGroup(groupDao.findById(1).orElse(null));
-        Light light3 = new Light(100, false, "dummy light", "Dummy light 3", "Dummy");
+        Light light3 = new Light(100, false, "dummy light", "Dummy light 3", LightManufacturer.DUMMY);
         lights.add(light1);
         lights.add(light2);
         lights.add(light3);
@@ -50,8 +51,8 @@ public class DummyApiImpl implements LightApi {
     }
 
     @Override
-    public String getManufacturer() {
-        return "dummy";
+    public LightManufacturer getManufacturer() {
+        return LightManufacturer.DUMMY;
     }
 
     public List<Light> getAllLights(){

@@ -1,13 +1,14 @@
 package be.pxl.smarthome.service.api;
 
 import be.pxl.smarthome.models.Light;
+import be.pxl.smarthome.models.LightManufacturer;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public interface LightApi {
-    String getManufacturer();
+    LightManufacturer getManufacturer();
     List<Light> getAllLights();
     void addLight(Light light);
     void removeLight(String name);

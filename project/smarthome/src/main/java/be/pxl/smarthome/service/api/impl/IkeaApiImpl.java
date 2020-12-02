@@ -1,6 +1,7 @@
 package be.pxl.smarthome.service.api.impl;
 
 import be.pxl.smarthome.models.Light;
+import be.pxl.smarthome.models.LightManufacturer;
 import be.pxl.smarthome.service.api.LightApi;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,8 +23,8 @@ public class IkeaApiImpl implements LightApi {
     }
 
     @Override
-    public String getManufacturer() {
-        return "ikea";
+    public LightManufacturer getManufacturer() {
+        return LightManufacturer.IKEA;
     }
 
     public List<Light> getAllLights(){

@@ -1,6 +1,7 @@
 package be.pxl.smarthome.service;
 
 import be.pxl.smarthome.models.Light;
+import be.pxl.smarthome.models.LightManufacturer;
 import be.pxl.smarthome.service.api.LightApi;
 import org.springframework.stereotype.Component;
 
@@ -12,17 +13,17 @@ import java.util.stream.Collectors;
 
 @Component
 public class LightApiMap {
-    public final Map<String, LightApi> lightApiMap;
+    public final Map<LightManufacturer, LightApi> lightApiMap;
     private final LightApi defaultLightApi;
 
     public LightApiMap(Set<LightApi> lightApis) {
         lightApiMap = lightApis.stream()
                 .collect(Collectors.toUnmodifiableMap(LightApi::getManufacturer, Function.identity()));
-        defaultLightApi = lightApiMap.get("dummy");
+        defaultLightApi = lightApiMap.get(LightManufacturer.DUMMY);
     }
 
     public LightApi get(Light light) {
-        return lightApiMap.getOrDefault(light.getManufacturerName(), defaultLightApi);
+        return lightApiMap.getOrDefault(light.getManufacturer(), defaultLightApi);
     }
 
     public Collection<LightApi> getAll(){

@@ -10,12 +10,12 @@ public class Light {
     }
 
     //to fill dummyApi
-    public Light(int brightness, boolean isOnState, String type, String name, String manufacturerName) {
+    public Light(int brightness, boolean isOnState, String type, String name, LightManufacturer manufacturer) {
         this.brightness = brightness;
         this.isOnState = isOnState;
         this.type = type;
         this.name = name;
-        this.manufacturerName = manufacturerName;
+        this.manufacturer = manufacturer;
     }
 
     @Id
@@ -30,8 +30,9 @@ public class Light {
     private String type;
     @Column(name = "name")
     private String name;
-    @Column(name = "manufacturername")
-    private String manufacturerName;
+    @Column(name = "manufacturer")
+    @Enumerated(EnumType.STRING)
+    private LightManufacturer manufacturer;
     @ManyToOne
     @JoinColumn(name = "group_id", nullable = true)
     private LightGroup group;
@@ -72,12 +73,12 @@ public class Light {
         this.name = name;
     }
 
-    public String getManufacturerName() {
-        return manufacturerName;
+    public LightManufacturer getManufacturer() {
+        return manufacturer;
     }
 
-    public void setManufacturerName(String manufacturerName) {
-        this.manufacturerName = manufacturerName;
+    public void setManufacturer(LightManufacturer manufacturer) {
+        this.manufacturer = manufacturer;
     }
 
     public LightGroup getGroup() {

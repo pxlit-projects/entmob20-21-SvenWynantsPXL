@@ -27,10 +27,10 @@ public class LightServiceImpl implements LightService {
         Light light = new Light();
 
         light.setName(lightDto.name);
-        light.setManufacturerName(lightDto.manufacturerName);
+        light.setManufacturer(lightDto.manufacturer);
         light.setOnState(false);
         light.setType(lightDto.type);
-        if (!lightDto.manufacturerName.equals("")) {
+        if (!lightDto.manufacturer.equals("")) {
             //TODO: lightgroup has no service yet
         }
 
