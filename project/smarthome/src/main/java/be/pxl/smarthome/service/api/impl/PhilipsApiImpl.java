@@ -29,14 +29,25 @@ public class PhilipsApiImpl implements PhilipsApi {
                 URI.create("https://philipsbridge/api/<username>/lights")
         );
         */
-        logger.debug("All lights from philips bridge requested");
+        logger.info("All lights from philips bridge requested");
         return new ArrayList<>();
     }
 
     @Override
     public void addLight(Light light) {
         //TODO: not yet implemented
-        logger.debug("A light was added to the philips bridge");
+        logger.info("A light was added to the philips bridge");
         return;
+    }
+
+    @Override
+    public void removeLight(String name) {
+        //TODO
+    }
+
+    @Override
+    public Light getLightByName(String name) {
+        //TODO
+        return null;
     }
 }

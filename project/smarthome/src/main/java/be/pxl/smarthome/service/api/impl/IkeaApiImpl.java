@@ -27,14 +27,25 @@ public class IkeaApiImpl implements IkeaApi {
                 URI.create("https://ikeabridge/api/<username>/lights"))
                 .build();
          */
-        logger.debug("All lights from ikea requested");
+        logger.info("All lights from ikea requested");
         return new ArrayList<>();
     }
 
     @Override
     public void addLight(Light light) {
         //TODO: not yet implemented
-        logger.debug("a light was added to the ikea bridge");
+        logger.info("a light was added to the ikea bridge");
         return;
+    }
+
+    @Override
+    public void removeLight(String name) {
+        //TODO
+    }
+
+    @Override
+    public Light getLightByName(String name) {
+        //TODO
+        return null;
     }
 }
