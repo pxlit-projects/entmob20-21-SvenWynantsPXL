@@ -20,11 +20,17 @@ public class Light {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
+    @Column(name = "brightness")
     private int brightness;
+    @Column(name = "ison")
     private boolean isOnState;
+    @Column(name = "type")
     private String type;
+    @Column(name = "name")
     private String name;
+    @Column(name = "manufacturername")
     private String manufacturerName;
     @ManyToOne
     @JoinColumn(name = "group_id", nullable = true)
