@@ -8,12 +8,17 @@ import java.util.List;
 public class LightGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
+    @Column(name = "name")
     private String name;
     @OneToMany
     private List<Light> lights;
+    @Column(name = "hason")
     private boolean hasOnState;
+    @Column(name = "allon")
     private boolean allOnState;
+    @Column(name = "brightness")
     private int brightness;
 
     public int getId() {
