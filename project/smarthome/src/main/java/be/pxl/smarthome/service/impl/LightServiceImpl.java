@@ -47,12 +47,6 @@ public class LightServiceImpl implements LightService {
         return light;
     }
 
-    @Override
-    public Light getLightById(Integer lightId) {
-        Optional<Light> optLight = dao.findById(lightId);
-        return optLight.orElse(null);
-    }
-
     public List<Light> getAllLights(){
         List<Light> lights = dao.findAll();
 
@@ -71,6 +65,13 @@ public class LightServiceImpl implements LightService {
         dao.save(light);
         lightApiService.flipSwitch(light);
         return light;
+    }
+
+    @Override
+    public Optional<Light> findLightById(Integer id) {
+        return Optional.ofNullable(id)
+                // if id is null => wont execute
+                .flatMap(dao::findById);
     }
 
     @PostConstruct

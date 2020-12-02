@@ -1,13 +1,15 @@
 package be.pxl.smarthome.dto;
 
-import org.springframework.lang.NonNull;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 
+@Valid
 public class LightDto {
-    @NonNull
+    @NotEmpty
     public String name;
-    @NonNull
+    @NotEmpty
     public String type;
-    @NonNull
+    @NotEmpty
     public String manufacturerName;
     public int lightGroupId;
 }

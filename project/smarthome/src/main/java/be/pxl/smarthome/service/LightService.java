@@ -5,16 +5,13 @@ import be.pxl.smarthome.models.Light;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface LightService {
-    //POST
     Light addLight(LightDto light);
     Light addLight(Light light);
-    //GET
-    Light getLightById(Integer lightId);
     List<Light> getAllLights();
-    //DELETE
+    Optional<Light> findLightById(Integer id);
     void removeLight(Light light);
-    //PUT
     Light flipSwitch(Light light);
 }
