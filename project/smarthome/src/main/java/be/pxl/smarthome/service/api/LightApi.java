@@ -7,6 +7,7 @@ import java.util.List;
 
 @Service
 public interface LightApi {
+    String getManufacturer();
     List<Light> getAllLights();
     void addLight(Light light);
     void removeLight(String name);

@@ -11,5 +11,5 @@ public class LightDto {
     public String type;
     @NotEmpty
     public String manufacturerName;
-    public int lightGroupId;
+    public Integer lightGroupId;
 }

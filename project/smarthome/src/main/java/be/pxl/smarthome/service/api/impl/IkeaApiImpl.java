@@ -1,7 +1,7 @@
 package be.pxl.smarthome.service.api.impl;
 
 import be.pxl.smarthome.models.Light;
-import be.pxl.smarthome.service.api.IkeaApi;
+import be.pxl.smarthome.service.api.LightApi;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -12,13 +12,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class IkeaApiImpl implements IkeaApi {
+public class IkeaApiImpl implements LightApi {
     private static Logger logger = LogManager.getLogger(IkeaApiImpl.class);
     private HttpClient client;
 
     @PostConstruct
     public void createClient(){
         client = HttpClient.newHttpClient();
+    }
+
+    @Override
+    public String getManufacturer() {
+        return "ikea";
     }
 
     public List<Light> getAllLights(){

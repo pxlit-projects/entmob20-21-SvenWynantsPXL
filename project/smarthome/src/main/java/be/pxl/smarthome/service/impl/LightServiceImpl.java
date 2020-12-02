@@ -34,7 +34,7 @@ public class LightServiceImpl implements LightService {
             //TODO: lightgroup has no service yet
         }
 
-        dao.save(light);
+        light = dao.save(light);
         lightApiService.addLight(light);
 
         return light;

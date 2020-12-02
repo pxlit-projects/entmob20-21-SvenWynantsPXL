@@ -1,62 +1,50 @@
 package be.pxl.smarthome.service.impl;
 
 import be.pxl.smarthome.models.Light;
+import be.pxl.smarthome.service.LightApiMap;
 import be.pxl.smarthome.service.LightApiService;
 import be.pxl.smarthome.service.api.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
+
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class LightApiServiceImpl implements LightApiService {
 
-    private LightApi lightApi;
-    @Autowired
-    private DummyApi dummyApi;
-    @Autowired
-    private IkeaApi ikeaApi;
-    @Autowired
-    private PhilipsApi philipsApi;
+    private final LightApiMap lightApiMap;
+
+    public LightApiServiceImpl(LightApiMap lightApiMap) {
+        this.lightApiMap = lightApiMap;
+    }
 
     @Override
     public List<Light> getAllLightsInNetwork() {
-        List<Light> allLights = new ArrayList<>();
-        allLights = dummyApi.getAllLights();
-        allLights = Stream.concat(allLights.stream(), ikeaApi.getAllLights().stream()).collect(Collectors.toList());
-        allLights = Stream.concat(allLights.stream(), philipsApi.getAllLights().stream()).collect(Collectors.toList());
-        return allLights;
+        return lightApiMap.getAll().stream()
+                .map(LightApi::getAllLights)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
     }
 
     @Override
     public void addLight(Light light) {
-        lightApi = checkManufacturer(light.getManufacturerName());
-
-        lightApi.addLight(light);
+        getLightApiFor(light).addLight(light);
     }
 
     @Override
     public void removeLight(Light light) {
-        lightApi = checkManufacturer(light.getManufacturerName());
-
+        final var lightApi = getLightApiFor(light);
         lightApi.removeLight(light.getName());
     }
 
     @Override
     public void flipSwitch(Light light) {
-        lightApi = checkManufacturer(light.getManufacturerName());
+        final var lightApi = getLightApiFor(light);
         lightApi.changeState(light);
     }
 
-    private LightApi checkManufacturer(String name) {
-        if (name.toLowerCase().equals("ikea")) {
-            return ikeaApi;
-        } else if (name.toLowerCase().equals("philips")){
-            return philipsApi;
-        } else {
-            return dummyApi;
-        }
+    private LightApi getLightApiFor(Light light) {
+        return lightApiMap.get(light);
     }
 }

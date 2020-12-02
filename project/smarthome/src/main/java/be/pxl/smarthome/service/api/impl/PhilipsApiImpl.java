@@ -1,7 +1,7 @@
 package be.pxl.smarthome.service.api.impl;
 
 import be.pxl.smarthome.models.Light;
-import be.pxl.smarthome.service.api.PhilipsApi;
+import be.pxl.smarthome.service.api.LightApi;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -12,13 +12,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PhilipsApiImpl implements PhilipsApi {
+public class PhilipsApiImpl implements LightApi {
     private static Logger logger = LogManager.getLogger(PhilipsApiImpl.class);
     private HttpClient client;
 
     @PostConstruct
     public void createClient(){
         client = HttpClient.newHttpClient();
+    }
+
+    @Override
+    public String getManufacturer() {
+        return "philips";
     }
 
     public List<Light> getAllLights(){

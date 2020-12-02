@@ -2,7 +2,7 @@ package be.pxl.smarthome.service.api.impl;
 
 import be.pxl.smarthome.dao.LightGroupDao;
 import be.pxl.smarthome.models.Light;
-import be.pxl.smarthome.service.api.DummyApi;
+import be.pxl.smarthome.service.api.LightApi;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class DummyApiImpl implements DummyApi {
+public class DummyApiImpl implements LightApi {
     private List<Light> lights;
     private static final Logger logger = LogManager.getLogger(DummyApiImpl.class);
     @Autowired
@@ -47,6 +47,11 @@ public class DummyApiImpl implements DummyApi {
         Light toChange = getLightByName(light.getName());
         toChange.setOnState(light.getOnState());
         logger.info("State of Dummy light changed to " + toChange.getOnState());
+    }
+
+    @Override
+    public String getManufacturer() {
+        return "dummy";
     }
 
     public List<Light> getAllLights(){
