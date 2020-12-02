@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class DummyApiImpl implements DummyApi {
     private List<Light> lights;
-    private static Logger logger = LogManager.getLogger(DummyApiImpl.class);
+    private static final Logger logger = LogManager.getLogger(DummyApiImpl.class);
     @Autowired
     private LightGroupDao groupDao;
 
@@ -23,9 +23,9 @@ public class DummyApiImpl implements DummyApi {
     public void seedData() {
         lights = new ArrayList<>();
         Light light1 = new Light(100, false, "dummy light", "Dummy light 1", "Dummy");
-        //light1.setGroup(groupDao.findById(1).orElse(null));
+        light1.setGroup(groupDao.findById(1).orElse(null));
         Light light2 = new Light(100, false, "dummy light", "Dummy light 2", "Dummy");
-        //light2.setGroup(groupDao.findById(1).orElse(null));
+        light2.setGroup(groupDao.findById(1).orElse(null));
         Light light3 = new Light(100, false, "dummy light", "Dummy light 3", "Dummy");
         lights.add(light1);
         lights.add(light2);
