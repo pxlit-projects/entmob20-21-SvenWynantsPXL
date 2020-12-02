@@ -37,6 +37,13 @@ public class LightApiServiceImpl implements LightApiService {
         lightApi.addLight(light);
     }
 
+    @Override
+    public void removeLight(Light light) {
+        lightApi = checkManufacturer(light.getManufacturerName());
+
+        lightApi.removeLight(light.getName());
+    }
+
     private LightApi checkManufacturer(String name) {
         if (name.toLowerCase().equals("ikea")) {
             return ikeaApi;

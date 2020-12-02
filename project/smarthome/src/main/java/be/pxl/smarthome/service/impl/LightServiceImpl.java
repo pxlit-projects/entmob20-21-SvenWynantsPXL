@@ -59,6 +59,7 @@ public class LightServiceImpl implements LightService {
     @Override
     public void removeLight(Light light) {
         dao.delete(light);
+        lightApiService.removeLight(light);
     }
 
     @PostConstruct

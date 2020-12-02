@@ -1,14 +1,13 @@
-package be.pxl.smarthome.service.api;
+package be.pxl.smarthome.service.api.impl;
 
 import be.pxl.smarthome.models.Light;
+import be.pxl.smarthome.service.api.IkeaApi;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.net.URI;
 import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +40,7 @@ public class IkeaApiImpl implements IkeaApi {
     @Override
     public void removeLight(String name) {
         //TODO
+        logger.info("light was removed from the bridge");
     }
 
     @Override

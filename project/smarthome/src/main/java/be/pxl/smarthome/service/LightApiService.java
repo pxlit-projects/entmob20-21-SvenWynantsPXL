@@ -8,4 +8,5 @@ import java.util.List;
 public interface LightApiService {
     List<Light> getAllLightsInNetwork();
     void addLight(Light light);
+    void removeLight(Light light);
 }

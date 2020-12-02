@@ -9,4 +9,6 @@ import java.util.List;
 public interface LightApi {
     List<Light> getAllLights();
     void addLight(Light light);
+    void removeLight(String name);
+    Light getLightByName(String name);
 }
