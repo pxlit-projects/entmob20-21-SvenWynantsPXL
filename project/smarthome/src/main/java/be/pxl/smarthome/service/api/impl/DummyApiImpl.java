@@ -42,6 +42,13 @@ public class DummyApiImpl implements DummyApi {
         return light;
     }
 
+    @Override
+    public void changeState(Light light) {
+        Light toChange = getLightByName(light.getName());
+        toChange.setOnState(light.getOnState());
+        logger.info("State of philips light changed to " + toChange.getOnState());
+    }
+
     public List<Light> getAllLights(){
         logger.info("All lights from dummy database returned");
         return lights;

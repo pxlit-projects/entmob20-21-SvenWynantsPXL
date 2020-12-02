@@ -15,4 +15,6 @@ public interface LightService {
     List<Light> getAllLights();
     //DELETE
     void removeLight(Light light);
+    //PUT
+    Light flipSwitch(Light light);
 }

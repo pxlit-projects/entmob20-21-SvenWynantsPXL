@@ -65,6 +65,14 @@ public class LightServiceImpl implements LightService {
         lightApiService.removeLight(light);
     }
 
+    @Override
+    public Light flipSwitch(Light light) {
+        light.setOnState(!light.getOnState());
+        dao.save(light);
+        lightApiService.flipSwitch(light);
+        return light;
+    }
+
     @PostConstruct
     public void addLightsFromBridges(){
         //Check if lights are in service

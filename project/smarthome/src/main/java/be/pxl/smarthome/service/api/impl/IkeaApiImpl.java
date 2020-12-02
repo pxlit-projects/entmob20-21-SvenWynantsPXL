@@ -48,4 +48,10 @@ public class IkeaApiImpl implements IkeaApi {
         //TODO
         return null;
     }
+
+    @Override
+    public void changeState(Light light) {
+        logger.info("State of ikea light changed to" + light.getOnState());
+        //TODO
+    }
 }

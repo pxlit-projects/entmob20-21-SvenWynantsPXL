@@ -11,4 +11,5 @@ public interface LightApi {
     void addLight(Light light);
     void removeLight(String name);
     Light getLightByName(String name);
+    void changeState(Light light);
 }

@@ -49,4 +49,10 @@ public class PhilipsApiImpl implements PhilipsApi {
         //TODO
         return null;
     }
+
+    @Override
+    public void changeState(Light light) {
+        logger.info("State of philips light changed to " + light.getOnState());
+        //TODO
+    }
 }

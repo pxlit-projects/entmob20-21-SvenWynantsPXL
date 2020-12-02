@@ -48,7 +48,7 @@ public class Light {
         this.brightness = brightness;
     }
 
-    public boolean isOnState() {
+    public boolean getOnState() {
         return isOnState;
     }
 

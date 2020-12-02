@@ -19,7 +19,7 @@ public class LightsController {
     private LightService service;
 
     @PostMapping(value = "/light")
-    @Secured({"ADMIN"})
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity addLight(@RequestBody LightDto lightDto) {
         try {
             service.addLight(lightDto);
@@ -29,6 +29,19 @@ public class LightsController {
         }
 
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/{id}/flipSwitch")
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    public ResponseEntity flipSwitch(@PathVariable int id) {
+        Light light = service.getLightById(id);
+
+        if (light == null) {
+            return new ResponseEntity("Light with this id doesn't exist", HttpStatus.BAD_REQUEST);
+        }
+        light = service.flipSwitch(light);
+
+        return new ResponseEntity(light, HttpStatus.OK);
     }
 
     @GetMapping(value = "/lights")

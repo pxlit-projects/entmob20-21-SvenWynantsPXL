@@ -44,6 +44,12 @@ public class LightApiServiceImpl implements LightApiService {
         lightApi.removeLight(light.getName());
     }
 
+    @Override
+    public void flipSwitch(Light light) {
+        lightApi = checkManufacturer(light.getManufacturerName());
+        lightApi.changeState(light);
+    }
+
     private LightApi checkManufacturer(String name) {
         if (name.toLowerCase().equals("ikea")) {
             return ikeaApi;
