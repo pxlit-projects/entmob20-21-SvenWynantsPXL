@@ -30,9 +30,6 @@ public class LightServiceImpl implements LightService {
         light.setManufacturer(lightDto.manufacturer);
         light.setOnState(false);
         light.setType(lightDto.type);
-        if (!lightDto.manufacturer.equals("")) {
-            //TODO: lightgroup has no service yet
-        }
 
         light = dao.save(light);
         lightApiService.addLight(light);
