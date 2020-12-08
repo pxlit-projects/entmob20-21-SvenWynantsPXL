@@ -52,6 +52,7 @@ public class IkeaApiImpl implements LightApi {
     @Override
     public Light getLightByName(String name) {
         //TODO
+        logger.info("light from ikea api requested");
         return null;
     }
 

@@ -48,11 +48,13 @@ public class PhilipsApiImpl implements LightApi {
     @Override
     public void removeLight(String name) {
         //TODO
+        logger.info("Light removed from philips api.");
     }
 
     @Override
     public Light getLightByName(String name) {
         //TODO
+        logger.info("Light requested from philips api");
         return null;
     }
 
