@@ -45,9 +45,7 @@ public class LightServiceImpl implements LightService {
     }
 
     public List<Light> getAllLights(){
-        List<Light> lights = dao.findAll();
-
-        return lights;
+        return dao.findAll();
     }
 
     @Override

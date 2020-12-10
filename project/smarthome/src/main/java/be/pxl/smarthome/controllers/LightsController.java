@@ -3,6 +3,8 @@ package be.pxl.smarthome.controllers;
 import be.pxl.smarthome.dto.LightDto;
 import be.pxl.smarthome.exceptions.EntityNotFoundException;
 import be.pxl.smarthome.models.Light;
+import be.pxl.smarthome.models.LightGroup;
+import be.pxl.smarthome.service.GroupService;
 import be.pxl.smarthome.service.LightService;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +16,12 @@ import java.util.List;
 @RequestMapping(path = "lights")
 public class LightsController {
 
+    private final GroupService groupService;
     private final LightService lightService;
 
-    public LightsController(LightService lightService) {
+    public LightsController(LightService lightService, GroupService groupService) {
         this.lightService = lightService;
+        this.groupService = groupService;
     }
 
     @PostMapping(value = "/light")
@@ -33,6 +37,26 @@ public class LightsController {
                 .orElseThrow(() -> new EntityNotFoundException(id));
 
         light = lightService.flipSwitch(light);
+
+        if (light.getOnState()){
+            if (light.getGroup() != null) {
+                LightGroup group = light.getGroup();
+                group.setHasOnState(true);
+                groupService.updateGroup(group);
+            }
+        } else {
+            if (light.getGroup() != null) {
+                LightGroup group = light.getGroup();
+                boolean hasOn = false;
+                for (Light l : group.getLights()){
+                    if (l.getOnState()) {
+                        hasOn = true;
+                    }
+                }
+                group.setHasOnState(hasOn);
+                light.setGroup(groupService.updateGroup(group));
+            }
+        }
 
         return light;
     }
