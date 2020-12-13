@@ -32,7 +32,7 @@ public class UserController {
 
     @GetMapping(value = "getUsers")
     @Secured({"ROLE_ADMIN"})
-    public List<User> getUsers(){
+    public List<ResponseUserDto> getUsers(){
         return userService.getAllUsers();
     }
 }

@@ -1,6 +1,7 @@
 package be.pxl.smarthome.service.impl;
 
 import be.pxl.smarthome.dao.UserDao;
+import be.pxl.smarthome.dto.ResponseUserDto;
 import be.pxl.smarthome.models.User;
 import be.pxl.smarthome.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -18,12 +20,9 @@ public class UserServiceImpl implements UserService {
     private UserDao dao;
 
     @Override
-    public List<User> getAllUsers() {
-        List<User> users = dao.findAll();
-
-        for (User user : users) {
-            user.setPassword("");
-        }
+    public List<ResponseUserDto> getAllUsers() {
+        List<ResponseUserDto> users = dao.findAll().stream()
+                .map(User::toUserDto).collect(Collectors.toList());
 
         return users;
     }
