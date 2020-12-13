@@ -44,6 +44,18 @@ public class LightApiServiceImpl implements LightApiService {
         lightApi.changeState(light);
     }
 
+    @Override
+    public void turnOnLight(Light light) {
+        final var lightApi = getLightApiFor(light);
+        lightApi.turnOnLight(light);
+    }
+
+    @Override
+    public void turnOffLight(Light light) {
+        final var lightApi = getLightApiFor(light);
+        lightApi.turnOffLight(light);
+    }
+
     private LightApi getLightApiFor(Light light) {
         return lightApiMap.get(light);
     }

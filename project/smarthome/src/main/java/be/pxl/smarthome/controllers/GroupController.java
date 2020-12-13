@@ -1,5 +1,6 @@
 package be.pxl.smarthome.controllers;
 
+import be.pxl.smarthome.dto.GroupDto;
 import be.pxl.smarthome.exceptions.EntityNotFoundException;
 import be.pxl.smarthome.models.Light;
 import be.pxl.smarthome.models.LightGroup;
@@ -34,7 +35,7 @@ public class GroupController {
     }
 
     @PostMapping(value = "/{groupId}/addLight/{lightId}")
-    public LightGroup addLightToGroup(@PathVariable int groupId, @PathVariable int lightId){
+    public LightGroup addLightToGroup(@PathVariable int groupId, @PathVariable int lightId) {
         Light light = lightService.findLightById(lightId)
                 .orElseThrow(() -> new EntityNotFoundException(lightId));
         LightGroup group = groupService.findLightGroupById(groupId)
@@ -42,6 +43,28 @@ public class GroupController {
 
         group = groupService.addLightToGroup(group, light);
 
+        return group;
+    }
+
+    @PostMapping(value = "/addGroup")
+    public LightGroup addGroup(@RequestBody GroupDto groupDto) {
+        LightGroup group = groupService.addGroup(groupDto);
+        return group;
+    }
+
+    @PutMapping(value = "/{id}/turnAllOn")
+    public LightGroup turnAllLightsOn(@PathVariable int id) {
+        LightGroup group = groupService.findLightGroupById(id)
+                .orElseThrow(() -> new EntityNotFoundException(id));
+        group = groupService.turnOnLights(group);
+        return group;
+    }
+
+    @PutMapping(value = "/{id}/turnAllOff")
+    public LightGroup turnAllLightsOff(@PathVariable int id) {
+        LightGroup group = groupService.findLightGroupById(id)
+                .orElseThrow(() -> new EntityNotFoundException(id));
+        group = groupService.turnOffLights(group);
         return group;
     }
 }

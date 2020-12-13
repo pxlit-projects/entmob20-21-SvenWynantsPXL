@@ -38,20 +38,17 @@ public class IkeaApiImpl implements LightApi {
 
     @Override
     public void addLight(Light light) {
-        //TODO: not yet implemented
         logger.info("a light was added to the ikea bridge");
         return;
     }
 
     @Override
     public void removeLight(String name) {
-        //TODO
         logger.info("light was removed from the bridge");
     }
 
     @Override
     public Light getLightByName(String name) {
-        //TODO
         logger.info("light from ikea api requested");
         return null;
     }
@@ -59,6 +56,15 @@ public class IkeaApiImpl implements LightApi {
     @Override
     public void changeState(Light light) {
         logger.info("State of ikea light changed to" + light.getOnState());
-        //TODO
+    }
+
+    @Override
+    public void turnOnLight(Light light) {
+        logger.info("Ikea light turned on");
+    }
+
+    @Override
+    public void turnOffLight(Light light) {
+        logger.info("Ikea light turned off");
     }
 }

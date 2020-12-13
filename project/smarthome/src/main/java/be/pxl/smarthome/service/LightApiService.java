@@ -8,4 +8,6 @@ public interface LightApiService {
     void addLight(Light light);
     void removeLight(Light light);
     void flipSwitch(Light light);
+    void turnOnLight(Light light);
+    void turnOffLight(Light light);
 }

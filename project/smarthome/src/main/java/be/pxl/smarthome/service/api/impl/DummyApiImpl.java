@@ -51,6 +51,18 @@ public class DummyApiImpl implements LightApi {
     }
 
     @Override
+    public void turnOnLight(Light light) {
+        light.setOnState(true);
+        logger.info("Dummy light turned on");
+    }
+
+    @Override
+    public void turnOffLight(Light light) {
+        light.setOnState(false);
+        logger.info("Dummy light turned off");
+    }
+
+    @Override
     public LightManufacturer getManufacturer() {
         return LightManufacturer.DUMMY;
     }

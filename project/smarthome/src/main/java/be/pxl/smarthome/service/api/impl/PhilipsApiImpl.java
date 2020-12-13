@@ -40,20 +40,17 @@ public class PhilipsApiImpl implements LightApi {
 
     @Override
     public void addLight(Light light) {
-        //TODO: not yet implemented
         logger.info("A light was added to the philips bridge");
         return;
     }
 
     @Override
     public void removeLight(String name) {
-        //TODO
         logger.info("Light removed from philips api.");
     }
 
     @Override
     public Light getLightByName(String name) {
-        //TODO
         logger.info("Light requested from philips api");
         return null;
     }
@@ -61,6 +58,15 @@ public class PhilipsApiImpl implements LightApi {
     @Override
     public void changeState(Light light) {
         logger.info("State of philips light changed to " + light.getOnState());
-        //TODO
+    }
+
+    @Override
+    public void turnOnLight(Light light) {
+        logger.info("Philips light turned on");
+    }
+
+    @Override
+    public void turnOffLight(Light light) {
+        logger.info("Philips light turned off");
     }
 }
