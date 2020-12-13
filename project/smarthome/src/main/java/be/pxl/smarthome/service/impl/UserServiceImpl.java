@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -25,6 +26,13 @@ public class UserServiceImpl implements UserService {
         }
 
         return users;
+    }
+
+    @Override
+    public Optional<User> findUserById(int id) {
+        return Optional.ofNullable(id)
+                // if id is null => wont execute
+                .flatMap(dao::findById);
     }
 
     @PostConstruct

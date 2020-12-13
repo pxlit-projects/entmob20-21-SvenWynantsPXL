@@ -1,11 +1,12 @@
 package be.pxl.smarthome.controllers;
 
+import be.pxl.smarthome.dto.ResponseUserDto;
+import be.pxl.smarthome.exceptions.EntityNotFoundException;
 import be.pxl.smarthome.models.User;
 import be.pxl.smarthome.service.UserService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,10 +23,11 @@ public class UserController {
     }
 
     //Check if user is authorized or not before continuing to next screen
-    @GetMapping(value = "login")
+    @GetMapping(value = "/{id}/login")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
-    public ResponseEntity Login(){
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseUserDto Login(@PathVariable int id){
+        return userService.findUserById(id)
+                .orElseThrow(() -> new EntityNotFoundException(id)).toUserDto();
     }
 
     @GetMapping(value = "getUsers")

@@ -1,5 +1,7 @@
 package be.pxl.smarthome.models;
 
+import be.pxl.smarthome.dto.ResponseUserDto;
+
 import javax.persistence.*;
 
 @Entity
@@ -66,5 +68,13 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public ResponseUserDto toUserDto() {
+        ResponseUserDto dto = new ResponseUserDto();
+        dto.id = this.id;
+        dto.name = this.name;
+        dto.role = this.role;
+        return dto;
     }
 }

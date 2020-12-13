@@ -8,6 +8,8 @@ import be.pxl.smarthome.service.GroupService;
 import be.pxl.smarthome.service.LightService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "groups")
 public class GroupController {
@@ -66,5 +68,10 @@ public class GroupController {
                 .orElseThrow(() -> new EntityNotFoundException(id));
         group = groupService.turnOffLights(group);
         return group;
+    }
+
+    @GetMapping(value = "/getAllGroups")
+    public List<LightGroup> getAllGroups() {
+        return groupService.getAllGroups();
     }
 }
