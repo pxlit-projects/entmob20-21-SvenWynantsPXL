@@ -16,7 +16,6 @@ namespace SmartHouseLights
             _service = service;
             InitializeComponent();
             Routing.RegisterRoute(nameof(LightListView), typeof(LightListView));
-            //Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)
@@ -26,7 +25,7 @@ namespace SmartHouseLights
 
         private async void GoToLights(object sender, EventArgs e)
         {
-            await _service.NavigateToAsync<LightListViewModel>();
+            await _service.NavigateToAsync(nameof(LightListView));
         }
     }
 }

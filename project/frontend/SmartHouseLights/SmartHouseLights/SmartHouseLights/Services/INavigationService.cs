@@ -5,6 +5,6 @@ namespace SmartHouseLights.Services
 {
     public interface INavigationService
     {
-        Task NavigateToAsync<TViewModel>() where TViewModel : ViewModelBase;
+        Task NavigateToAsync(string uri);
     }
 }

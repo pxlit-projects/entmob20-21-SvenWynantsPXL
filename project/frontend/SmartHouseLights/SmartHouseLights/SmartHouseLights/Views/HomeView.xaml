@@ -1,13 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             util:ViewModelLocator.AutoWireViewModel="True"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SmartHouseLights.Views.HomeView"
              xmlns:vm="clr-namespace:SmartHouseLights.ViewModels"
+             xmlns:util="clr-namespace:SmartHouseLights.Util;assembly=SmartHouseLights"
              Title="{Binding Title}">
-    
-    <ContentPage.BindingContext>
-        <vm:HomeViewModel />
-    </ContentPage.BindingContext>
     
     <ContentPage.Resources>
         <ResourceDictionary>
