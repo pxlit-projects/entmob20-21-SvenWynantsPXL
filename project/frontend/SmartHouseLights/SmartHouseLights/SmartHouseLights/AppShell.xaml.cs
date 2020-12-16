@@ -11,7 +11,7 @@ namespace SmartHouseLights
         public AppShell()
         {
             InitializeComponent();
-            //Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
+            Routing.RegisterRoute(nameof(LightListView), typeof(LightListViewModel));
             //Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
 
         }

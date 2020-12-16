@@ -9,7 +9,7 @@ namespace SmartHouseLights.ViewModels
         public HomeViewModel()
         {
             Title = "Home";
-            User = AuthenticationService._user;
+            User = AuthenticationService.User;
         }
     }
 }

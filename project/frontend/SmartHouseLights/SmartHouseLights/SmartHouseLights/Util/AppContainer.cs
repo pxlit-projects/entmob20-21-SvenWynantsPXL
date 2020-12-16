@@ -14,10 +14,9 @@ namespace SmartHouseLights.Util
         {
             var builder = new ContainerBuilder();
 
-            //builder.RegisterType<NavigationService>().As<INavigationService>();
-
             builder.RegisterType<LoginViewModel>().SingleInstance();
             builder.RegisterType<HomeViewModel>().SingleInstance();
+            builder.RegisterType<LightListViewModel>().SingleInstance();
 
             _container = builder.Build();
         }

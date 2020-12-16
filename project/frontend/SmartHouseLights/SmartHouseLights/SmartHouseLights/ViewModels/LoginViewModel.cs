@@ -36,6 +36,8 @@ namespace SmartHouseLights.ViewModels
             }
         }
 
+        public string ErrorMessage { get; set; }
+
         private async void OnLogin()
         {
             AuthenticationService service = new AuthenticationService();

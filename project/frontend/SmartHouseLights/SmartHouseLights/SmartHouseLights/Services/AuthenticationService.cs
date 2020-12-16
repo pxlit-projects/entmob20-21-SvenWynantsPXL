@@ -13,7 +13,7 @@ namespace SmartHouseLights.Services
         private string baseUrl = "http://192.168.51.228:8080";
         private HttpClient _client;
         public string AuthHeader { get; set; }
-        public static User _user;
+        public static User User;
 
         public AuthenticationService()
         {
@@ -36,15 +36,15 @@ namespace SmartHouseLights.Services
 
             HttpResponseMessage response = _client.GetAsync(url).Result;
 
-            _user = null;
+            User = null;
 
             if (response.IsSuccessStatusCode)
             {
                 string content = response.Content.ReadAsStringAsync().Result;
-                _user = JsonConvert.DeserializeObject<User>(content);
+                User = JsonConvert.DeserializeObject<User>(content);
             }
 
-            return _user;
+            return User;
         }
     }
 }
