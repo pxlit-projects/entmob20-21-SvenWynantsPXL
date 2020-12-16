@@ -34,6 +34,11 @@ public class UserServiceImpl implements UserService {
                 .flatMap(dao::findById);
     }
 
+    @Override
+    public User findUserByName(String username) {
+        return dao.findUserByName(username);
+    }
+
     @PostConstruct
     public void seedData(){
         List<User> users = new ArrayList<>();

@@ -10,4 +10,6 @@ public interface UserService {
     List<ResponseUserDto> getAllUsers();
 
     Optional<User> findUserById(int id);
+
+    User findUserByName(String username);
 }
