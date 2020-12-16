@@ -25,6 +25,7 @@ namespace SmartHouseLights
 
         private async void GoToLights(object sender, EventArgs e)
         {
+            Shell.Current.FlyoutIsPresented = false;
             await _service.NavigateToAsync(nameof(LightListView));
         }
     }

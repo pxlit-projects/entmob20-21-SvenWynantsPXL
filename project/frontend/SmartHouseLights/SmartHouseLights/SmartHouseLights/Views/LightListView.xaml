@@ -4,14 +4,36 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:SmartHouseLights.ViewModels;assembly=SmartHouseLights"
              xmlns:util="clr-namespace:SmartHouseLights.Util;assembly=SmartHouseLights"
+             xmlns:behaviors="clr-namespace:SmartHouseLights.Behaviors;assembly=SmartHouseLights"
              x:Class="SmartHouseLights.Views.LightListView"
+             xmlns:converters="clr-namespace:SmartHouseLights.Converters;assembly=SmartHouseLights"
              Title="{Binding Title}">
-
+    <ContentPage.Resources>
+        <converters:ItemSelectedConverter 
+            x:Key="ItemSelectedConverter">
+        </converters:ItemSelectedConverter>
+    </ContentPage.Resources>
+    
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout VerticalOptions="FillAndExpand">
+            <ListView ItemsSource="{Binding Lights}">
+                <ListView.Behaviors>
+                    <behaviors:EventToCommandBehavior
+                       EventName="ItemSelected" Command="{Binding LightSelectedCommand}"
+                       Converter="{StaticResource ItemSelectedConverter}" />
+                </ListView.Behaviors>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout HorizontalOptions="Start">
+                                    <Label Text="{Binding Name}" />
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -12,7 +12,7 @@ namespace SmartHouseLights.Services
         private string authString;
         private string baseUrl = "http://192.168.51.228:8080";
         private HttpClient _client;
-        public string AuthHeader { get; set; }
+        private string authHeader;
         public static User User;
 
         public AuthenticationService()
@@ -26,12 +26,12 @@ namespace SmartHouseLights.Services
         public async Task<User> Login(string name, string password)
         {
             authString = name + ":" + password;
-            AuthHeader = "Basic " + Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(authString));
+            authHeader = "Basic " + Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(authString));
 
             var url = "/users/login";
 
             _client.DefaultRequestHeaders.Accept.Clear();
-            _client.DefaultRequestHeaders.Add("Authorization", AuthHeader);
+            _client.DefaultRequestHeaders.Add("Authorization", authHeader);
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             HttpResponseMessage response = _client.GetAsync(url).Result;
