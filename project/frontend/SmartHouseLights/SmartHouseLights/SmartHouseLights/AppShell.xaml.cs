@@ -15,18 +15,11 @@ namespace SmartHouseLights
         {
             _service = service;
             InitializeComponent();
-            Routing.RegisterRoute(nameof(LightListView), typeof(LightListView));
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)
         {
             await Shell.Current.GoToAsync("//LoginView");
-        }
-
-        private async void GoToLights(object sender, EventArgs e)
-        {
-            Shell.Current.FlyoutIsPresented = false;
-            await _service.NavigateToAsync(nameof(LightListView));
         }
     }
 }
