@@ -1,6 +1,7 @@
 ﻿using SmartHouseLights.Services;
 using SmartHouseLights.Views;
 using System;
+using SmartHouseLights.Util;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,6 +14,8 @@ namespace SmartHouseLights
         {
             InitializeComponent();
 
+            AppContainer.RegisterDependencies();
+            
             DependencyService.Register<MockDataStore>();
             MainPage = new AppShell();
         }

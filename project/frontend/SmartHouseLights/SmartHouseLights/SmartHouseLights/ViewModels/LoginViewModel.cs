@@ -2,23 +2,48 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Input;
+using SmartHouseLights.Models;
+using SmartHouseLights.Services;
 using Xamarin.Forms;
 
 namespace SmartHouseLights.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
-        public Command LoginCommand { get; }
+        public ICommand LoginCommand => new Command(OnLogin);
 
-        public LoginViewModel()
+        private string _username;
+        private string _password;
+
+        public string Username
         {
-            LoginCommand = new Command(OnLoginClicked);
+            get => _username;
+            set
+            {
+                _username = value;
+                OnPropertyChanged();
+            }
         }
 
-        private async void OnLoginClicked(object obj)
+        public string Password
         {
-            // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
-            await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
+            get => _password;
+            set
+            {
+                _password = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private async void OnLogin()
+        {
+            AuthenticationService service = new AuthenticationService();
+            var result = await service.Login(Username, Password);
+            if (result != null)
+            {
+                await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+            }
         }
     }
 }

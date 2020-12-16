@@ -1,0 +1,50 @@
+﻿using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using SmartHouseLights.Models;
+
+namespace SmartHouseLights.Services
+{
+    public class AuthenticationService
+    {
+        private string authString;
+        private string baseUrl = "http://192.168.51.228:8080";
+        private HttpClient _client;
+        public string AuthHeader { get; set; }
+        public static User _user;
+
+        public AuthenticationService()
+        {
+            _client = new HttpClient
+            {
+                BaseAddress = new Uri(baseUrl)
+            };
+        }
+
+        public async Task<User> Login(string name, string password)
+        {
+            authString = name + ":" + password;
+            AuthHeader = "Basic " + Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(authString));
+
+            var url = "/users/login";
+
+            _client.DefaultRequestHeaders.Accept.Clear();
+            _client.DefaultRequestHeaders.Add("Authorization", AuthHeader);
+            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            HttpResponseMessage response = _client.GetAsync(url).Result;
+
+            _user = null;
+
+            if (response.IsSuccessStatusCode)
+            {
+                string content = response.Content.ReadAsStringAsync().Result;
+                _user = JsonConvert.DeserializeObject<User>(content);
+            }
+
+            return _user;
+        }
+    }
+}
