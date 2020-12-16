@@ -10,12 +10,11 @@ using Xamarin.Forms.Xaml;
 namespace SmartHouseLights.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginPage : ContentPage
+    public partial class LoginView : ContentPage
     {
-        public LoginPage()
+        public LoginView()
         {
             InitializeComponent();
-            this.BindingContext = new LoginViewModel();
         }
     }
 }

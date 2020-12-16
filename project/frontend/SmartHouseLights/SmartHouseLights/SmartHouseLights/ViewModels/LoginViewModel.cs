@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace SmartHouseLights.ViewModels
 {
-    public class LoginViewModel : BaseViewModel
+    public class LoginViewModel : ViewModelBase
     {
         public ICommand LoginCommand => new Command(OnLogin);
 
@@ -42,7 +42,7 @@ namespace SmartHouseLights.ViewModels
             var result = await service.Login(Username, Password);
             if (result != null)
             {
-                await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+                await Shell.Current.GoToAsync($"//{nameof(HomeView)}");
             }
         }
     }

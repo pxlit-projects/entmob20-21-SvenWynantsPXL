@@ -5,9 +5,9 @@ using Xamarin.Forms.Xaml;
 
 namespace SmartHouseLights.Views
 {
-    public partial class HomePage : ContentPage
+    public partial class HomeView : ContentPage
     {
-        public HomePage()
+        public HomeView()
         {
             InitializeComponent();
         }
