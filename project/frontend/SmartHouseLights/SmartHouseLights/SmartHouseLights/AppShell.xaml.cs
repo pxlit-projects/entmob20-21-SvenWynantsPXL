@@ -2,23 +2,31 @@
 using SmartHouseLights.Views;
 using System;
 using System.Collections.Generic;
+using SmartHouseLights.Services;
 using Xamarin.Forms;
 
 namespace SmartHouseLights
 {
     public partial class AppShell : Xamarin.Forms.Shell
     {
-        public AppShell()
-        {
-            InitializeComponent();
-            Routing.RegisterRoute(nameof(LightListView), typeof(LightListViewModel));
-            //Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
+        private readonly INavigationService _service;
 
+        public AppShell(INavigationService service)
+        {
+            _service = service;
+            InitializeComponent();
+            Routing.RegisterRoute(nameof(LightListView), typeof(LightListView));
+            //Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)
         {
             await Shell.Current.GoToAsync("//LoginView");
+        }
+
+        private async void GoToLights(object sender, EventArgs e)
+        {
+            await _service.NavigateToAsync<LightListViewModel>();
         }
     }
 }

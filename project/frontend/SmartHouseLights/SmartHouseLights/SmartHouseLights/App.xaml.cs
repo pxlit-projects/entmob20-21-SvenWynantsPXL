@@ -1,4 +1,5 @@
-﻿using SmartHouseLights.Util;
+﻿using SmartHouseLights.Services;
+using SmartHouseLights.Util;
 using Xamarin.Forms;
 
 namespace SmartHouseLights
@@ -12,7 +13,7 @@ namespace SmartHouseLights
 
             AppContainer.RegisterDependencies();
             
-            MainPage = new AppShell();
+            MainPage = new AppShell(AppContainer.Resolve<INavigationService>());
         }
 
         protected override void OnStart()

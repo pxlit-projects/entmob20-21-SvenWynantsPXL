@@ -5,10 +5,6 @@
              x:Class="SmartHouseLights.Views.LightListView"
              Title="{Binding Title}">
 
-    <ContentPage.BindingContext>
-        <viewModels:LightListViewModel />
-    </ContentPage.BindingContext>
-
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Welcome to Xamarin.Forms!"
