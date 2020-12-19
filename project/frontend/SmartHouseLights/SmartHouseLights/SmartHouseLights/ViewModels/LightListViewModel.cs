@@ -17,7 +17,7 @@ namespace SmartHouseLights.ViewModels
             _navigationService = navigationService;
             _httpService = httpService;
             Title = "Lights";
-            Lights = _httpService.GetAllLights("sven", "pxl");
+            Lights = _httpService.GetAllLights();
         }
 
         private void OnLightSelected(Light light)
