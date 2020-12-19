@@ -15,6 +15,7 @@ namespace SmartHouseLights
         {
             _service = service;
             InitializeComponent();
+            Routing.RegisterRoute(nameof(LightDetailsView), typeof(LightDetailsView));
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)

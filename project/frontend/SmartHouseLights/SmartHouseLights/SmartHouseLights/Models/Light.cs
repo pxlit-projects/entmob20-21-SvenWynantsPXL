@@ -1,12 +1,44 @@
-﻿namespace SmartHouseLights.Models
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using SmartHouseLights.Annotations;
+
+namespace SmartHouseLights.Models
 {
-    public class Light
+    public class Light : INotifyPropertyChanged
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int Brightness { get; set; }
-        public bool OnState { get; set; }
+        private int _brightness;
+
+        public int Brightness
+        {
+            get => _brightness;
+            set
+            {
+                _brightness = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _onState;
+
+        public bool OnState
+        {
+            get => _onState;
+            set
+            {
+                _onState = value;
+                OnPropertyChanged();
+            }
+        }
         public Manufacturer Manufacturer { get; set; }
         public LightGroup Group { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
