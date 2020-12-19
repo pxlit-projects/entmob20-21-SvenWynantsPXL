@@ -8,21 +8,22 @@ namespace SmartHouseLights.Services
 {
     public class HttpService : IHttpService
     {
-        private HttpClient _client;
+        private readonly IAuthenticationService _authService;
+        private readonly HttpClient _client;
         private string _baseUrl = "http://192.168.51.228:8080";
 
-        public HttpService()
+        public HttpService(IAuthenticationService authService)
         {
+            _authService = authService;
             _client = new HttpClient
             {
                 BaseAddress = new Uri(_baseUrl)
             };
         }
 
-        public List<Light> GetAllLights(string name, string password)
+        public List<Light> GetAllLights()
         {
-            string authString = name + ":" + password;
-            string authHeader = "Basic " + Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(authString));
+            string authHeader = _authService.GetHeader();
             _client.DefaultRequestHeaders.Accept.Clear();
             _client.DefaultRequestHeaders.Add("Authorization", authHeader);
             var url = "/lights/lights";

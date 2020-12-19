@@ -7,13 +7,12 @@ using SmartHouseLights.Models;
 
 namespace SmartHouseLights.Services
 {
-    public class AuthenticationService
+    public class AuthenticationService : IAuthenticationService
     {
-        private string authString;
         private string baseUrl = "http://192.168.51.228:8080";
-        private HttpClient _client;
-        private string authHeader;
-        public static User User;
+        private readonly HttpClient _client;
+        private string _authHeader;
+        private User _user;
 
         public AuthenticationService()
         {
@@ -25,26 +24,36 @@ namespace SmartHouseLights.Services
 
         public async Task<User> Login(string name, string password)
         {
-            authString = name + ":" + password;
-            authHeader = "Basic " + Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(authString));
+            string authString = name + ":" + password;
+            _authHeader = "Basic " + Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(authString));
 
             var url = "/users/login";
 
             _client.DefaultRequestHeaders.Accept.Clear();
-            _client.DefaultRequestHeaders.Add("Authorization", authHeader);
+            _client.DefaultRequestHeaders.Add("Authorization", _authHeader);
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             HttpResponseMessage response = _client.GetAsync(url).Result;
 
-            User = null;
+            _user = null;
 
             if (response.IsSuccessStatusCode)
             {
                 string content = response.Content.ReadAsStringAsync().Result;
-                User = JsonConvert.DeserializeObject<User>(content);
+                _user = JsonConvert.DeserializeObject<User>(content);
             }
 
-            return User;
+            return _user;
+        }
+
+        public string GetHeader()
+        {
+            return _authHeader;
+        }
+
+        public User GetUser()
+        {
+            return _user;
         }
     }
 }

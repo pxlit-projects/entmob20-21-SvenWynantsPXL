@@ -5,6 +5,6 @@ namespace SmartHouseLights.Services
 {
     public interface IHttpService
     {
-        List<Light> GetAllLights(string name, string password);
+        List<Light> GetAllLights();
     }
 }
