@@ -12,8 +12,8 @@ namespace SmartHouseLights.Services
     {
         private string baseUrl = "http://192.168.51.228:8080";
         private readonly HttpClient _client;
-        private string _authHeader;
-        private User _user;
+        private static string _authHeader;
+        private static User _user;
 
         public AuthenticationService()
         {
