@@ -22,8 +22,8 @@ namespace SmartHouseLights.ViewModels
 
         private void OnLightSelected(Light light)
         {
-            MessagingCenter.Instance.Send(this, MessageConstants.LightSelected, light);
             _navigationService.NavigateToAsync(nameof(LightDetailsView));
+            MessagingCenter.Instance.Send(this, MessageConstants.LightSelected, light);
         }
     }
 }
