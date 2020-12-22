@@ -22,12 +22,24 @@
                        EventName="ItemSelected" Command="{Binding LightSelectedCommand}"
                        Converter="{StaticResource ItemSelectedConverter}" />
                 </ListView.Behaviors>
+                <ListView.Header>
+                    <Grid BackgroundColor="Aqua">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Label Text="All lights" Grid.Column="0" Grid.Row="0" Margin="10, 2" HorizontalOptions="Start" Style="{DynamicResource SubtitleStyle}"/>
+                    </Grid>
+                </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.View>
-                                <StackLayout HorizontalOptions="Start">
-                                    <Label Text="{Binding Name}" />
+                                <StackLayout HorizontalOptions="Start" Orientation="Horizontal" Grid.Column="0" Grid.Row="0" Margin="10, 2">
+                                    <Label Text="Name: " Style="{DynamicResource ListItemTextStyle}" />
+                                    <Label Text="{Binding Name}" Style="{DynamicResource ListItemTextStyle}" />
                                 </StackLayout>
                             </ViewCell.View>
                         </ViewCell>
