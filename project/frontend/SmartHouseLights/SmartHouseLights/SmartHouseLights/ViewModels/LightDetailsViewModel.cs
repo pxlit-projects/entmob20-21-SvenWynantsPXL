@@ -32,7 +32,7 @@ namespace SmartHouseLights.ViewModels
             _httpService = httpService;
             _authService = authService;
             MessagingCenter.Instance.Subscribe<LightListViewModel, Light>(this, MessageConstants.LightSelected,
-                (sender, light) => { Light = light; });
+                (sender, light) => { Light = light; RefreshCanExecutes(); });
         }
 
         private void OnFlipSwitch()
