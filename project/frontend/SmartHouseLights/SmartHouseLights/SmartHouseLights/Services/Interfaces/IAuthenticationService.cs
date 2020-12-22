@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using SmartHouseLights.Models;
 
-namespace SmartHouseLights.Services
+namespace SmartHouseLights.Services.Interfaces
 {
     public interface IAuthenticationService
     {

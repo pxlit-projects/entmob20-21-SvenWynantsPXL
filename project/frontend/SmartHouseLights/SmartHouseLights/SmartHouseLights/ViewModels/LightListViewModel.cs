@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using SmartHouseLights.Models;
-using SmartHouseLights.Services;
+using SmartHouseLights.Services.Interfaces;
 using SmartHouseLights.Util;
 using SmartHouseLights.Views;
 using Xamarin.Forms;

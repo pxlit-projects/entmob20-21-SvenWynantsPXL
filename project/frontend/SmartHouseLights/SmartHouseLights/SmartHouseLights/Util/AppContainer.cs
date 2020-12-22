@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac;
 using SmartHouseLights.Services;
+using SmartHouseLights.Services.Interfaces;
 using SmartHouseLights.ViewModels;
 using SmartHouseLights.Views;
 

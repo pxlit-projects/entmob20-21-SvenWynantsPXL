@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using SmartHouseLights.ViewModels;
 
-namespace SmartHouseLights.Services
+namespace SmartHouseLights.Services.Interfaces
 {
     public interface INavigationService
     {

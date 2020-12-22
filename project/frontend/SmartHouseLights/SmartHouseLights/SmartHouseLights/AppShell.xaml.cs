@@ -1,8 +1,6 @@
-﻿using SmartHouseLights.ViewModels;
-using SmartHouseLights.Views;
+﻿using SmartHouseLights.Views;
 using System;
-using System.Collections.Generic;
-using SmartHouseLights.Services;
+using SmartHouseLights.Services.Interfaces;
 using Xamarin.Forms;
 
 namespace SmartHouseLights

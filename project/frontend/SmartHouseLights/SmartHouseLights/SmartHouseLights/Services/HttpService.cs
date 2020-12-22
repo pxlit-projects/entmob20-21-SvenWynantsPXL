@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using Newtonsoft.Json;
 using SmartHouseLights.Models;
+using SmartHouseLights.Services.Interfaces;
 
 namespace SmartHouseLights.Services
 {

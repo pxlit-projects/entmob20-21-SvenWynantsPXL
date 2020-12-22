@@ -1,4 +1,4 @@
-﻿using SmartHouseLights.Services;
+﻿using SmartHouseLights.Services.Interfaces;
 using SmartHouseLights.Util;
 using Xamarin.Forms;
 

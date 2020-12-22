@@ -1,9 +1,5 @@
 ﻿using SmartHouseLights.Views;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
-using SmartHouseLights.Models;
 using SmartHouseLights.Services;
 using Xamarin.Forms;
 

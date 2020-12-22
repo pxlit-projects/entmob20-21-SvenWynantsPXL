@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using SmartHouseLights.Services.Interfaces;
 using Xamarin.Forms;
 
 namespace SmartHouseLights.Services

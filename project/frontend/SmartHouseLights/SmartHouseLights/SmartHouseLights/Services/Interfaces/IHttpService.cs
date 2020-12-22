@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using SmartHouseLights.Models;
 
-namespace SmartHouseLights.Services
+namespace SmartHouseLights.Services.Interfaces
 {
     public interface IHttpService
     {
