@@ -11,7 +11,7 @@ namespace SmartHouseLights.Services
     {
         private readonly IAuthenticationService _authService;
         private readonly HttpClient _client;
-        private string _baseUrl = "http://192.168.51.228:8080";
+        private string _baseUrl = "http://192.168.1.19:8080";
 
         public HttpService(IAuthenticationService authService)
         {
