@@ -10,7 +10,7 @@ namespace SmartHouseLights.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private string baseUrl = "http://192.168.51.228:8080";
+        private string baseUrl = "http://192.168.1.19:8080";
         private readonly HttpClient _client;
         private static string _authHeader;
         private static User _user;
