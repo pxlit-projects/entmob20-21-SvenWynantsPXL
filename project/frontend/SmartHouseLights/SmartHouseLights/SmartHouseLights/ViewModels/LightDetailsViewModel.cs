@@ -7,7 +7,7 @@ namespace SmartHouseLights.ViewModels
 {
     public class LightDetailsViewModel : ViewModelBase
     {
-        private readonly IHttpService _httpService;
+        private readonly ILightService _lightService;
         private readonly IAuthenticationService _authService;
 
         private Command _flipSwitchCommand;
@@ -27,9 +27,9 @@ namespace SmartHouseLights.ViewModels
             }
         }
 
-        public LightDetailsViewModel(IHttpService httpService, IAuthenticationService authService)
+        public LightDetailsViewModel(ILightService lightService, IAuthenticationService authService)
         {
-            _httpService = httpService;
+            _lightService = lightService;
             _authService = authService;
             MessagingCenter.Instance.Subscribe<LightListViewModel, Light>(this, MessageConstants.LightSelected,
                 (sender, light) => { Light = light; RefreshCanExecutes(); });
@@ -37,7 +37,7 @@ namespace SmartHouseLights.ViewModels
 
         private void OnFlipSwitch()
         {
-            Light.OnState = !Light.OnState;
+            Light = _lightService.FlipSwitch(_light.Id);
             RefreshCanExecutes();
         }
 

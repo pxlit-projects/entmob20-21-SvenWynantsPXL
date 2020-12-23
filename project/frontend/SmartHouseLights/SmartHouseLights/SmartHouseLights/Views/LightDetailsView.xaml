@@ -5,10 +5,16 @@
              xmlns:util="clr-namespace:SmartHouseLights.Util;assembly=SmartHouseLights"
              x:Class="SmartHouseLights.Views.LightDetailsView">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout Orientation="Vertical">
             <Label Text="{Binding Light.Name}"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
+            <StackLayout Orientation="Horizontal">
+                <Label Text="State of Light: " />
+                <Label Text="{Binding Light.OnState, Mode=TwoWay}"></Label>
+            </StackLayout>
+            
+            <Button Command="{Binding FlipSwitchCommand}" Text="Flip switch"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

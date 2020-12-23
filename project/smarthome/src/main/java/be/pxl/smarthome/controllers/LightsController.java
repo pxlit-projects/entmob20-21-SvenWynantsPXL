@@ -38,7 +38,7 @@ public class LightsController {
 
         light = lightService.flipSwitch(light);
 
-        if (light.getOnState()){
+        if (light.getOnState()) {
             if (light.getGroup() != null) {
                 LightGroup group = light.getGroup();
                 group.setHasOnState(true);
@@ -48,7 +48,7 @@ public class LightsController {
             if (light.getGroup() != null) {
                 LightGroup group = light.getGroup();
                 boolean hasOn = false;
-                for (Light l : group.getLights()){
+                for (Light l : group.getLights()) {
                     if (l.getOnState()) {
                         hasOn = true;
                     }
