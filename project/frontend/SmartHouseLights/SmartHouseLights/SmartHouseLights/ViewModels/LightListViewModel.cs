@@ -12,12 +12,22 @@ namespace SmartHouseLights.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly ILightService _lightService;
-        public Command LightSelectedCommand => new Command<Light>(OnLightSelected);
+        public Command LightSelectedCommand => new Command<int>(OnLightSelected);
 
         private Command _flipSwitchCommand;
         public Command FlipSwitchCommand => _flipSwitchCommand ??
-                                            (_flipSwitchCommand = new Command(OnFlipPressed, CanFlipSwitch));
-        public List<Light> Lights { get; set; }
+                                            (_flipSwitchCommand = new Command<int>(OnFlipPressed));
+        public Command ReloadListCommand => new Command(ReloadList);
+        private List<Light> _lights;
+        public List<Light> Lights 
+        {
+            get => _lights;
+            set
+            {
+                _lights = value;
+                OnPropertyChanged();
+            }
+        }
 
         public LightListViewModel(INavigationService navigationService, ILightService lightService)
         {
@@ -25,33 +35,23 @@ namespace SmartHouseLights.ViewModels
             _lightService = lightService;
             Title = "Lights";
             Lights = lightService.GetAllLights();
-            RefreshCanExecutes();
         }
 
-        private void OnLightSelected(Light light)
+        private void OnLightSelected(int lightId)
         {
             _navigationService.NavigateToAsync(nameof(LightDetailsView));
-            MessagingCenter.Instance.Send(this, MessageConstants.LightSelected, light);
+            MessagingCenter.Instance.Send(this, MessageConstants.LightSelected, Lights[lightId]);
         }
 
-        private void OnFlipPressed()
+        private void OnFlipPressed(int id)
         {
-            //Light light = _lightService.FlipSwitch(light);
+            _lightService.FlipSwitch(id);
+            Lights[id - 1].OnState = !Lights[id - 1].OnState;
         }
 
-        private bool CanFlipSwitch()
+        private void ReloadList()
         {
-            if (Lights != null || Lights.Count > 0)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        private void RefreshCanExecutes()
-        {
-            (FlipSwitchCommand as Command).ChangeCanExecute();
+            Lights = _lightService.GetAllLights();
         }
     }
 }

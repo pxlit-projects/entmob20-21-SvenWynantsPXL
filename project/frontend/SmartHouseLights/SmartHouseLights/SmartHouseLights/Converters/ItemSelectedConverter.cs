@@ -8,9 +8,9 @@ namespace SmartHouseLights.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is SelectedItemChangedEventArgs eventArgs)
+            if (value is ItemTappedEventArgs eventArgs)
             {
-                return eventArgs.SelectedItem;
+                return eventArgs.ItemIndex;
             }
 
             return null;

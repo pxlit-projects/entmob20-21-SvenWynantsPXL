@@ -12,14 +12,16 @@
         <converters:ItemSelectedConverter 
             x:Key="ItemSelectedConverter">
         </converters:ItemSelectedConverter>
+        <converters:ButtonToTextConverter x:Key="ButtonBoolToTextConverter" />
     </ContentPage.Resources>
     
     <ContentPage.Content>
         <StackLayout VerticalOptions="FillAndExpand">
-            <ListView ItemsSource="{Binding Lights}">
+            <ListView x:Name="LightList" SelectionMode="None" 
+                      ItemsSource="{Binding Lights, Mode=TwoWay}">
                 <ListView.Behaviors>
                     <behaviors:EventToCommandBehavior
-                       EventName="ItemSelected" Command="{Binding LightSelectedCommand}"
+                       EventName="ItemTapped" Command="{Binding LightSelectedCommand}"
                        Converter="{StaticResource ItemSelectedConverter}" />
                 </ListView.Behaviors>
                 <ListView.Header>
@@ -28,7 +30,7 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Label Text="All lights" Grid.Column="0" Grid.Row="0" Margin="10, 2" HorizontalOptions="Start" Style="{DynamicResource SubtitleStyle}"/>
                     </Grid>
@@ -36,11 +38,13 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <ViewCell.View>
+                            <ViewCell.View> 
                                 <StackLayout HorizontalOptions="Start" Orientation="Horizontal" Grid.Column="0" Grid.Row="0" Margin="10, 2">
                                     <Label Text="Name: " Style="{DynamicResource ListItemTextStyle}" />
                                     <Label Text="{Binding Name}" Style="{DynamicResource ListItemTextStyle}" />
-                                    <Button Text="Turn on" HorizontalOptions="EndAndExpand" Command="{Binding FlipSwitchCommand}"></Button>
+                                    <Button Text="{Binding OnState, Converter={StaticResource ButtonBoolToTextConverter}, Mode=OneWay}" HorizontalOptions="EndAndExpand"  CornerRadius="5" Margin="2" 
+                                            Command="{Binding Path=BindingContext.FlipSwitchCommand, Source={x:Reference LightList}}"
+                                            CommandParameter="{Binding Id}"></Button>
                                 </StackLayout>
                             </ViewCell.View>
                         </ViewCell>
