@@ -52,7 +52,18 @@ namespace SmartHouseLights.Services
 
         public Light AddLight(Light light)
         {
-            throw new NotImplementedException();
+            var url = "/lights/light";
+            var stringContent = JsonConvert.SerializeObject(light);
+            HttpContent httpContent = new StringContent(stringContent, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = _client.PostAsync(url, httpContent).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                string content = response.Content.ReadAsStringAsync().Result;
+                light = JsonConvert.DeserializeObject<Light>(content);
+            }
+
+            return light;
         }
     }
 }
