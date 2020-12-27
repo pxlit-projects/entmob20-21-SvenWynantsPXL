@@ -4,19 +4,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:util="clr-namespace:SmartHouseLights.Util;assembly=SmartHouseLights"
              xmlns:converters="clr-namespace:SmartHouseLights.Converters;assembly=SmartHouseLights"
-             x:Class="SmartHouseLights.Views.LightDetailsView">
+             x:Class="SmartHouseLights.Views.LightDetailsView"
+             Title="{Binding Title}">
     <ContentPage.Resources>
         <converters:LabelStateConverter x:Key="LabelStateConverter" />
     </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical">
-            <Label Text="{Binding Light.Name}"
+        <StackLayout Orientation="Vertical" BindingContext="{Binding Light}">
+            <Label Text="{Binding Name}"
                 VerticalOptions="StartAndExpand" 
                 HorizontalOptions="CenterAndExpand"
                 Style="{DynamicResource TitleStyle}"/>
             <StackLayout Orientation="Horizontal">
                 <Label Text="State of Light: " />
-                <Label Text="{Binding Light.OnState, Mode=OneWay, Converter={StaticResource LabelStateConverter}}" />
+                <Label Text="{Binding OnState, Mode=OneWay, Converter={StaticResource LabelStateConverter}}" />
             </StackLayout>
             <Button Command="{Binding FlipSwitchCommand}" Text="Flip switch"></Button>
         </StackLayout>
