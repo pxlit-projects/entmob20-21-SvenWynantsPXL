@@ -3,12 +3,50 @@
              util:ViewModelLocator.AutoWireViewModel="True"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:util="clr-namespace:SmartHouseLights.Util;assembly=SmartHouseLights"
-             x:Class="SmartHouseLights.Views.GroupListView">
+             xmlns:behaviors="clr-namespace:SmartHouseLights.Behaviors;assembly=SmartHouseLights"
+             xmlns:converters="clr-namespace:SmartHouseLights.Converters;assembly=SmartHouseLights"
+             x:Class="SmartHouseLights.Views.GroupListView"
+             Title="{Binding Title}">
+    <ContentPage.Resources>
+        <converters:ItemSelectedConverter x:Key="ItemSelectedConverter" />
+        <converters:ButtonToTextConverter x:Key="ButtonBoolToTextConverter" />
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout VerticalOptions="FillAndExpand">
+            <ListView x:Name="GroupList" SelectionMode="None" 
+                      ItemsSource="{Binding Groups, Mode=TwoWay}">
+                <ListView.Behaviors>
+                    <behaviors:EventToCommandBehavior
+                       EventName="ItemTapped" Command="{Binding GroupSelectedCommand}"
+                       Converter="{StaticResource ItemSelectedConverter}" />
+                </ListView.Behaviors>
+                <ListView.Header>
+                    <Grid BackgroundColor="Aqua">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Text="All groups" Grid.Column="0" Grid.Row="0" Margin="10, 2" HorizontalOptions="Start" Style="{DynamicResource SubtitleStyle}"/>
+                    </Grid>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout HorizontalOptions="Start" Orientation="Horizontal" Grid.Column="0" Grid.Row="0" Margin="10, 2">
+                                    <Label Text="Name: " Style="{DynamicResource ListItemTextStyle}" />
+                                    <Label Text="{Binding Name}" Style="{DynamicResource ListItemTextStyle}" />
+                                    <Button Text="{Binding AllOnState, Converter={StaticResource ButtonBoolToTextConverter}, Mode=OneWay}" HorizontalOptions="EndAndExpand"  CornerRadius="5" Margin="2" 
+                                            Command="{Binding Path=BindingContext.FlipSwitchCommand, Source={x:Reference GroupList}}"
+                                            CommandParameter="{Binding Id}"></Button>
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
