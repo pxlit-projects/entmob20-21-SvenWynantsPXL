@@ -24,6 +24,9 @@
                 <Label Text="{Binding HasOnState, Mode=OneWay}" />
             </StackLayout>
             <ListView SelectionMode="None" ItemsSource="{Binding Lights}">
+                <ListView.Header>
+                    <Label Text="All lights in group" Style="{DynamicResource SubtitleStyle}" />
+                </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
