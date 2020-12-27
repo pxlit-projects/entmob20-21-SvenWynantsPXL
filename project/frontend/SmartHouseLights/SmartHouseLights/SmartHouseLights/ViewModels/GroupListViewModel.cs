@@ -2,6 +2,7 @@
 using SmartHouseLights.Models;
 using SmartHouseLights.Services.Interfaces;
 using SmartHouseLights.Util;
+using SmartHouseLights.Views;
 using Xamarin.Forms;
 
 namespace SmartHouseLights.ViewModels
@@ -38,8 +39,8 @@ namespace SmartHouseLights.ViewModels
         }
 
         private void OnGroupSelected(int id)
-        {
-            //_navigationService.NavigateToAsync(nameof(LightDetailsView));
+        { 
+            _navigationService.NavigateToAsync(nameof(GroupDetailView));
             MessagingCenter.Instance.Send(this, MessageConstants.GroupSelected, Groups[id]);
         }
 

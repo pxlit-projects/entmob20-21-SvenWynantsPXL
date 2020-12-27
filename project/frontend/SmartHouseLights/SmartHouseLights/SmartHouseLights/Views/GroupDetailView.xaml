@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             util:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:util="clr-namespace:SmartHouseLights.Util;assembly=SmartHouseLights"
+             xmlns:converters="clr-namespace:SmartHouseLights.Converters;assembly=SmartHouseLights"
+             x:Class="SmartHouseLights.Views.GroupDetailView"
+             Title="{Binding Title}">
+    <ContentPage.Resources>
+        <converters:LabelStateConverter x:Key="LabelStateConverter" />
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical" BindingContext="{Binding Group}">
+            <Label Text="{Binding Name}"
+                VerticalOptions="StartAndExpand" 
+                HorizontalOptions="CenterAndExpand" 
+                Style="{DynamicResource TitleStyle}"/>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="All lights: " />
+                <Label Text="{Binding AllOnState, Mode=OneWay, Converter={StaticResource LabelStateConverter}}" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Has Lights on: " />
+                <Label Text="{Binding HasOnState, Mode=OneWay}"></Label>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
