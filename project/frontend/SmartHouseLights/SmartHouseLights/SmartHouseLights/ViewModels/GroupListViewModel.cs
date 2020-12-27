@@ -41,7 +41,7 @@ namespace SmartHouseLights.ViewModels
         private void OnGroupSelected(int id)
         { 
             _navigationService.NavigateToAsync(nameof(GroupDetailView));
-            MessagingCenter.Instance.Send(this, MessageConstants.GroupSelected, Groups[id]);
+            MessagingCenter.Instance.Send(this, MessageConstants.GroupSelected, id);
         }
 
         private void OnFlipPressed(int id)
