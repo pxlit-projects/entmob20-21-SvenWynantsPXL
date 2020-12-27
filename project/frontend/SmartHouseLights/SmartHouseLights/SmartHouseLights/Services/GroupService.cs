@@ -32,6 +32,23 @@ namespace SmartHouseLights.Services
             return groups;
         }
 
+        public LightGroup GetGroupById(int id)
+        {
+            var url = $"/{id}";
+
+            HttpResponseMessage response = _client.GetAsync(url).Result;
+
+            LightGroup group = null;
+
+            if (response.IsSuccessStatusCode)
+            {
+                string content = response.Content.ReadAsStringAsync().Result;
+                group = JsonConvert.DeserializeObject<LightGroup>(content);
+            }
+
+            return group;
+        }
+
         public LightGroup TurnAllLightsOnInGroup(int groupId)
         {
             var url = $"/groups/{groupId}/turnAllOn";

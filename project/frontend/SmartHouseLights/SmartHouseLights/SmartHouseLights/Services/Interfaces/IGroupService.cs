@@ -6,6 +6,7 @@ namespace SmartHouseLights.Services.Interfaces
     public interface IGroupService
     {
         List<LightGroup> GetAllGroups();
+        LightGroup GetGroupById(int id);
         LightGroup TurnAllLightsOnInGroup(int groupId);
         LightGroup TurnAllLightsOffInGroup(int groupId);
     }
