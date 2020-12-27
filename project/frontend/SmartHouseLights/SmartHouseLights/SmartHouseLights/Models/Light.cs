@@ -8,8 +8,8 @@ namespace SmartHouseLights.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        
         private int _brightness;
-
         public int Brightness
         {
             get => _brightness;
