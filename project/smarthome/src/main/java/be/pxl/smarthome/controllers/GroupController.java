@@ -70,7 +70,7 @@ public class GroupController {
         return group;
     }
 
-    @GetMapping(value = "/getAllGroups")
+    @GetMapping(value = "/groups")
     public List<LightGroup> getAllGroups() {
         return groupService.getAllGroups();
     }

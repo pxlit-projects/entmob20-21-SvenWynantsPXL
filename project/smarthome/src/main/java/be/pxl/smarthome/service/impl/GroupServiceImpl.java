@@ -7,6 +7,9 @@ import be.pxl.smarthome.models.Light;
 import be.pxl.smarthome.models.LightGroup;
 import be.pxl.smarthome.service.GroupService;
 import be.pxl.smarthome.service.LightApiService;
+import be.pxl.smarthome.service.api.impl.DummyApiImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +19,7 @@ import java.util.Optional;
 
 @Service
 public class GroupServiceImpl implements GroupService {
-
+    private static final Logger logger = LogManager.getLogger(GroupServiceImpl.class);
     @Autowired
     private LightGroupDao dao;
     @Autowired
@@ -74,6 +77,7 @@ public class GroupServiceImpl implements GroupService {
         }
         group.setHasOnState(true);
         group = dao.save(group);
+        logger.info("All lights in group with ID " + group.getId() + " are on.");
         return group;
     }
 
@@ -87,6 +91,7 @@ public class GroupServiceImpl implements GroupService {
             lightDao.save(light);
         }
         group = dao.save(group);
+        logger.info("All lights in group with ID " + group.getId() + " are off.");
         return group;
     }
 }
