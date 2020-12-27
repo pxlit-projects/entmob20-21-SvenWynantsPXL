@@ -1,12 +1,14 @@
 ﻿using SmartHouseLights.Views;
 using System.Windows.Input;
 using SmartHouseLights.Services;
+using SmartHouseLights.Services.Interfaces;
 using Xamarin.Forms;
 
 namespace SmartHouseLights.ViewModels
 {
     public class LoginViewModel : ViewModelBase
     {
+        private readonly IAuthenticationService _authService;
         public ICommand LoginCommand => new Command(OnLogin);
 
         private string _username;
@@ -34,10 +36,14 @@ namespace SmartHouseLights.ViewModels
 
         public string ErrorMessage { get; set; }
 
+        public LoginViewModel(IAuthenticationService authService)
+        {
+            _authService = authService;
+        }
+
         private async void OnLogin()
         {
-            AuthenticationService service = new AuthenticationService();
-            var result = await service.Login(Username, Password);
+            var result = await _authService.Login(Username, Password);
             if (result != null)
             {
                 await Shell.Current.GoToAsync($"//{nameof(HomeView)}");
