@@ -17,7 +17,6 @@ namespace SmartHouseLights.ViewModels
         private Command _flipSwitchCommand;
         public Command FlipSwitchCommand => _flipSwitchCommand ??
                                             (_flipSwitchCommand = new Command<int>(OnFlipPressed));
-        public Command ReloadListCommand => new Command(ReloadList);
         private List<Light> _lights;
         public List<Light> Lights 
         {
@@ -46,12 +45,20 @@ namespace SmartHouseLights.ViewModels
         private void OnFlipPressed(int id)
         {
             _lightService.FlipSwitch(id);
-            Lights[id - 1].OnState = !Lights[id - 1].OnState;
+            Lights[GetListId(id)].OnState = !Lights[GetListId(id)].OnState;
         }
 
-        private void ReloadList()
+        private int GetListId(int id)
         {
-            Lights = _lightService.GetAllLights();
+            for (int i = 0; i < Lights.Count; i++)
+            {
+                if (Lights[i].Id == id)
+                {
+                    return i;
+                }
+            }
+
+            return 0;
         }
     }
 }
