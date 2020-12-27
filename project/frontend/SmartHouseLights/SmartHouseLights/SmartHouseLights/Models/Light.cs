@@ -20,6 +20,8 @@ namespace SmartHouseLights.Models
             }
         }
 
+        public string Type { get; set; }
+
         private bool _onState;
 
         public bool OnState
@@ -31,7 +33,9 @@ namespace SmartHouseLights.Models
                 OnPropertyChanged();
             }
         }
+
         public Manufacturer Manufacturer { get; set; }
+        public int LightGroupId { get; set; }
         public LightGroup Group { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 

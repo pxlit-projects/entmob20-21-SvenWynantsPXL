@@ -7,6 +7,6 @@ namespace SmartHouseLights.Services.Interfaces
     {
         List<Light> GetAllLights();
         Light FlipSwitch(int id);
-        Light AddLight(Light light);
+        Light AddLight(CreateLightModel light);
     }
 }

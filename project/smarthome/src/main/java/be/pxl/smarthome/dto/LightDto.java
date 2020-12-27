@@ -9,10 +9,10 @@ import javax.validation.constraints.NotNull;
 @Valid
 public class LightDto {
     @NotEmpty
-    public String name;
+    public String Name;
     @NotEmpty
-    public String type;
+    public String Type;
     @NotNull
-    public LightManufacturer manufacturer;
-    public Integer lightGroupId;
+    public LightManufacturer LightManufacturer;
+    public Integer LightGroupId;
 }

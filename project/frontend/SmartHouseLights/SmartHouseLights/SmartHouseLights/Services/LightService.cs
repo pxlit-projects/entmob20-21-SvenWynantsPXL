@@ -50,12 +50,14 @@ namespace SmartHouseLights.Services
             return light;
         }
 
-        public Light AddLight(Light light)
+        public Light AddLight(CreateLightModel createLight)
         {
             var url = "/lights/light";
-            var stringContent = JsonConvert.SerializeObject(light);
+            var stringContent = JsonConvert.SerializeObject(createLight);
             HttpContent httpContent = new StringContent(stringContent, Encoding.UTF8, "application/json");
             HttpResponseMessage response = _client.PostAsync(url, httpContent).Result;
+
+            Light light = null;
 
             if (response.IsSuccessStatusCode)
             {

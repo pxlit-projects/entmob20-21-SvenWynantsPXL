@@ -26,10 +26,10 @@ public class LightServiceImpl implements LightService {
     public Light addLight(LightDto lightDto) {
         Light light = new Light();
 
-        light.setName(lightDto.name);
-        light.setManufacturer(lightDto.manufacturer);
+        light.setName(lightDto.Name);
+        light.setManufacturer(lightDto.LightManufacturer);
         light.setOnState(false);
-        light.setType(lightDto.type);
+        light.setType(lightDto.Type);
 
         light = dao.save(light);
         lightApiService.addLight(light);

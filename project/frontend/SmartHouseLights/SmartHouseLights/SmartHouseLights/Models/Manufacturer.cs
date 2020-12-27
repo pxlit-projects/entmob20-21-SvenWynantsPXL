@@ -2,6 +2,6 @@
 {
     public enum Manufacturer
     {
-        PHILIPS, IKEA, DUMMY
+        DUMMY, PHILIPS, IKEA
     }
 }
