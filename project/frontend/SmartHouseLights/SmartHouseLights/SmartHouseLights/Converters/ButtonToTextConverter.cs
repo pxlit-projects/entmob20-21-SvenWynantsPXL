@@ -12,10 +12,10 @@ namespace SmartHouseLights.Converters
 
             if (state)
             {
-                return "Turn light off";
+                return "Turn off";
             }
 
-            return "Turn light on";
+            return "Turn on";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
