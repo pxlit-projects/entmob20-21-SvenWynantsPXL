@@ -30,6 +30,7 @@ namespace SmartHouseLights.Util
             builder.RegisterType<NavigationService>().As<INavigationService>();
             builder.RegisterType<LightService>().As<ILightService>().SingleInstance();
             builder.RegisterType<GroupService>().As<IGroupService>().SingleInstance();
+            builder.RegisterType<ConnectionFactory>().As<IConnectionFactory>().SingleInstance();
             _container = builder.Build();
         }
 

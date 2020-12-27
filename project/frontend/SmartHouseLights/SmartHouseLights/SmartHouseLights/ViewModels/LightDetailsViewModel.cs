@@ -8,7 +8,6 @@ namespace SmartHouseLights.ViewModels
     public class LightDetailsViewModel : ViewModelBase
     {
         private readonly ILightService _lightService;
-        private readonly IAuthenticationService _authService;
 
         private Command _flipSwitchCommand;
 
@@ -27,10 +26,9 @@ namespace SmartHouseLights.ViewModels
             }
         }
 
-        public LightDetailsViewModel(ILightService lightService, IAuthenticationService authService)
+        public LightDetailsViewModel(ILightService lightService)
         {
             _lightService = lightService;
-            _authService = authService;
             MessagingCenter.Instance.Subscribe<LightListViewModel, Light>(this, MessageConstants.LightSelected,
                 (sender, light) => { Light = light; RefreshCanExecutes(); });
         }
