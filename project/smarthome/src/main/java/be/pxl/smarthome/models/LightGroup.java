@@ -35,7 +35,7 @@ public class LightGroup {
 
     public List<Light> getLights() { return lights; }
 
-    public void setLights(List<Light> lightIds) {
+    public void setLights(List<Light> lights) {
         this.lights = lights;
     }
 

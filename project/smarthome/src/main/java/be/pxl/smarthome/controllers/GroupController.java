@@ -9,6 +9,7 @@ import be.pxl.smarthome.service.LightService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "groups")
@@ -24,8 +25,14 @@ public class GroupController {
 
     @GetMapping(value = "/{id}")
     public LightGroup getGroup(@PathVariable int id) {
-        return groupService.findLightGroupById(id)
+        LightGroup group = groupService.findLightGroupById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
+        List<Light> lights = lightService.getAllLights().stream().filter(l -> l.getGroup() != null && l.getGroup().getId() == group.getId()).collect(Collectors.toList());
+        for (Light light : lights){
+            light.setGroup(null);
+        }
+        group.setLights(lights);
+        return group;
     }
 
     @DeleteMapping(value = "/{id}")
