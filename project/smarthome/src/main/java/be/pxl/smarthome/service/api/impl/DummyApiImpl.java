@@ -63,6 +63,12 @@ public class DummyApiImpl implements LightApi {
     }
 
     @Override
+    public void removeGroup(Light light) {
+        light.setGroup(null);
+        logger.info("Dummy's group removed");
+    }
+
+    @Override
     public LightManufacturer getManufacturer() {
         return LightManufacturer.DUMMY;
     }

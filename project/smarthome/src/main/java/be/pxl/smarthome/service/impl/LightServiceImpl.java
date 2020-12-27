@@ -63,6 +63,13 @@ public class LightServiceImpl implements LightService {
     }
 
     @Override
+    public void removeGroup(Light light) {
+        light.setGroup(null);
+        dao.save(light);
+        lightApiService.removeGroup(light);
+    }
+
+    @Override
     public Optional<Light> findLightById(Integer id) {
         return Optional.ofNullable(id)
                 // if id is null => wont execute

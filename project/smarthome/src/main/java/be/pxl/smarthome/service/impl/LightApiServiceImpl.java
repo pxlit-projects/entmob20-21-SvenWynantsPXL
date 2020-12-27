@@ -56,6 +56,12 @@ public class LightApiServiceImpl implements LightApiService {
         lightApi.turnOffLight(light);
     }
 
+    @Override
+    public void removeGroup(Light light) {
+        final var lightApi = getLightApiFor(light);
+        lightApi.removeGroup(light);
+    }
+
     private LightApi getLightApiFor(Light light) {
         return lightApiMap.get(light);
     }

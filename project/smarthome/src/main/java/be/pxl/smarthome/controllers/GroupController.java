@@ -39,7 +39,10 @@ public class GroupController {
     public void removeGroupById(@PathVariable int id) {
         LightGroup group = groupService.findLightGroupById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
-
+        List<Light> lights = lightService.getAllLights().stream().filter(l -> l.getGroup() != null && l.getGroup().getId() == group.getId()).collect(Collectors.toList());
+        for (Light light : lights) {
+            lightService.removeGroup(light);
+        }
         groupService.removeGroup(group);
     }
 

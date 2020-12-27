@@ -67,4 +67,9 @@ public class IkeaApiImpl implements LightApi {
     public void turnOffLight(Light light) {
         logger.info("Ikea light turned off");
     }
+
+    @Override
+    public void removeGroup(Light light) {
+        logger.info("Group removed from Ikea light with id " + light.getId());
+    }
 }
