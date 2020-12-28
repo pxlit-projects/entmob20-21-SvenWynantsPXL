@@ -3,7 +3,6 @@
              util:ViewModelLocator.AutoWireViewModel="True"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SmartHouseLights.Views.HomeView"
-             xmlns:vm="clr-namespace:SmartHouseLights.ViewModels"
              xmlns:util="clr-namespace:SmartHouseLights.Util;assembly=SmartHouseLights"
              Title="{Binding Title}">
     
