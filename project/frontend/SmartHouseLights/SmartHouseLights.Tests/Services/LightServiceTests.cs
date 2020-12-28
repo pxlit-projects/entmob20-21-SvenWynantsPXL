@@ -11,7 +11,7 @@ namespace SmartHouseLights.Tests.Services
     [TestFixture]
     public class LightServiceTests
     {
-        private LightService _lightService;
+        private ILightService _lightService;
         private Mock<IConnectionFactory> _connFactoryMock;
 
         [SetUp]
