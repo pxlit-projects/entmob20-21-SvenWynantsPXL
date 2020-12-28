@@ -8,6 +8,7 @@
              Title="{Binding Title}">
     <ContentPage.Resources>
         <converters:LabelStateConverter x:Key="LabelStateConverter" />
+        <converters:ButtonToTextConverter x:Key="ButtonToTextConverter" />
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" BindingContext="{Binding Group}">

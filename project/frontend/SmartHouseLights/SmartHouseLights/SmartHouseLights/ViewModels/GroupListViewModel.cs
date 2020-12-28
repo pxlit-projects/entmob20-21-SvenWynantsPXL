@@ -13,13 +13,13 @@ namespace SmartHouseLights.ViewModels
         private readonly IGroupService _groupService;
 
         private Command _flipSwitchCommand;
-
         public Command FlipSwitchCommand => _flipSwitchCommand ??
                                             (_flipSwitchCommand = new Command<int>(OnFlipPressed));
         public Command GroupSelectedCommand => new Command<int>(OnGroupSelected);
 
-        private List<LightGroup> _groups;
+        public Command AddGroupCommand => new Command(OnAddGroup);
 
+        private List<LightGroup> _groups;
         public List<LightGroup> Groups
         {
             get => _groups;
@@ -56,6 +56,11 @@ namespace SmartHouseLights.ViewModels
             }
 
             Groups[GetListId(id)].AllOnState = !Groups[GetListId(id)].AllOnState;
+        }
+
+        private void OnAddGroup()
+        {
+            //TODO: _navigationService.NavigateToAsync(nameof());
         }
 
         private int GetListId(int id)
