@@ -20,15 +20,13 @@ namespace SmartHouseLights.ViewModels
             }
         }
 
-        private int _groupId;
         public GroupDetailViewModel(IGroupService groupService)
         {
             _groupService = groupService;
             MessagingCenter.Instance.Subscribe<GroupListViewModel, int>(this, MessageConstants.GroupSelected,
                 (sender, groupId) =>
                 {
-                    _groupId = groupId; 
-                    Group = groupService.GetGroupById(_groupId);
+                    Group = groupService.GetGroupById(groupId);
                 });
             Title = $"Group: {Group.Name}";
         }

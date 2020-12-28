@@ -52,7 +52,6 @@ public class GroupController {
                 .orElseThrow(() -> new EntityNotFoundException(lightId));
         LightGroup group = groupService.findLightGroupById(groupId)
                 .orElseThrow(() -> new EntityNotFoundException(groupId));
-
         group = groupService.addLightToGroup(group, light);
 
         return group;
