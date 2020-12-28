@@ -6,5 +6,5 @@ import javax.validation.constraints.NotEmpty;
 @Valid
 public class GroupDto {
     @NotEmpty
-    public String name;
+    public String Name;
 }
