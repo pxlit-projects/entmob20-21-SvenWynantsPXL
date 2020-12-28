@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Schema;
 using SmartHouseLights.Models;
@@ -71,6 +72,25 @@ namespace SmartHouseLights.Services
             var url = $"/groups/{groupId}/turnAllOff";
 
             HttpResponseMessage response = _client.PutAsync(url, null).Result;
+
+            LightGroup group = null;
+
+            if (response.IsSuccessStatusCode)
+            {
+                string content = response.Content.ReadAsStringAsync().Result;
+                group = JsonConvert.DeserializeObject<LightGroup>(content);
+            }
+
+            return group;
+        }
+
+        public LightGroup AddGroup(CreateGroupModel model)
+        {
+            var url = "groups/addGroup";
+            string stringContent = JsonConvert.SerializeObject(model);
+            HttpContent httpContent = new StringContent(stringContent, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = _client.PostAsync(url, httpContent).Result;
 
             LightGroup group = null;
 
