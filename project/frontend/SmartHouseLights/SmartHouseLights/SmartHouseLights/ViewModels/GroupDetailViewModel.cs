@@ -9,6 +9,8 @@ namespace SmartHouseLights.ViewModels
     {
         private readonly IGroupService _groupService;
 
+        public Command FlipSwitchCommand => new Command(OnFlipSwitch);
+
         private LightGroup _group;
         public LightGroup Group
         {
@@ -29,6 +31,20 @@ namespace SmartHouseLights.ViewModels
                     Group = groupService.GetGroupById(groupId);
                 });
             Title = $"Group: {Group.Name}";
+        }
+
+        private void OnFlipSwitch()
+        {
+            if (Group.AllOnState)
+            {
+                _groupService.TurnAllLightsOffInGroup(Group.Id);
+                Group.AllOnState = false;
+            }
+            else
+            {
+                _groupService.TurnAllLightsOnInGroup(Group.Id);
+                Group.AllOnState = true;
+            }
         }
     }
 }
