@@ -12,7 +12,7 @@ public class LightGroup {
     private int id;
     @Column(name = "name")
     private String name;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     private List<Light> lights;
     @Column(name = "hason")
     private boolean hasOnState;

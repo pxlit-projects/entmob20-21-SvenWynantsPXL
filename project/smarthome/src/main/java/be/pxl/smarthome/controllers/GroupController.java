@@ -1,6 +1,7 @@
 package be.pxl.smarthome.controllers;
 
 import be.pxl.smarthome.dto.GroupDto;
+import be.pxl.smarthome.exceptions.EntityAlreadyExistsException;
 import be.pxl.smarthome.exceptions.EntityNotFoundException;
 import be.pxl.smarthome.models.Light;
 import be.pxl.smarthome.models.LightGroup;
@@ -9,6 +10,7 @@ import be.pxl.smarthome.service.LightService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -27,11 +29,7 @@ public class GroupController {
     public LightGroup getGroup(@PathVariable int id) {
         LightGroup group = groupService.findLightGroupById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
-        List<Light> lights = lightService.getAllLights().stream().filter(l -> l.getGroup() != null && l.getGroup().getId() == group.getId()).collect(Collectors.toList());
-        for (Light light : lights){
-            light.setGroup(null);
-        }
-        group.setLights(lights);
+        group.setLights(this.FillGroupLights(group.getId()));
         return group;
     }
 
@@ -39,7 +37,7 @@ public class GroupController {
     public void removeGroupById(@PathVariable int id) {
         LightGroup group = groupService.findLightGroupById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
-        List<Light> lights = lightService.getAllLights().stream().filter(l -> l.getGroup() != null && l.getGroup().getId() == group.getId()).collect(Collectors.toList());
+        List<Light> lights = this.FillGroupLights(group.getId());
         for (Light light : lights) {
             lightService.removeGroup(light);
         }
@@ -59,6 +57,12 @@ public class GroupController {
 
     @PostMapping(value = "/addGroup")
     public LightGroup addGroup(@RequestBody GroupDto groupDto) {
+        List<LightGroup> groups = groupService.getAllGroups();
+
+        if (groups.stream().anyMatch(l -> l.getName().equals(groupDto.Name))){
+            throw new EntityAlreadyExistsException(groupDto.Name);
+        }
+
         LightGroup group = groupService.addGroup(groupDto);
         return group;
     }
@@ -67,6 +71,7 @@ public class GroupController {
     public LightGroup turnAllLightsOn(@PathVariable int id) {
         LightGroup group = groupService.findLightGroupById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
+        group.setLights(this.FillGroupLights(group.getId()));
         group = groupService.turnOnLights(group);
         return group;
     }
@@ -75,6 +80,7 @@ public class GroupController {
     public LightGroup turnAllLightsOff(@PathVariable int id) {
         LightGroup group = groupService.findLightGroupById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
+        group.setLights(this.FillGroupLights(group.getId()));
         group = groupService.turnOffLights(group);
         return group;
     }
@@ -82,5 +88,13 @@ public class GroupController {
     @GetMapping(value = "/groups")
     public List<LightGroup> getAllGroups() {
         return groupService.getAllGroups();
+    }
+
+    private List<Light> FillGroupLights(int id){
+        List<Light> lights = lightService.getAllLights().stream().filter(l -> l.getGroup() != null && l.getGroup().getId() == id).collect(Collectors.toList());
+        for (Light light : lights) {
+            lightService.removeGroup(light);
+        }
+        return lights;
     }
 }

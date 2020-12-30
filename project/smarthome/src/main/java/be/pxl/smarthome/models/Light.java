@@ -33,7 +33,7 @@ public class Light {
     @Column(name = "manufacturer")
     @Enumerated(EnumType.STRING)
     private LightManufacturer manufacturer;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "group_id", nullable = true)
     private LightGroup group;
 
