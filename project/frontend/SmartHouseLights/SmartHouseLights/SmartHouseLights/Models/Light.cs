@@ -35,8 +35,6 @@ namespace SmartHouseLights.Models
         }
 
         public Manufacturer Manufacturer { get; set; }
-        public int LightGroupId { get; set; }
-        public LightGroup Group { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
