@@ -47,7 +47,7 @@ namespace SmartHouseLights.ViewModels
 
         private void OnDragCompleted()
         {
-            
+            Light = _lightService.UpdateLight(Light);
         }
 
         private bool OnCanExecuteFlipSwitch()
@@ -62,7 +62,7 @@ namespace SmartHouseLights.ViewModels
 
         private bool OnCanChangeBrightness()
         {
-            if (Light != null)
+            if (Light != null && Light.OnState)
             {
                 return true;
             }
