@@ -54,7 +54,7 @@ namespace SmartHouseLights.Tests.Services
             List<Light> lights = _lightService.GetAllLights();
             int initCount = lights.Count;
 
-            CreateLightModel lightModel = new LightBuilder().WithDummyManufacturer().WithName().WithType().Build();
+            CreateLightModel lightModel = new CreateLightBuilder().WithDummyManufacturer().WithName().WithType().Build();
 
             Light light = _lightService.AddLight(lightModel);
 
