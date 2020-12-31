@@ -1,35 +1,27 @@
-﻿using SmartHouseLights.Models;
+﻿using System;
+using SmartHouseLights.Models;
 
 namespace SmartHouseLights.Tests.Builders
 {
     public class LightBuilder
     {
-        private readonly CreateLightModel _light;
-
+        private readonly Light _light;
+        private static int _id = 1;
         public LightBuilder()
         {
-            _light = new CreateLightModel();
+            _light = new Light();
+            _light.Id = _id;
+            _id += 1;
+            _light.Name = Guid.NewGuid().ToString();
         }
 
-        public LightBuilder WithName()
+        public LightBuilder WithDummy()
         {
-            _light.Name = "Test Light";
+            _light.Manufacturer = Manufacturer.DUMMY;
             return this;
         }
 
-        public LightBuilder WithDummyManufacturer()
-        {
-            _light.LightManufacturer = Manufacturer.DUMMY;
-            return this;
-        }
-
-        public LightBuilder WithType()
-        {
-            _light.Type = "Test light";
-            return this;
-        }
-
-        public CreateLightModel Build()
+        public Light Build()
         {
             return _light;
         }
