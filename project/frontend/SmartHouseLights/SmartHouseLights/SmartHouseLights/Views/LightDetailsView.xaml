@@ -19,6 +19,7 @@
                 <Label Text="State of Light: " />
                 <Label Text="{Binding OnState, Mode=OneWay, Converter={StaticResource LabelStateConverter}}" />
             </StackLayout>
+            <Slider Value="{Binding Brightness, Mode=TwoWay}" Minimum="0" Maximum="100" DragCompletedCommand="{Binding OnDragCompletedCommand}"></Slider>
             <Button Command="{Binding FlipSwitchCommand}" Text="Flip switch"></Button>
         </StackLayout>
     </ContentPage.Content>
