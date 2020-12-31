@@ -14,6 +14,11 @@ namespace SmartHouseLights.ViewModels
         public Command FlipSwitchCommand => _flipSwitchCommand ??
                                             (_flipSwitchCommand = new Command(OnFlipSwitch, OnCanExecuteFlipSwitch));
 
+        private Command _changeBrightnessCommand;
+
+        public Command OnDragCompletedCommand => _changeBrightnessCommand ??
+                                                 (_changeBrightnessCommand = new Command(OnDragCompleted,
+                                                     OnCanChangeBrightness));
         private Light _light;
         public Light Light
         {
@@ -40,7 +45,22 @@ namespace SmartHouseLights.ViewModels
             RefreshCanExecutes();
         }
 
+        private void OnDragCompleted()
+        {
+            
+        }
+
         private bool OnCanExecuteFlipSwitch()
+        {
+            if (Light != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool OnCanChangeBrightness()
         {
             if (Light != null)
             {
@@ -52,7 +72,8 @@ namespace SmartHouseLights.ViewModels
 
         private void RefreshCanExecutes()
         {
-            (FlipSwitchCommand as Command).ChangeCanExecute();
+            FlipSwitchCommand.ChangeCanExecute();
+            OnDragCompletedCommand.ChangeCanExecute();
         }
     }
 }
