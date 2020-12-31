@@ -17,7 +17,8 @@
     <ContentPage.Content>
         <StackLayout VerticalOptions="FillAndExpand">
             <ListView x:Name="LightList" SelectionMode="None" 
-                      ItemsSource="{Binding Lights, Mode=TwoWay}">
+                      ItemsSource="{Binding Lights, Mode=TwoWay}"
+                      RefreshCommand="{Binding RefreshListCommand}" IsPullToRefreshEnabled="True" IsRefreshing="{Binding IsRefreshing}">
                 <ListView.Behaviors>
                     <behaviors:EventToCommandBehavior
                        EventName="ItemTapped" Command="{Binding LightSelectedCommand}"

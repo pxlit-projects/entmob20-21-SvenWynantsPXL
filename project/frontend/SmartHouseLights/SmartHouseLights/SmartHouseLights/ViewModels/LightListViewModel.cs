@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Windows.Input;
 using SmartHouseLights.Models;
 using SmartHouseLights.Services.Interfaces;
 using SmartHouseLights.Util;
@@ -13,6 +12,20 @@ namespace SmartHouseLights.ViewModels
         private readonly INavigationService _navigationService;
         private readonly ILightService _lightService;
         public Command LightSelectedCommand => new Command<int>(OnLightSelected);
+
+        private bool _isRefreshing = false;
+
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set
+            {
+                _isRefreshing = value;
+                OnPropertyChanged(nameof(IsRefreshing));
+            }
+        }
+
+        public Command RefreshListCommand => new Command(OnRefreshList);
 
         private Command _flipSwitchCommand;
         public Command FlipSwitchCommand => _flipSwitchCommand ??
@@ -46,6 +59,13 @@ namespace SmartHouseLights.ViewModels
         {
             _lightService.FlipSwitch(id);
             Lights[GetListId(id)].OnState = !Lights[GetListId(id)].OnState;
+        }
+
+        private void OnRefreshList()
+        {
+            IsRefreshing = true;
+            Lights = _lightService.GetAllLights();
+            IsRefreshing = false;
         }
 
         private int GetListId(int id)
