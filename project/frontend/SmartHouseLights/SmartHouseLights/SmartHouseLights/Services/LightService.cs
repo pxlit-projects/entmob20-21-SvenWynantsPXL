@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
@@ -58,6 +57,24 @@ namespace SmartHouseLights.Services
             HttpResponseMessage response = _client.PostAsync(url, httpContent).Result;
 
             Light light = null;
+
+            if (response.IsSuccessStatusCode)
+            {
+                string content = response.Content.ReadAsStringAsync().Result;
+                light = JsonConvert.DeserializeObject<Light>(content);
+            }
+
+            return light;
+        }
+
+        public Light UpdateLight(Light light)
+        {
+            var url = "/lights/updateLight";
+
+            var stringContent = JsonConvert.SerializeObject(light);
+            HttpContent httpContent = new StringContent(stringContent, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = _client.PutAsync(url, httpContent).Result;
 
             if (response.IsSuccessStatusCode)
             {
