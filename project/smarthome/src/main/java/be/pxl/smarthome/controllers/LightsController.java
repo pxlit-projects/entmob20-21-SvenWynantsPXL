@@ -1,5 +1,6 @@
 package be.pxl.smarthome.controllers;
 
+import be.pxl.smarthome.dto.CreateLightDto;
 import be.pxl.smarthome.dto.LightDto;
 import be.pxl.smarthome.exceptions.EntityNotFoundException;
 import be.pxl.smarthome.models.Light;
@@ -8,7 +9,6 @@ import be.pxl.smarthome.service.GroupService;
 import be.pxl.smarthome.service.LightService;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
 
@@ -16,32 +16,32 @@ import java.util.List;
 @RequestMapping(path = "lights")
 public class LightsController {
 
-    private final GroupService groupService;
-    private final LightService lightService;
+    private final GroupService _groupService;
+    private final LightService _lightService;
 
-    public LightsController(LightService lightService, GroupService groupService) {
-        this.lightService = lightService;
-        this.groupService = groupService;
+    public LightsController(GroupService groupService, LightService lightService) {
+        this._groupService = groupService;
+        this._lightService = lightService;
     }
 
     @PostMapping(value = "/light")
     @Secured({"ROLE_ADMIN"})
-    public Light addLight(@Valid @RequestBody LightDto lightDto) {
-        return lightService.addLight(lightDto);
+    public Light addLight(@Valid @RequestBody CreateLightDto createLightDto) {
+        return _lightService.addLight(createLightDto);
     }
 
     @PutMapping(value = "/{id}/flipSwitch")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public Light flipSwitch(@PathVariable int id) {
-        Light light = lightService.findLightById(id)
+        Light light = _lightService.findLightById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
 
-        light = lightService.flipSwitch(light);
-        LightGroup group = groupService.findLightGroupById(light.getGroup_id()).orElse(null);
+        light = _lightService.flipSwitch(light);
+        LightGroup group = _groupService.findLightGroupById(light.getGroup_id()).orElse(null);
         if (light.getOnState()) {
             if (group != null) {
                 group.setHasOnState(true);
-                groupService.updateGroup(group);
+                _groupService.updateGroup(group);
             }
         } else {
             if (group != null) {
@@ -52,7 +52,7 @@ public class LightsController {
                     }
                 }
                 group.setHasOnState(hasOn);
-                groupService.updateGroup(group);
+                _groupService.updateGroup(group);
             }
         }
 
@@ -61,21 +61,33 @@ public class LightsController {
 
     @GetMapping(value = "/lights")
     public List<Light> getAllLights() {
-        return lightService.getAllLights();
+        return _lightService.getAllLights();
     }
 
     @GetMapping(value = "/light/{id}")
     public Light getLightById(@PathVariable int id) {
-        return lightService.findLightById(id)
+        return _lightService.findLightById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
     }
 
     @DeleteMapping(value = "light/{id}")
     @Secured({"ROLE_ADMIN"})
     public void removeLightById(@PathVariable int id) {
-        Light light = lightService.findLightById(id)
+        Light light = _lightService.findLightById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
 
-        lightService.removeLight(light);
+        _lightService.removeLight(light);
+    }
+
+    @PutMapping(value = "updateLight")
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    public Light updateLight(@RequestBody LightDto lightDto){
+        Light light = _lightService.findLightById(lightDto.Id)
+                .orElseThrow(() -> new EntityNotFoundException(lightDto.Id));
+        light.setName(lightDto.Name);
+        light.setBrightness(lightDto.Brightness);
+        light = _lightService.updateLight(light);
+
+        return light;
     }
 }

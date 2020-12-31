@@ -36,8 +36,8 @@ public class Light {
     @ManyToOne
     @JoinColumn(name = "group_id", nullable = true)
     private LightGroup group;
-    @Column(name = "group_id", nullable = true, insertable = false, updatable = false)
-    private Integer group_id;
+    @Column(name = "group_id", insertable = false, updatable = false)
+    private int group_id;
 
     public Integer getId() {
         return id;

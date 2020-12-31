@@ -67,4 +67,9 @@ public class IkeaApiImpl implements LightApi {
     public void turnOffLight(Light light) {
         logger.info("Ikea light turned off");
     }
+
+    @Override
+    public void updateLight(Light light) {
+        logger.info("Ikea light updated");
+    }
 }

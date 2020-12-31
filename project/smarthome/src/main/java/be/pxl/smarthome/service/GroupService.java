@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GroupService {
-    Optional<LightGroup> findLightGroupById(int id);
+    Optional<LightGroup> findLightGroupById(Integer id);
     List<LightGroup> getAllGroups();
     void removeGroup(LightGroup group);
     LightGroup updateGroup(LightGroup group);

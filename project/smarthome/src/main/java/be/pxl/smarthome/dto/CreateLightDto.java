@@ -7,7 +7,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Valid
-public class LightDto {
+public class CreateLightDto {
     @NotEmpty
     public String Name;
     @NotEmpty

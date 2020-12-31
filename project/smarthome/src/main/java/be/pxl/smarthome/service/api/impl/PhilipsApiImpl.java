@@ -69,4 +69,9 @@ public class PhilipsApiImpl implements LightApi {
     public void turnOffLight(Light light) {
         logger.info("Philips light turned off");
     }
+
+    @Override
+    public void updateLight(Light light) {
+        logger.info("Philips light updated");
+    }
 }

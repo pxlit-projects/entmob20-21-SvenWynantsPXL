@@ -2,7 +2,7 @@ package be.pxl.smarthome.service.impl;
 
 import be.pxl.smarthome.dao.LightDao;
 import be.pxl.smarthome.dao.LightGroupDao;
-import be.pxl.smarthome.dto.LightDto;
+import be.pxl.smarthome.dto.CreateLightDto;
 import be.pxl.smarthome.models.Light;
 import be.pxl.smarthome.models.LightGroup;
 import be.pxl.smarthome.service.LightApiService;
@@ -27,13 +27,13 @@ public class LightServiceImpl implements LightService {
     @Autowired
     private LightApiService lightApiService;
 
-    public Light addLight(LightDto lightDto) {
+    public Light addLight(CreateLightDto createLightDto) {
         Light light = new Light();
 
-        light.setName(lightDto.Name);
-        light.setManufacturer(lightDto.LightManufacturer);
+        light.setName(createLightDto.Name);
+        light.setManufacturer(createLightDto.LightManufacturer);
         light.setOnState(false);
-        light.setType(lightDto.Type);
+        light.setType(createLightDto.Type);
 
         light = lightDao.save(light);
         lightApiService.addLight(light);
@@ -63,6 +63,13 @@ public class LightServiceImpl implements LightService {
         light.setOnState(!light.getOnState());
         lightDao.save(light);
         lightApiService.flipSwitch(light);
+        return light;
+    }
+
+    @Override
+    public Light updateLight(Light light) {
+        light = lightDao.save(light);
+        lightApiService.updateLight(light);
         return light;
     }
 

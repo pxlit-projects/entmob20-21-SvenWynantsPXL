@@ -16,4 +16,5 @@ public interface LightApi {
     void changeState(Light light);
     void turnOnLight(Light light);
     void turnOffLight(Light light);
+    void updateLight(Light light);
 }

@@ -62,6 +62,11 @@ public class DummyApiImpl implements LightApi {
     }
 
     @Override
+    public void updateLight(Light light) {
+        logger.info("Dummy light updated");
+    }
+
+    @Override
     public LightManufacturer getManufacturer() {
         return LightManufacturer.DUMMY;
     }

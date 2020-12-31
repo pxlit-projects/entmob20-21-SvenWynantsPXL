@@ -28,7 +28,7 @@ public class GroupServiceImpl implements GroupService {
     private LightApiService apiService;
 
     @Override
-    public Optional<LightGroup> findLightGroupById(int id) {
+    public Optional<LightGroup> findLightGroupById(Integer id) {
         return Optional.ofNullable(id)
                 .flatMap(dao::findById);
     }
