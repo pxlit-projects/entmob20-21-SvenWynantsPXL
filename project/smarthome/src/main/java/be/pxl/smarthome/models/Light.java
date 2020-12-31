@@ -33,11 +33,8 @@ public class Light {
     @Column(name = "manufacturer")
     @Enumerated(EnumType.STRING)
     private LightManufacturer manufacturer;
-    @ManyToOne
-    @JoinColumn(name = "group_id", nullable = true)
-    private LightGroup group;
-    @Column(name = "group_id", insertable = false, updatable = false)
-    private int group_id;
+    @Column(name = "group_id", nullable = true)
+    private Integer group_id;
 
     public Integer getId() {
         return id;
