@@ -33,9 +33,11 @@ public class Light {
     @Column(name = "manufacturer")
     @Enumerated(EnumType.STRING)
     private LightManufacturer manufacturer;
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "group_id", nullable = true)
     private LightGroup group;
+    @Column(name = "group_id", nullable = true, insertable = false, updatable = false)
+    private Integer group_id;
 
     public Integer getId() {
         return id;
@@ -81,11 +83,7 @@ public class Light {
         this.manufacturer = manufacturer;
     }
 
-    public LightGroup getGroup() {
-        return group;
-    }
-
-    public void setGroup(LightGroup group) {
-        this.group = group;
+    public int getGroup_id(){
+        return this.group_id;
     }
 }

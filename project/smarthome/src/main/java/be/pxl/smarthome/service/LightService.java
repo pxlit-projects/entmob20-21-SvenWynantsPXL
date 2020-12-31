@@ -14,5 +14,4 @@ public interface LightService {
     Optional<Light> findLightById(Integer id);
     void removeLight(Light light);
     Light flipSwitch(Light light);
-    void removeGroup(Light light);
 }

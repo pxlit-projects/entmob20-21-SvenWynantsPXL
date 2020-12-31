@@ -10,5 +10,4 @@ public interface LightApiService {
     void flipSwitch(Light light);
     void turnOnLight(Light light);
     void turnOffLight(Light light);
-    void removeGroup(Light light);
 }

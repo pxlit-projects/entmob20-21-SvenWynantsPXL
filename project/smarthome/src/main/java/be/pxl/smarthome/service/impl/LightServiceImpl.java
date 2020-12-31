@@ -1,8 +1,10 @@
 package be.pxl.smarthome.service.impl;
 
 import be.pxl.smarthome.dao.LightDao;
+import be.pxl.smarthome.dao.LightGroupDao;
 import be.pxl.smarthome.dto.LightDto;
 import be.pxl.smarthome.models.Light;
+import be.pxl.smarthome.models.LightGroup;
 import be.pxl.smarthome.service.LightApiService;
 import be.pxl.smarthome.service.LightService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,9 @@ public class LightServiceImpl implements LightService {
     @Autowired
     private LightService service;
     @Autowired
-    private LightDao dao;
+    private LightDao lightDao;
+    @Autowired
+    private LightGroupDao groupDao;
     @Autowired
     private LightApiService lightApiService;
 
@@ -31,7 +35,7 @@ public class LightServiceImpl implements LightService {
         light.setOnState(false);
         light.setType(lightDto.Type);
 
-        light = dao.save(light);
+        light = lightDao.save(light);
         lightApiService.addLight(light);
 
         return light;
@@ -40,40 +44,33 @@ public class LightServiceImpl implements LightService {
     //To import the lights from the bridges and dummy to this database
     @Override
     public Light addLight(Light light) {
-        dao.save(light);
+        lightDao.save(light);
         return light;
     }
 
     public List<Light> getAllLights(){
-        return dao.findAll();
+        return lightDao.findAll();
     }
 
     @Override
     public void removeLight(Light light) {
-        dao.delete(light);
+        lightDao.delete(light);
         lightApiService.removeLight(light);
     }
 
     @Override
     public Light flipSwitch(Light light) {
         light.setOnState(!light.getOnState());
-        dao.save(light);
+        lightDao.save(light);
         lightApiService.flipSwitch(light);
         return light;
-    }
-
-    @Override
-    public void removeGroup(Light light) {
-        light.setGroup(null);
-        dao.save(light);
-        lightApiService.removeGroup(light);
     }
 
     @Override
     public Optional<Light> findLightById(Integer id) {
         return Optional.ofNullable(id)
                 // if id is null => wont execute
-                .flatMap(dao::findById);
+                .flatMap(lightDao::findById);
     }
 
     @PostConstruct
@@ -81,7 +78,7 @@ public class LightServiceImpl implements LightService {
         //Check if lights are in service
         List<Light> lights = service.getAllLights();
         List<Light> apiLights = lightApiService.getAllLightsInNetwork();
-
+        int counter = 0;
         for (Light light : apiLights) {
             if (lights == null) {
                 lights = new ArrayList<>();
@@ -102,6 +99,21 @@ public class LightServiceImpl implements LightService {
                 if (!exists) {
                     lights.add(check);
                     service.addLight(check);
+
+                    if (counter < 2) {
+                        LightGroup group = groupDao.findById(1).orElse(null);
+                        List<Light> groupLights;
+                        if (group != null) {
+                            groupLights = group.getLights();
+                            if (groupLights == null){
+                                groupLights = new ArrayList<>();
+                            }
+                            groupLights.add(check);
+                            group.setLights(groupLights);
+                            groupDao.save(group);
+                        }
+                    }
+                    counter ++;
                 }
             }
         }

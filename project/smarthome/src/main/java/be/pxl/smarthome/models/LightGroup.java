@@ -12,7 +12,8 @@ public class LightGroup {
     private int id;
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "group_id")
     private List<Light> lights;
     @Column(name = "hason")
     private boolean hasOnState;

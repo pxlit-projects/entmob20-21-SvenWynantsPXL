@@ -29,7 +29,6 @@ public class GroupController {
     public LightGroup getGroup(@PathVariable int id) {
         LightGroup group = groupService.findLightGroupById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
-        group.setLights(this.FillGroupLights(group.getId()));
         return group;
     }
 
@@ -37,10 +36,6 @@ public class GroupController {
     public void removeGroupById(@PathVariable int id) {
         LightGroup group = groupService.findLightGroupById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
-        List<Light> lights = this.FillGroupLights(group.getId());
-        for (Light light : lights) {
-            lightService.removeGroup(light);
-        }
         groupService.removeGroup(group);
     }
 
@@ -71,7 +66,6 @@ public class GroupController {
     public LightGroup turnAllLightsOn(@PathVariable int id) {
         LightGroup group = groupService.findLightGroupById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
-        group.setLights(this.FillGroupLights(group.getId()));
         group = groupService.turnOnLights(group);
         return group;
     }
@@ -80,7 +74,6 @@ public class GroupController {
     public LightGroup turnAllLightsOff(@PathVariable int id) {
         LightGroup group = groupService.findLightGroupById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
-        group.setLights(this.FillGroupLights(group.getId()));
         group = groupService.turnOffLights(group);
         return group;
     }
@@ -88,13 +81,5 @@ public class GroupController {
     @GetMapping(value = "/groups")
     public List<LightGroup> getAllGroups() {
         return groupService.getAllGroups();
-    }
-
-    private List<Light> FillGroupLights(int id){
-        List<Light> lights = lightService.getAllLights().stream().filter(l -> l.getGroup() != null && l.getGroup().getId() == id).collect(Collectors.toList());
-        for (Light light : lights) {
-            lightService.removeGroup(light);
-        }
-        return lights;
     }
 }

@@ -2,6 +2,7 @@ package be.pxl.smarthome.service.api.impl;
 
 import be.pxl.smarthome.dao.LightGroupDao;
 import be.pxl.smarthome.models.Light;
+import be.pxl.smarthome.models.LightGroup;
 import be.pxl.smarthome.models.LightManufacturer;
 import be.pxl.smarthome.service.api.LightApi;
 import org.apache.logging.log4j.LogManager;
@@ -24,9 +25,7 @@ public class DummyApiImpl implements LightApi {
     public void seedData() {
         lights = new ArrayList<>();
         Light light1 = new Light(100, false, "dummy light", "Dummy light 1", LightManufacturer.DUMMY);
-        light1.setGroup(groupDao.findById(1).orElse(null));
         Light light2 = new Light(100, false, "dummy light", "Dummy light 2", LightManufacturer.DUMMY);
-        light2.setGroup(groupDao.findById(1).orElse(null));
         Light light3 = new Light(100, false, "dummy light", "Dummy light 3", LightManufacturer.DUMMY);
         lights.add(light1);
         lights.add(light2);
@@ -60,12 +59,6 @@ public class DummyApiImpl implements LightApi {
     public void turnOffLight(Light light) {
         light.setOnState(false);
         logger.info("Dummy light turned off");
-    }
-
-    @Override
-    public void removeGroup(Light light) {
-        light.setGroup(null);
-        logger.info("Dummy's group removed");
     }
 
     @Override
