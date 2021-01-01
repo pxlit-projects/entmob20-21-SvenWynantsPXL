@@ -11,6 +11,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "lights")
@@ -60,14 +61,14 @@ public class LightsController {
     }
 
     @GetMapping(value = "/lights")
-    public List<Light> getAllLights() {
-        return _lightService.getAllLights();
+    public List<LightDto> getAllLights() {
+        return _lightService.getAllLights().stream().map(Light::toDto).collect(Collectors.toList());
     }
 
     @GetMapping(value = "/light/{id}")
-    public Light getLightById(@PathVariable int id) {
+    public LightDto getLightById(@PathVariable int id) {
         return _lightService.findLightById(id)
-                .orElseThrow(() -> new EntityNotFoundException(id));
+                .orElseThrow(() -> new EntityNotFoundException(id)).toDto();
     }
 
     @DeleteMapping(value = "light/{id}")

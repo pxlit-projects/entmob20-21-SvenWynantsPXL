@@ -1,5 +1,7 @@
 package be.pxl.smarthome.models;
 
+import be.pxl.smarthome.dto.LightDto;
+
 import javax.persistence.*;
 
 @Entity
@@ -82,5 +84,16 @@ public class Light {
 
     public int getGroup_id(){
         return this.group_id;
+    }
+
+    public LightDto toDto(){
+        LightDto dto = new LightDto();
+        dto.Id = this.id;
+        dto.Name = this.name;
+        dto.Brightness = this.brightness;
+        dto.Manufacturer = this.manufacturer;
+        dto.OnState = this.isOnState;
+        dto.Type = this.type;
+        return dto;
     }
 }
