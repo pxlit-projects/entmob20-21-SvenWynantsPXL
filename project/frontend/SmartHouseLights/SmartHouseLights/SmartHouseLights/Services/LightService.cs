@@ -84,5 +84,22 @@ namespace SmartHouseLights.Services
 
             return light;
         }
+
+        public Light GetLightById(int lightId)
+        {
+            var url = $"/lights/light/{lightId}";
+
+            HttpResponseMessage response = _client.GetAsync(url).Result;
+
+            Light light = null;
+
+            if (response.IsSuccessStatusCode)
+            {
+                string content = response.Content.ReadAsStringAsync().Result;
+                light = JsonConvert.DeserializeObject<Light>(content);
+            }
+
+            return light;
+        }
     }
 }

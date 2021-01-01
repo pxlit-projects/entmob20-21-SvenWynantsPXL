@@ -35,7 +35,5 @@ namespace SmartHouseLights.Tests.ViewModels
             Assert.That(_lightListViewModel.Lights, Is.Not.Null);
             Assert.That(_lightListViewModel.Lights.Count, Is.EqualTo(2));
         }
-
-
     }
 }

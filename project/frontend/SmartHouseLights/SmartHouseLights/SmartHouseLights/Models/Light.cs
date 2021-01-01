@@ -35,6 +35,7 @@ namespace SmartHouseLights.Models
         }
 
         public Manufacturer Manufacturer { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
