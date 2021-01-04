@@ -11,20 +11,20 @@
         <converters:ButtonToTextConverter x:Key="ButtonToTextConverter" />
     </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical" BindingContext="{Binding Group}">
-            <Label Text="{Binding Name}"
+        <StackLayout Orientation="Vertical">
+            <Label Text="{Binding Group.Name}"
                 VerticalOptions="StartAndExpand" 
                 HorizontalOptions="CenterAndExpand" 
                 Style="{DynamicResource TitleStyle}"/>
             <StackLayout Orientation="Horizontal">
                 <Label Text="All lights: " />
-                <Label Text="{Binding AllOnState, Mode=OneWay, Converter={StaticResource LabelStateConverter}}" />
+                <Label Text="{Binding Group.AllOnState, Mode=OneWay, Converter={StaticResource LabelStateConverter}}" />
             </StackLayout>
             <StackLayout Orientation="Horizontal">
                 <Label Text="Has Lights on: " />
-                <Label Text="{Binding HasOnState, Mode=OneWay}" />
+                <Label Text="{Binding Group.HasOnState, Mode=OneWay}" />
             </StackLayout>
-            <ListView SelectionMode="None" ItemsSource="{Binding Lights}">
+            <ListView SelectionMode="None" ItemsSource="{Binding Group.Lights}">
                 <ListView.Header>
                     <Label Text="All lights in group" Style="{DynamicResource SubtitleStyle}" />
                 </ListView.Header>
@@ -34,8 +34,8 @@
                             <ViewCell.View>
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
                                     <Label Text="Name: " Style="{DynamicResource ListItemTextStyle}"/>
-                                    <Label Text="{Binding Name}" Style="{DynamicResource ListItemTextStyle}" />
-                                    <Label Text="{Binding OnState, Converter={StaticResource LabelStateConverter}}" Style="{DynamicResource ListItemDetailTextStyle}" />
+                                    <Label Text="{Binding Group.Name}" Style="{DynamicResource ListItemTextStyle}" />
+                                    <Label Text="{Binding Group.OnState, Converter={StaticResource LabelStateConverter}}" Style="{DynamicResource ListItemDetailTextStyle}" />
                                 </StackLayout>
                             </ViewCell.View>
                         </ViewCell>
