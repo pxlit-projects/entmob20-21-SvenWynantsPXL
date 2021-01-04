@@ -4,9 +4,7 @@ using NUnit.Framework;
 using SmartHouseLights.Models;
 using SmartHouseLights.Services.Interfaces;
 using SmartHouseLights.Tests.Builders;
-using SmartHouseLights.Util;
 using SmartHouseLights.ViewModels;
-using Xamarin.Forms;
 
 namespace SmartHouseLights.Tests.ViewModels
 {
