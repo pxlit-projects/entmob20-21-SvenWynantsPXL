@@ -51,12 +51,9 @@ namespace SmartHouseLights.ViewModels
 
         private bool CanChangeBrightness()
         {
-            if (Light != null)
+            if (Light != null && Light.OnState)
             {
-                if (Light.OnState)
-                {
-                    return true;
-                }
+                return true;
             }
 
             return false;
