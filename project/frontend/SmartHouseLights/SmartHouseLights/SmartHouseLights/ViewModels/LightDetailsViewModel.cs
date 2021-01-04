@@ -33,17 +33,20 @@ namespace SmartHouseLights.ViewModels
                 {
                     Light = light;
                     Title = Light.Name;
+                    RefreshCanExecutes();
                 });
         }
 
         private void OnFlipSwitch()
         {
             Light = _lightService.FlipSwitch(_light.Id);
+            RefreshCanExecutes();
         }
 
         private void OnDragCompleted()
         {
             Light = _lightService.UpdateLight(Light);
+            RefreshCanExecutes();
         }
 
         private bool CanChangeBrightness()
