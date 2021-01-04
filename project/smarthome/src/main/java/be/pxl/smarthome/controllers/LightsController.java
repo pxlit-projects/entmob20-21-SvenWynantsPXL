@@ -38,22 +38,24 @@ public class LightsController {
                 .orElseThrow(() -> new EntityNotFoundException(id));
 
         light = _lightService.flipSwitch(light);
-        LightGroup group = _groupService.findLightGroupById(light.getGroup_id()).orElse(null);
-        if (light.getOnState()) {
-            if (group != null) {
-                group.setHasOnState(true);
-                _groupService.updateGroup(group);
-            }
-        } else {
-            if (group != null) {
-                boolean hasOn = false;
-                for (Light l : group.getLights()) {
-                    if (l.getOnState()) {
-                        hasOn = true;
-                    }
+        if (light.getGroup_id() != null){
+            LightGroup group = _groupService.findLightGroupById(light.getGroup_id()).orElse(null);
+            if (light.getOnState()) {
+                if (group != null) {
+                    group.setHasOnState(true);
+                    _groupService.updateGroup(group);
                 }
-                group.setHasOnState(hasOn);
-                _groupService.updateGroup(group);
+            } else {
+                if (group != null) {
+                    boolean hasOn = false;
+                    for (Light l : group.getLights()) {
+                        if (l.getOnState()) {
+                            hasOn = true;
+                        }
+                    }
+                    group.setHasOnState(hasOn);
+                    _groupService.updateGroup(group);
+                }
             }
         }
 

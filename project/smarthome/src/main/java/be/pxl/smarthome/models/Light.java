@@ -82,7 +82,7 @@ public class Light {
         this.manufacturer = manufacturer;
     }
 
-    public int getGroup_id(){
+    public Integer getGroup_id(){
         return this.group_id;
     }
 
