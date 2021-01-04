@@ -35,8 +35,9 @@ namespace SmartHouseLights.ViewModels
         {
             _lightService = lightService;
             MessagingCenter.Instance.Subscribe<LightListViewModel, Light>(this, MessageConstants.LightSelected,
-                (sender, light) => { Light = light; RefreshCanExecutes(); });
-            Title = $"Light: {Light.Name}";
+                (sender, light) => { Light = light; RefreshCanExecutes();
+                    Title = Light.Name;
+                });
         }
 
         private void OnFlipSwitch()
