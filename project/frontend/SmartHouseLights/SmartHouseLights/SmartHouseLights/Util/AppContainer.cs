@@ -15,18 +15,18 @@ namespace SmartHouseLights.Util
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterType<LoginViewModel>().SingleInstance();
-            builder.RegisterType<LoginView>().SingleInstance();
-            builder.RegisterType<HomeViewModel>().SingleInstance();
-            builder.RegisterType<HomeView>().SingleInstance();
-            builder.RegisterType<LightListViewModel>().SingleInstance();
-            builder.RegisterType<LightListView>().SingleInstance();
-            builder.RegisterType<LightDetailsView>().SingleInstance();
-            builder.RegisterType<LightDetailsViewModel>().SingleInstance();
-            builder.RegisterType<GroupListView>().SingleInstance();
-            builder.RegisterType<GroupListViewModel>().SingleInstance();
-            builder.RegisterType<GroupDetailView>().SingleInstance();
-            builder.RegisterType<GroupDetailViewModel>().SingleInstance();
+            builder.RegisterType<LoginViewModel>();
+            builder.RegisterType<LoginView>();
+            builder.RegisterType<HomeViewModel>();
+            builder.RegisterType<HomeView>();
+            builder.RegisterType<LightListViewModel>();
+            builder.RegisterType<LightListView>();
+            builder.RegisterType<LightDetailsView>();
+            builder.RegisterType<LightDetailsViewModel>();
+            builder.RegisterType<GroupListView>();
+            builder.RegisterType<GroupListViewModel>();
+            builder.RegisterType<GroupDetailView>();
+            builder.RegisterType<GroupDetailViewModel>();
 
             builder.RegisterType<AuthenticationService>().As<IAuthenticationService>().SingleInstance();
             builder.RegisterType<NavigationService>().As<INavigationService>().SingleInstance();
