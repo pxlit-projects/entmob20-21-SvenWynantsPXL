@@ -73,7 +73,7 @@ public class LightsController {
                 .orElseThrow(() -> new EntityNotFoundException(id)).toDto();
     }
 
-    @DeleteMapping(value = "light/{id}")
+    @DeleteMapping(value = "/light/{id}")
     @Secured({"ROLE_ADMIN"})
     public void removeLightById(@PathVariable int id) {
         Light light = _lightService.findLightById(id)
@@ -82,15 +82,15 @@ public class LightsController {
         _lightService.removeLight(light);
     }
 
-    @PutMapping(value = "updateLight")
+    @PutMapping(value = "/updateLight")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
-    public Light updateLight(@RequestBody LightDto lightDto){
+    public LightDto updateLight(@RequestBody LightDto lightDto){
         Light light = _lightService.findLightById(lightDto.Id)
                 .orElseThrow(() -> new EntityNotFoundException(lightDto.Id));
         light.setName(lightDto.Name);
         light.setBrightness(lightDto.Brightness);
         light = _lightService.updateLight(light);
 
-        return light;
+        return light.toDto();
     }
 }
