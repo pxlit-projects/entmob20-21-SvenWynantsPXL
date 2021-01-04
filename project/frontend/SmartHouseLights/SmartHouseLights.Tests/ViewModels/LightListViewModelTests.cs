@@ -49,5 +49,15 @@ namespace SmartHouseLights.Tests.ViewModels
 
             Assert.That(light.OnState, Is.True);
         }
+
+        [Test]
+        public void RefreshListCommandShouldRefreshExistingList()
+        {
+            _lightServiceMock.Setup(l => l.GetAllLights()).Returns(() => new List<Light>());
+
+            _lightListViewModel.RefreshListCommand.Execute(null);
+
+            Assert.That(_lightListViewModel.Lights, Is.Empty);
+        }
     }
 }
