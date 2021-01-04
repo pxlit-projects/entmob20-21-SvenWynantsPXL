@@ -17,7 +17,6 @@ namespace SmartHouseLights.Tests.ViewModels
         public void Setup()
         {
             _authServiceMock = new Mock<IAuthenticationService>();
-            _homeViewModel = new HomeViewModel(_authServiceMock.Object);
         }
 
         [Test]
