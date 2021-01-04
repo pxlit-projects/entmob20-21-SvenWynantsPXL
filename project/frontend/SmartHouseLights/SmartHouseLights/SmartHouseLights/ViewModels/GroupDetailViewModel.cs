@@ -25,12 +25,12 @@ namespace SmartHouseLights.ViewModels
         public GroupDetailViewModel(IGroupService groupService)
         {
             _groupService = groupService;
-            MessagingCenter.Instance.Subscribe<GroupListViewModel, int>(this, MessageConstants.GroupSelected,
-                (sender, groupId) =>
+            MessagingCenter.Instance.Subscribe<GroupListViewModel, LightGroup>(this, MessageConstants.GroupSelected,
+                (sender, group) =>
                 {
-                    Group = groupService.GetGroupById(groupId);
+                    Group = group;
+                    Title = $"Group: {Group.Name}";
                 });
-            Title = $"Group: {Group.Name}";
         }
 
         private void OnFlipSwitch()
@@ -39,11 +39,13 @@ namespace SmartHouseLights.ViewModels
             {
                 _groupService.TurnAllLightsOffInGroup(Group.Id);
                 Group.AllOnState = false;
+                Group.HasOnState = false;
             }
             else
             {
                 _groupService.TurnAllLightsOnInGroup(Group.Id);
                 Group.AllOnState = true;
+                Group.HasOnState = true;
             }
         }
     }

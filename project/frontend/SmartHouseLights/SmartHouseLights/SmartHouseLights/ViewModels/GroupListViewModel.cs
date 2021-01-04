@@ -38,9 +38,11 @@ namespace SmartHouseLights.ViewModels
             Groups = _groupService.GetAllGroups();
         }
 
-        private void OnGroupSelected(int id)
+        private void OnGroupSelected(int listId)
         {
-            MessagingCenter.Instance.Send(this, MessageConstants.GroupSelected, id);
+            int id = Groups[listId].Id;
+            LightGroup group = _groupService.GetGroupById(id);
+            MessagingCenter.Instance.Send(this, MessageConstants.GroupSelected, group);
             _navigationService.NavigateToAsync(nameof(GroupDetailView));
         }
 
