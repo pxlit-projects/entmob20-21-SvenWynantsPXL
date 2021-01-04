@@ -33,7 +33,7 @@ public class LightsController {
 
     @PutMapping(value = "/{id}/flipSwitch")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
-    public Light flipSwitch(@PathVariable int id) {
+    public LightDto flipSwitch(@PathVariable int id) {
         Light light = _lightService.findLightById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
 
@@ -57,7 +57,7 @@ public class LightsController {
             }
         }
 
-        return light;
+        return light.toDto();
     }
 
     @GetMapping(value = "/lights")

@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              util:ViewModelLocator.AutoWireViewModel="True"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SmartHouseLights.ViewModels;"
              x:Class="SmartHouseLights.Views.HomeView"
              xmlns:util="clr-namespace:SmartHouseLights.Util;assembly=SmartHouseLights"
              Title="{Binding Title}">
