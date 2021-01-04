@@ -51,8 +51,8 @@ namespace SmartHouseLights.ViewModels
 
         private void OnLightSelected(int lightId)
         {
-            MessagingCenter.Instance.Send(this, MessageConstants.LightSelected, Lights[lightId]);
             _navigationService.NavigateToAsync(nameof(LightDetailsView));
+            MessagingCenter.Instance.Send(this, MessageConstants.LightSelected, Lights[lightId]);
         }
 
         private void OnFlipPressed(int id)
