@@ -46,6 +46,7 @@ namespace SmartHouseLights.ViewModels
             var result = await _authService.Login(Username, Password);
             if (result != null)
             {
+                ErrorMessage = "";
                 await Shell.Current.GoToAsync($"//{nameof(HomeView)}");
             }
             else
