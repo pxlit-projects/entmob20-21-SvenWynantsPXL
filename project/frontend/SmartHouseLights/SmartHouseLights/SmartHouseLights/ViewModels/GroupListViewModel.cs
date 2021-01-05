@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using SmartHouseLights.Models;
 using SmartHouseLights.Services.Interfaces;
 using SmartHouseLights.Util;
@@ -51,10 +52,12 @@ namespace SmartHouseLights.ViewModels
             if (Groups[GetListId(id)].AllOnState)
             {
                 _groupService.TurnAllLightsOffInGroup(id);
+                Groups[GetListId(id)].HasOnState = false;
             }
             else
             {
                 _groupService.TurnAllLightsOnInGroup(id);
+                Groups[GetListId(id)].HasOnState = true;
             }
 
             Groups[GetListId(id)].AllOnState = !Groups[GetListId(id)].AllOnState;
