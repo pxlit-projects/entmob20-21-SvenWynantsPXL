@@ -51,7 +51,7 @@ namespace SmartHouseLights.ViewModels
             }
             else
             {
-                ErrorMessage = "Incorrect Password or Username";
+                ErrorMessage = "Incorrect password or username";
             }
         }
     }
