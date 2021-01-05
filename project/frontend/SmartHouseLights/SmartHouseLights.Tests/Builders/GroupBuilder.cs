@@ -29,6 +29,8 @@ namespace SmartHouseLights.Tests.Builders
                 new LightBuilder().WithId(1).WithDummy().Build(),
                 new LightBuilder().WithId(2).WithDummy().Build()
             };
+
+            _group.Lights = lights;
             return this;
         }
 
