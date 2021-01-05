@@ -1,5 +1,6 @@
 ﻿using Moq;
 using NUnit.Framework;
+using SmartHouseLights.Models;
 using SmartHouseLights.Services.Interfaces;
 using SmartHouseLights.Tests.Builders;
 using SmartHouseLights.ViewModels;
@@ -53,6 +54,39 @@ namespace SmartHouseLights.Tests.ViewModels
 
             Assert.That(_model.Light.OnState, Is.False);
             _lightServiceMock.Verify(l => l.FlipSwitch(1), Times.Once);
+        }
+
+        [Test]
+        public void OnFlipShouldRefreshCanExecute()
+        {
+            _model.Light = new LightBuilder().WithId(1).WithDummy().Build();
+            _model.Light.OnState = false;
+
+            _lightServiceMock.Setup(l => l.FlipSwitch(1)).Returns(() =>
+            {
+                _model.Light.OnState = !_model.Light.OnState;
+                return _model.Light;
+            });
+
+            _model.FlipSwitchCommand.Execute(null);
+
+            Assert.That(_model.OnDragCompletedCommand.CanExecute(null), Is.True);
+
+            _model.FlipSwitchCommand.Execute(null);
+
+            Assert.That(_model.OnDragCompletedCommand.CanExecute(null), Is.False);
+        }
+
+        [Test]
+        public void OnDragCompletedShouldCallUpdateLight()
+        {
+            _model.Light = new LightBuilder().WithId(1).WithDummy().Build();
+
+            _lightServiceMock.Setup(l => l.UpdateLight(_model.Light)).Returns(() => _model.Light);
+
+            _model.OnDragCompletedCommand.Execute(null);
+
+            _lightServiceMock.Verify(l => l.UpdateLight(_model.Light), Times.Once);
         }
     }
 }
