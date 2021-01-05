@@ -5,6 +5,7 @@ using SmartHouseLights.Models;
 using SmartHouseLights.Services.Interfaces;
 using SmartHouseLights.Tests.Builders;
 using SmartHouseLights.ViewModels;
+using SmartHouseLights.Views;
 
 namespace SmartHouseLights.Tests.ViewModels
 {
@@ -45,6 +46,8 @@ namespace SmartHouseLights.Tests.ViewModels
 
             _lightListViewModel.FlipSwitchCommand.Execute(1);
 
+            _lightServiceMock.Verify(l => l.FlipSwitch(1), Times.Once);
+
             Assert.That(light.OnState, Is.True);
         }
 
@@ -56,6 +59,19 @@ namespace SmartHouseLights.Tests.ViewModels
             _lightListViewModel.RefreshListCommand.Execute(null);
 
             Assert.That(_lightListViewModel.Lights, Is.Empty);
+        }
+
+        [Test]
+        public void OnLightSelectedShouldNavigateToDetailPage()
+        {
+            int id = 0;
+            Light light = _lightListViewModel.Lights[id];
+            _lightServiceMock.Setup(l => l.GetLightById(1)).Returns(() => light);
+
+            _lightListViewModel.LightSelectedCommand.Execute(id);
+
+            _lightServiceMock.Verify(l => l.GetLightById(1), Times.Once);
+            _navServiceMock.Verify(n => n.NavigateToAsync(nameof(LightDetailsView)), Times.Once);
         }
     }
 }
