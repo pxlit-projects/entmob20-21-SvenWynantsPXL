@@ -48,6 +48,10 @@ namespace SmartHouseLights.ViewModels
             {
                 await Shell.Current.GoToAsync($"//{nameof(HomeView)}");
             }
+            else
+            {
+                ErrorMessage = "Incorrect Password or Username";
+            }
         }
     }
 }
