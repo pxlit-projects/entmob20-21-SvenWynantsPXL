@@ -38,6 +38,16 @@ public class LightServiceImpl implements LightService {
         light = lightDao.save(light);
         lightApiService.addLight(light);
 
+        if(createLightDto.LightGroupId != 0) {
+            if (groupDao.findById(createLightDto.LightGroupId).isPresent()){
+                LightGroup group = groupDao.findById(createLightDto.LightGroupId).get();
+                List<Light> groupLights = group.getLights();
+                groupLights.add(light);
+                group.setLights(groupLights);
+                groupDao.save(group);
+            }
+        }
+
         return light;
     }
 
