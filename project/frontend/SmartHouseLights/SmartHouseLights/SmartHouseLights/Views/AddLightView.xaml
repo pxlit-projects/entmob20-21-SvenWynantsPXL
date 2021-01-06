@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:SmartHouseLights.ViewModels;assembly=SmartHouseLights"
+             xmlns:util="clr-namespace:SmartHouseLights.Util;assembly=SmartHouseLights"
+             util:ViewModelLocator.AutoWireViewModel="True"
+             x:Class="SmartHouseLights.Views.AddLightView"
+             Title="{Binding Title}">
+    <ContentPage.Content>
+        <StackLayout>
+
+            <Button Text="Save Light" Command="{Binding SaveLightCommand}"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -27,6 +27,8 @@ namespace SmartHouseLights.Util
             builder.RegisterType<GroupListViewModel>();
             builder.RegisterType<GroupDetailView>();
             builder.RegisterType<GroupDetailViewModel>();
+            builder.RegisterType<AddLightView>();
+            builder.RegisterType<AddLightViewModel>();
 
             builder.RegisterType<AuthenticationService>().As<IAuthenticationService>().SingleInstance();
             builder.RegisterType<NavigationService>().As<INavigationService>().SingleInstance();

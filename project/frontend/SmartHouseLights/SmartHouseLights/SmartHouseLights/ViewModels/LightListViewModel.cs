@@ -13,6 +13,8 @@ namespace SmartHouseLights.ViewModels
         private readonly ILightService _lightService;
         public Command LightSelectedCommand => new Command<int>(OnLightSelected);
 
+        public Command AddLightCommand => new Command(OnClickAdd);
+
         private bool _isRefreshing = false;
 
         public bool IsRefreshing
@@ -61,6 +63,11 @@ namespace SmartHouseLights.ViewModels
         {
             _lightService.FlipSwitch(id);
             Lights[GetListId(id)].OnState = !Lights[GetListId(id)].OnState;
+        }
+
+        private void OnClickAdd()
+        {
+            _navigationService.NavigateToAsync(nameof(AddLightView));
         }
 
         private void OnRefreshList()

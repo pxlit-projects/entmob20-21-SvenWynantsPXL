@@ -52,6 +52,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <Button Command="{Binding AddLightCommand}" Text="Add a light"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

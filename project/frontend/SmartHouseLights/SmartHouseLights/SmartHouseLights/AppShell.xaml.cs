@@ -14,6 +14,8 @@ namespace SmartHouseLights
             _service = service;
             InitializeComponent();
             Routing.RegisterRoute(nameof(LightDetailsView), typeof(LightDetailsView));
+            Routing.RegisterRoute(nameof(AddLightView), typeof(AddLightView));
+
             Routing.RegisterRoute(nameof(GroupDetailView), typeof(GroupDetailView));
         }
 
