@@ -34,7 +34,7 @@ public class LightServiceImpl implements LightService {
         light.setManufacturer(createLightDto.LightManufacturer);
         light.setOnState(false);
         light.setType(createLightDto.Type);
-
+        light.setBrightness(100);
         light = lightDao.save(light);
         lightApiService.addLight(light);
 
