@@ -31,7 +31,7 @@ namespace SmartHouseLights.ViewModels
         {
             _navigationService = navigationService;
             _lightService = lightService;
-
+            LightModel = new CreateLightModel();
             Groups = groupService.GetAllGroups();
 
             Title = "Add a light";
@@ -42,8 +42,8 @@ namespace SmartHouseLights.ViewModels
             if (LightModel.Name != null && !LightModel.Name.Equals("") && LightModel.Type != null && !LightModel.Type.Equals(""))
             {
                 Light light = _lightService.AddLight(LightModel);
+                _navigationService.NavigateToAsync($"//{nameof(LightListView)}");
             }
-            _navigationService.NavigateToAsync($"//{nameof(LightListView)}");
         }
     }
 }
