@@ -3,12 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:SmartHouseLights.ViewModels;assembly=SmartHouseLights"
              xmlns:util="clr-namespace:SmartHouseLights.Util;assembly=SmartHouseLights"
+             xmlns:converters="clr-namespace:SmartHouseLights.Converters;assembly=SmartHouseLights"
              util:ViewModelLocator.AutoWireViewModel="True"
              x:Class="SmartHouseLights.Views.AddLightView"
              Title="{Binding Title}">
     <ContentPage.Content>
-        <StackLayout>
-
+        <StackLayout Orientation="Vertical">
+            <Label Text="Name of light"></Label>
+            <Entry Text="{Binding LightModel.Name, Mode=TwoWay}" Placeholder="Name" WidthRequest="150"></Entry>
+            <Label Text="Type of light"></Label>
+            <Entry Text="{Binding LightModel.Type, Mode=TwoWay}" Placeholder="Type"></Entry>
+            <Label Text="Available groups:"></Label>
+            <Picker Title="select a group" ItemDisplayBinding="{Binding Name}" ItemsSource="{Binding Groups}"></Picker>
             <Button Text="Save Light" Command="{Binding SaveLightCommand}"></Button>
         </StackLayout>
     </ContentPage.Content>
