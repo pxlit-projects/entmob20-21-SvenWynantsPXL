@@ -29,7 +29,7 @@ namespace SmartHouseLights.Services
             client.DefaultRequestHeaders.Add("Authorization", authHeader);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            HttpResponseMessage response = client.GetAsync(url).Result;
+            HttpResponseMessage response = await client.GetAsync(url);
 
             _user = null;
 
