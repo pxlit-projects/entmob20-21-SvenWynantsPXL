@@ -42,8 +42,8 @@
                             <ViewCell.View> 
                                 <StackLayout HorizontalOptions="Start" Orientation="Horizontal" Grid.Column="0" Grid.Row="0" Margin="10, 2">
                                     <Label Text="Name: " Style="{DynamicResource ListItemTextStyle}" />
-                                    <Label Text="{Binding Name}" Style="{DynamicResource ListItemTextStyle}" />
-                                    <Button Text="{Binding OnState, Converter={StaticResource ButtonBoolToTextConverter}, Mode=OneWay}" HorizontalOptions="EndAndExpand"  CornerRadius="5" Margin="2" 
+                                    <Label Text="{Binding Name}" Style="{DynamicResource ListItemTextStyle}" WidthRequest="200" />
+                                    <Button Text="{Binding OnState, Converter={StaticResource ButtonBoolToTextConverter}, Mode=OneWay}" HorizontalOptions="EndAndExpand" CornerRadius="5" Margin="2" 
                                             Command="{Binding Path=BindingContext.FlipSwitchCommand, Source={x:Reference LightList}}"
                                             CommandParameter="{Binding Id}"></Button>
                                 </StackLayout>
