@@ -1,5 +1,7 @@
-﻿using Moq;
+﻿using System.Collections.Generic;
+using Moq;
 using NUnit.Framework;
+using SmartHouseLights.Domain.Models;
 using SmartHouseLights.Services.Interfaces;
 using SmartHouseLights.Tests.Builders;
 using SmartHouseLights.ViewModels;
@@ -64,6 +66,28 @@ namespace SmartHouseLights.Tests.ViewModels
             {
                 Assert.That(light.OnState, Is.False);
             }
+        }
+
+        [Test]
+        public void OnFlipSwitchCannotExecuteWhenGroupIsNullOrHasNoLights()
+        {
+            Assert.That(_model.FlipSwitchCommand.CanExecute(null), Is.False);
+
+            _model.Group = new GroupBuilder().WithId(1).Build();
+
+            Assert.That(_model.FlipSwitchCommand.CanExecute(null), Is.False);
+
+            _model.Group.Lights = new List<Light>();
+
+            Assert.That(_model.FlipSwitchCommand.CanExecute(null), Is.False);
+        }
+
+        [Test]
+        public void OnFlipSwitchCanExecuteWhenGroupHasLights()
+        {
+            _model.Group = new GroupBuilder().WithId(1).WithLights().Build();
+
+            Assert.That(_model.FlipSwitchCommand.CanExecute(null), Is.True);
         }
     }
 }
