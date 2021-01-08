@@ -34,14 +34,15 @@
                             <ViewCell.View>
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
                                     <Label Text="Name: " Style="{DynamicResource ListItemTextStyle}"/>
-                                    <Label Text="{Binding Group.Name}" Style="{DynamicResource ListItemTextStyle}" />
-                                    <Label Text="{Binding Group.OnState, Converter={StaticResource LabelStateConverter}}" Style="{DynamicResource ListItemDetailTextStyle}" />
+                                    <Label Text="{Binding Name}" Style="{DynamicResource ListItemTextStyle}" />
+                                    <Label Text="{Binding OnState, Converter={StaticResource LabelStateConverter}}" Style="{DynamicResource ListItemDetailTextStyle}" />
                                 </StackLayout>
                             </ViewCell.View>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <Button Text="Flip Switch" Command="{Binding FlipSwitchCommand}"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

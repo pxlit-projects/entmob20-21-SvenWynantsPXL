@@ -30,6 +30,7 @@ namespace SmartHouseLights.ViewModels
                 {
                     Group = group;
                     Title = $"Group: {Group.Name}";
+                    RefreshCanExecutes();
                 });
         }
 
@@ -65,6 +66,11 @@ namespace SmartHouseLights.ViewModels
             }
 
             return false;
+        }
+
+        private void RefreshCanExecutes()
+        {
+            FlipSwitchCommand.ChangeCanExecute();
         }
     }
 }
