@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             util:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:util="clr-namespace:SmartHouseLights.Util;assembly=SmartHouseLights"
+             x:Class="SmartHouseLights.Views.AddGroupView"
+             Title="{Binding Title}">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Name for the group" />
+            <Entry Text="{Binding GroupModel.Name, Mode=TwoWay}"></Entry>
+            <Label TextColor="Red" Text="{Binding ErrorMessage, Mode=OneWay}" VerticalOptions="EndAndExpand" VerticalTextAlignment="End"></Label>
+            <Button VerticalOptions="EndAndExpand" Command="{Binding SaveGroupCommand}" Text="Save Group"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -14,7 +14,8 @@
     <ContentPage.Content>
         <StackLayout VerticalOptions="FillAndExpand">
             <ListView x:Name="GroupList" SelectionMode="None" 
-                      ItemsSource="{Binding Groups, Mode=TwoWay}">
+                      ItemsSource="{Binding Groups, Mode=TwoWay}"
+                      RefreshCommand="{Binding RefreshListCommand}" IsPullToRefreshEnabled="True" IsRefreshing="{Binding IsRefreshing}">
                 <ListView.Behaviors>
                     <behaviors:EventToCommandBehavior
                        EventName="ItemTapped" Command="{Binding GroupSelectedCommand}"
@@ -47,6 +48,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <Button Text="Add a group" Command="{Binding AddGroupCommand}" VerticalOptions="EndAndExpand"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

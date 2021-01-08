@@ -18,6 +18,19 @@ namespace SmartHouseLights.ViewModels
                                             (_flipSwitchCommand = new Command<int>(OnFlipPressed));
         public Command GroupSelectedCommand => new Command<int>(OnGroupSelected);
 
+        private bool _isRefreshing = false;
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set
+            {
+                _isRefreshing = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Command RefreshListCommand => new Command(OnRefreshList);
+
         public Command AddGroupCommand => new Command(OnAddGroup);
 
         private List<LightGroup> _groups;
@@ -43,8 +56,8 @@ namespace SmartHouseLights.ViewModels
         {
             int id = Groups[listId].Id;
             LightGroup group = _groupService.GetGroupById(id);
-            MessagingCenter.Instance.Send(this, MessageConstants.GroupSelected, group);
             _navigationService.NavigateToAsync(nameof(GroupDetailView));
+            MessagingCenter.Instance.Send(this, MessageConstants.GroupSelected, group);
         }
 
         private void OnFlipPressed(int id)
@@ -65,7 +78,14 @@ namespace SmartHouseLights.ViewModels
 
         private void OnAddGroup()
         {
-            //TODO: _navigationService.NavigateToAsync(nameof());
+            _navigationService.NavigateToAsync(nameof(AddGroupView));
+        }
+
+        private void OnRefreshList()
+        {
+            IsRefreshing = true;
+            Groups = _groupService.GetAllGroups();
+            IsRefreshing = false;
         }
 
         private int GetListId(int id)
