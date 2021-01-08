@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using SmartHouseLights.Models;
 using SmartHouseLights.Services.Interfaces;
 using SmartHouseLights.Views;
@@ -14,6 +12,17 @@ namespace SmartHouseLights.ViewModels
         private readonly ILightService _lightService;
         
         public Command SaveLightCommand => new Command(OnSaveLightAsync);
+
+        private LightGroup _lightGroup;
+        public LightGroup CurrentGroup
+        {
+            get => _lightGroup;
+            set
+            {
+                _lightGroup = value;
+                OnPropertyChanged();
+            }
+        }
 
         private CreateLightModel _lightModel;
         public CreateLightModel LightModel
@@ -41,6 +50,10 @@ namespace SmartHouseLights.ViewModels
         {
             if (LightModel.Name != null && !LightModel.Name.Equals("") && LightModel.Type != null && !LightModel.Type.Equals(""))
             {
+                if (CurrentGroup != null)
+                {
+                    LightModel.LightGroupId = CurrentGroup.Id;
+                }
                 Light light = _lightService.AddLight(LightModel);
                 _navigationService.NavigateToAsync($"//{nameof(LightListView)}");
             }

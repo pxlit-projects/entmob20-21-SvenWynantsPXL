@@ -4,6 +4,7 @@
              xmlns:viewModels="clr-namespace:SmartHouseLights.ViewModels;assembly=SmartHouseLights"
              xmlns:util="clr-namespace:SmartHouseLights.Util;assembly=SmartHouseLights"
              xmlns:converters="clr-namespace:SmartHouseLights.Converters;assembly=SmartHouseLights"
+             xmlns:behaviors="clr-namespace:SmartHouseLights.Behaviors;assembly=SmartHouseLights"
              util:ViewModelLocator.AutoWireViewModel="True"
              x:Class="SmartHouseLights.Views.AddLightView"
              Title="{Binding Title}">
@@ -14,7 +15,7 @@
             <Label Text="Type of light"></Label>
             <Entry Text="{Binding LightModel.Type, Mode=TwoWay}" Placeholder="Type"></Entry>
             <Label Text="Available groups:"></Label>
-            <Picker Title="select a group" ItemDisplayBinding="{Binding Name}" ItemsSource="{Binding Groups}"></Picker>
+            <Picker Title="select a group" SelectedItem="{Binding CurrentGroup, Mode=TwoWay}" ItemDisplayBinding="{Binding Name}" ItemsSource="{Binding Groups}"></Picker>
             <Button Text="Save Light" Command="{Binding SaveLightCommand}"></Button>
         </StackLayout>
     </ContentPage.Content>
