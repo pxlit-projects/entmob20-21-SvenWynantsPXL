@@ -1,4 +1,4 @@
-﻿namespace SmartHouseLights.Models
+﻿namespace SmartHouseLights.Domain.Models
 {
     public class User
     {

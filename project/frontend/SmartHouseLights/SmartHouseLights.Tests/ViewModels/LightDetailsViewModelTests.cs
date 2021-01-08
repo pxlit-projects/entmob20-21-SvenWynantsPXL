@@ -1,6 +1,5 @@
 ﻿using Moq;
 using NUnit.Framework;
-using SmartHouseLights.Models;
 using SmartHouseLights.Services.Interfaces;
 using SmartHouseLights.Tests.Builders;
 using SmartHouseLights.ViewModels;
@@ -11,13 +10,15 @@ namespace SmartHouseLights.Tests.ViewModels
     public class LightDetailsViewModelTests
     {
         private Mock<ILightService> _lightServiceMock;
+        private Mock<INavigationService> _navServiceMock;
         private LightDetailsViewModel _model;
 
         [SetUp]
         public void Setup()
         {
             _lightServiceMock = new Mock<ILightService>();
-            _model = new LightDetailsViewModel(_lightServiceMock.Object);
+            _navServiceMock = new Mock<INavigationService>();
+            _model = new LightDetailsViewModel(_lightServiceMock.Object, _navServiceMock.Object);
         }
 
         [Test]

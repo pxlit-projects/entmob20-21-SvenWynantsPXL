@@ -9,6 +9,7 @@ namespace SmartHouseLights.ViewModels
     public class LoginViewModel : ViewModelBase
     {
         private readonly IAuthenticationService _authService;
+        private readonly INavigationService _navigationService;
         public ICommand LoginCommand => new Command(OnLogin);
 
         private string _username;
@@ -36,9 +37,10 @@ namespace SmartHouseLights.ViewModels
 
         public string ErrorMessage { get; set; }
 
-        public LoginViewModel(IAuthenticationService authService)
+        public LoginViewModel(IAuthenticationService authService, INavigationService navigationService)
         {
             _authService = authService;
+            _navigationService = navigationService;
         }
 
         private async void OnLogin()
@@ -47,7 +49,7 @@ namespace SmartHouseLights.ViewModels
             if (result != null)
             {
                 ErrorMessage = "";
-                await Shell.Current.GoToAsync($"//{nameof(HomeView)}");
+                await _navigationService.NavigateToAsync($"//{nameof(HomeView)}");
             }
             else
             {

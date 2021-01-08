@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using SmartHouseLights.Models;
+using SmartHouseLights.Domain.Models;
 using SmartHouseLights.Services.Interfaces;
 
 namespace SmartHouseLights.Services

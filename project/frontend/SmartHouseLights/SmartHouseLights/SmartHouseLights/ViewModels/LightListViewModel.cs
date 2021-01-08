@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using SmartHouseLights.Models;
+using SmartHouseLights.Domain.Models;
 using SmartHouseLights.Services.Interfaces;
 using SmartHouseLights.Util;
 using SmartHouseLights.Views;
@@ -28,10 +28,8 @@ namespace SmartHouseLights.ViewModels
         }
 
         public Command RefreshListCommand => new Command(OnRefreshList);
+        public Command FlipSwitchCommand => new Command<int>(OnFlipPressed);
 
-        private Command _flipSwitchCommand;
-        public Command FlipSwitchCommand => _flipSwitchCommand ??
-                                            (_flipSwitchCommand = new Command<int>(OnFlipPressed));
         private List<Light> _lights;
         public List<Light> Lights 
         {

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
+using SmartHouseLights.Domain.Models;
 using SmartHouseLights.Models;
 using SmartHouseLights.Services;
 using SmartHouseLights.Services.Interfaces;

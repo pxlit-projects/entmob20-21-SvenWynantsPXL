@@ -1,4 +1,4 @@
-﻿using SmartHouseLights.Models;
+﻿using SmartHouseLights.Domain.Models;
 using SmartHouseLights.Services.Interfaces;
 using SmartHouseLights.Util;
 using Xamarin.Forms;

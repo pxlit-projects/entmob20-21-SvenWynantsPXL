@@ -1,10 +1,12 @@
 ﻿using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
+using SmartHouseLights.Domain.Models;
 using SmartHouseLights.Models;
 using SmartHouseLights.Services.Interfaces;
 using SmartHouseLights.Tests.Builders;
 using SmartHouseLights.ViewModels;
+using SmartHouseLights.Views;
 
 namespace SmartHouseLights.Tests.ViewModels
 {
@@ -13,12 +15,14 @@ namespace SmartHouseLights.Tests.ViewModels
     {
         private LoginViewModel _model;
         private Mock<IAuthenticationService> _authServiceMock;
+        private Mock<INavigationService> _navServiceMock;
 
         [SetUp]
         public void Setup()
         {
             _authServiceMock = new Mock<IAuthenticationService>();
-            _model = new LoginViewModel(_authServiceMock.Object);
+            _navServiceMock = new Mock<INavigationService>();
+            _model = new LoginViewModel(_authServiceMock.Object, _navServiceMock.Object);
         }
 
         [Test]
@@ -29,6 +33,7 @@ namespace SmartHouseLights.Tests.ViewModels
             _model.LoginCommand.Execute(null);
 
             Assert.That(_model.ErrorMessage, Is.EqualTo("Incorrect password or username"));
+            _navServiceMock.Verify(n => n.NavigateToAsync($"//{nameof(HomeView)}"), Times.Never);
         }
 
         [Test]
@@ -43,6 +48,7 @@ namespace SmartHouseLights.Tests.ViewModels
             _model.LoginCommand.Execute(null);
 
             Assert.That(_model.ErrorMessage, Is.EqualTo(""));
+            _navServiceMock.Verify(n => n.NavigateToAsync($"//{nameof(HomeView)}"), Times.Once);
         }
     }
 }

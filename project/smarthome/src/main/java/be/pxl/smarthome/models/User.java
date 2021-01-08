@@ -3,6 +3,7 @@ package be.pxl.smarthome.models;
 import be.pxl.smarthome.dto.ResponseUserDto;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -18,6 +19,8 @@ public class User {
     private boolean enabled;
     @Column(name = "role")
     private String role;
+    @ManyToMany
+    private List<LightGroup> groups;
 
     public User() {
     }

@@ -1,4 +1,5 @@
-﻿using SmartHouseLights.Models;
+﻿using SmartHouseLights.Domain.Models;
+using SmartHouseLights.Models;
 
 namespace SmartHouseLights.Tests.Builders
 {

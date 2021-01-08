@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using SmartHouseLights.Models;
+using SmartHouseLights.Domain.Models;
 
 namespace SmartHouseLights.Services.Interfaces
 {

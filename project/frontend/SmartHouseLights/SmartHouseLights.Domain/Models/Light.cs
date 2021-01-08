@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using SmartHouseLights.Annotations;
+using SmartHouseLights.Domain.Annotations;
 
-namespace SmartHouseLights.Models
+namespace SmartHouseLights.Domain.Models
 {
     public class Light : INotifyPropertyChanged
     {

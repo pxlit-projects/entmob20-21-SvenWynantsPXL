@@ -1,5 +1,4 @@
-﻿using SmartHouseLights.Models;
-using SmartHouseLights.Services;
+﻿using SmartHouseLights.Domain.Models;
 using SmartHouseLights.Services.Interfaces;
 
 namespace SmartHouseLights.ViewModels

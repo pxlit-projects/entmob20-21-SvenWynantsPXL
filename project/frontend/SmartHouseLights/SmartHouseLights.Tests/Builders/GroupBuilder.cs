@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using SmartHouseLights.Models;
+using SmartHouseLights.Domain.Models;
 
 namespace SmartHouseLights.Tests.Builders
 {
@@ -10,10 +10,7 @@ namespace SmartHouseLights.Tests.Builders
 
         public GroupBuilder()
         {
-            _group = new LightGroup();
-            _group.AllOnState = false;
-            _group.HasOnState = false;
-            _group.Name = Guid.NewGuid().ToString();
+            _group = new LightGroup {AllOnState = false, HasOnState = false, Name = Guid.NewGuid().ToString()};
         }
 
         public GroupBuilder WithId(int id)

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using SmartHouseLights.Models;
+using SmartHouseLights.Domain.Models;
 using SmartHouseLights.Services.Interfaces;
 using SmartHouseLights.Util;
 using SmartHouseLights.Views;
@@ -13,9 +12,7 @@ namespace SmartHouseLights.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IGroupService _groupService;
 
-        private Command _flipSwitchCommand;
-        public Command FlipSwitchCommand => _flipSwitchCommand ??
-                                            (_flipSwitchCommand = new Command<int>(OnFlipPressed));
+        public Command FlipSwitchCommand => new Command<int>(OnFlipPressed);
         public Command GroupSelectedCommand => new Command<int>(OnGroupSelected);
 
         private bool _isRefreshing = false;

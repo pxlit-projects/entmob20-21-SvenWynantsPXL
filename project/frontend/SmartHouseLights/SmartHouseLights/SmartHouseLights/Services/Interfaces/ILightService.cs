@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using SmartHouseLights.Domain.Models;
 using SmartHouseLights.Models;
 
 namespace SmartHouseLights.Services.Interfaces

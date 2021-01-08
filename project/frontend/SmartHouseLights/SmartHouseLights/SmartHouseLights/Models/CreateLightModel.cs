@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using SmartHouseLights.Annotations;
+using SmartHouseLights.Domain.Models;
 
 namespace SmartHouseLights.Models
 {
