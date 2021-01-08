@@ -25,6 +25,8 @@
                 <Label Text="{Binding Light.Brightness, Mode=OneWay}"></Label>
             </StackLayout>
             <Button Command="{Binding FlipSwitchCommand}" Text="Flip switch"></Button>
+            <Label Text="{Binding ErrorMessage, Mode=OneWay}" TextColor="Red"></Label>
+            <Button Command="{Binding DeleteLightCommand}" Text="Delete light" Margin="20"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

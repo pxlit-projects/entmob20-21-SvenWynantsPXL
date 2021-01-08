@@ -10,5 +10,6 @@ namespace SmartHouseLights.Services.Interfaces
         Light AddLight(CreateLightModel light);
         Light UpdateLight(Light light);
         Light GetLightById(int lightId);
+        bool DeleteLightById(int lightId);
     }
 }

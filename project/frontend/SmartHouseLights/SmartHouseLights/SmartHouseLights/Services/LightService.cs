@@ -101,5 +101,19 @@ namespace SmartHouseLights.Services
 
             return light;
         }
+
+        public bool DeleteLightById(int lightId)
+        {
+            var url = $"/lights/light/{lightId}";
+
+            HttpResponseMessage response = _client.DeleteAsync(url).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }
