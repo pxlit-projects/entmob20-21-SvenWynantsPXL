@@ -11,7 +11,7 @@ namespace SmartHouseLights.ViewModels
         private readonly INavigationService _navigationService;
         private readonly ILightService _lightService;
         
-        public Command SaveLightCommand => new Command(OnSaveLightAsync);
+        public Command SaveLightCommand => new Command(OnSaveLight);
 
         private LightGroup _lightGroup;
         public LightGroup CurrentGroup
@@ -46,7 +46,7 @@ namespace SmartHouseLights.ViewModels
             Title = "Add a light";
         }
 
-        public void OnSaveLightAsync()
+        public void OnSaveLight()
         {
             if (LightModel.Name != null && !LightModel.Name.Equals("") && LightModel.Type != null && !LightModel.Type.Equals(""))
             {
