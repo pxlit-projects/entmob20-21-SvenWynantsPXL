@@ -35,7 +35,7 @@ namespace SmartHouseLights.Services
 
         public LightGroup GetGroupById(int id)
         {
-            var url = $"/{id}";
+            var url = $"/groups/{id}";
 
             HttpResponseMessage response = _client.GetAsync(url).Result;
 
