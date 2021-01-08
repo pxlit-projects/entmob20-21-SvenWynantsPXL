@@ -94,6 +94,11 @@ public class Light {
         dto.Manufacturer = this.manufacturer;
         dto.OnState = this.isOnState;
         dto.Type = this.type;
+        if (this.group_id == null){
+            dto.GroupId = 0;
+        } else {
+            dto.GroupId = this.group_id;
+        }
         return dto;
     }
 }

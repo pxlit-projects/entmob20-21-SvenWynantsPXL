@@ -9,9 +9,11 @@ namespace SmartHouseLights.Tests.Builders
 
         public LightBuilder()
         {
-            _light = new Light();
-            _light.OnState = false;
-            _light.Name = Guid.NewGuid().ToString();
+            _light = new Light
+            {
+                OnState = false,
+                Name = Guid.NewGuid().ToString()
+            };
         }
 
         public LightBuilder WithDummy()

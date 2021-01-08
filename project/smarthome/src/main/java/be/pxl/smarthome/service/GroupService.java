@@ -1,6 +1,6 @@
 package be.pxl.smarthome.service;
 
-import be.pxl.smarthome.dto.GroupDto;
+import be.pxl.smarthome.dto.CreateGroupDto;
 import be.pxl.smarthome.models.Light;
 import be.pxl.smarthome.models.LightGroup;
 
@@ -13,7 +13,7 @@ public interface GroupService {
     void removeGroup(LightGroup group);
     LightGroup updateGroup(LightGroup group);
     LightGroup addLightToGroup(LightGroup group, Light light);
-    LightGroup addGroup(GroupDto groupDto);
+    LightGroup addGroup(CreateGroupDto createGroupDto);
     LightGroup turnOnLights(LightGroup group);
     LightGroup turnOffLights(LightGroup group);
 }

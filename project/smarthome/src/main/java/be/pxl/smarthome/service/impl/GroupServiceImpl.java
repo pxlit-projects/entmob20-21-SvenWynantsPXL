@@ -2,7 +2,7 @@ package be.pxl.smarthome.service.impl;
 
 import be.pxl.smarthome.dao.LightDao;
 import be.pxl.smarthome.dao.LightGroupDao;
-import be.pxl.smarthome.dto.GroupDto;
+import be.pxl.smarthome.dto.CreateGroupDto;
 import be.pxl.smarthome.models.Light;
 import be.pxl.smarthome.models.LightGroup;
 import be.pxl.smarthome.service.GroupService;
@@ -49,6 +49,9 @@ public class GroupServiceImpl implements GroupService {
 
     public LightGroup addLightToGroup(LightGroup group, Light light) {
         List<Light> lights = group.getLights();
+        if (lights == null || lights.size() == 0){
+            lights = new ArrayList<>();
+        }
         lights.add(light);
         group.setLights(lights);
         dao.save(group);
@@ -56,13 +59,13 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public LightGroup addGroup(GroupDto groupDto) {
+    public LightGroup addGroup(CreateGroupDto createGroupDto) {
         LightGroup group = new LightGroup();
         group.setLights(new ArrayList<>());
         group.setHasOnState(false);
         group.setAllOnState(false);
         group.setBrightness(100);
-        group.setName(groupDto.Name);
+        group.setName(createGroupDto.Name);
         group = dao.save(group);
         return group;
     }
@@ -97,13 +100,13 @@ public class GroupServiceImpl implements GroupService {
 
     @PostConstruct
     public void seedGroups() {
-        GroupDto dto1 = new GroupDto();
+        CreateGroupDto dto1 = new CreateGroupDto();
         dto1.Name = "Living Room";
         boolean exists1 = false;
-        GroupDto dto2 = new GroupDto();
+        CreateGroupDto dto2 = new CreateGroupDto();
         dto2.Name = "Kitchen";
         boolean exists2 = false;
-        GroupDto dto3 = new GroupDto();
+        CreateGroupDto dto3 = new CreateGroupDto();
         dto3.Name = "Bedroom 1";
         boolean exists3 = false;
         List<LightGroup> groups = this.getAllGroups();

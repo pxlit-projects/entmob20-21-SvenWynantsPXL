@@ -86,11 +86,28 @@ namespace SmartHouseLights.Services
 
         public LightGroup AddGroup(CreateGroupModel model)
         {
-            var url = "groups/addGroup";
+            var url = "/groups/addGroup";
             string stringContent = JsonConvert.SerializeObject(model);
             HttpContent httpContent = new StringContent(stringContent, Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = _client.PostAsync(url, httpContent).Result;
+
+            LightGroup group = null;
+
+            if (response.IsSuccessStatusCode)
+            {
+                string content = response.Content.ReadAsStringAsync().Result;
+                group = JsonConvert.DeserializeObject<LightGroup>(content);
+            }
+
+            return group;
+        }
+
+        public LightGroup AddLightToGroup(int groupId, int lightId)
+        {
+            var url = $"/groups/{groupId}/addLight/{lightId}";
+
+            HttpResponseMessage response = _client.PostAsync(url, null).Result;
 
             LightGroup group = null;
 

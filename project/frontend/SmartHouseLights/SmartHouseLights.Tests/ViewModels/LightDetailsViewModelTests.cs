@@ -1,5 +1,7 @@
-﻿using Moq;
+﻿using System.Collections.Generic;
+using Moq;
 using NUnit.Framework;
+using SmartHouseLights.Domain.Models;
 using SmartHouseLights.Services.Interfaces;
 using SmartHouseLights.Tests.Builders;
 using SmartHouseLights.ViewModels;
@@ -11,6 +13,7 @@ namespace SmartHouseLights.Tests.ViewModels
     {
         private Mock<ILightService> _lightServiceMock;
         private Mock<INavigationService> _navServiceMock;
+        private Mock<IGroupService> _groupServiceMock;
         private LightDetailsViewModel _model;
 
         [SetUp]
@@ -18,7 +21,20 @@ namespace SmartHouseLights.Tests.ViewModels
         {
             _lightServiceMock = new Mock<ILightService>();
             _navServiceMock = new Mock<INavigationService>();
-            _model = new LightDetailsViewModel(_lightServiceMock.Object, _navServiceMock.Object);
+            _groupServiceMock = new Mock<IGroupService>();
+
+            _groupServiceMock.Setup(g => g.GetAllGroups())
+                .Returns(() =>
+                {
+                    List<LightGroup> groups = new List<LightGroup>
+                    {
+                        new GroupBuilder().WithId(1).Build(),
+                        new GroupBuilder().WithId(2).Build()
+                    };
+                    return groups;
+                });
+
+            _model = new LightDetailsViewModel(_lightServiceMock.Object, _navServiceMock.Object, _groupServiceMock.Object);
         }
 
         [Test]

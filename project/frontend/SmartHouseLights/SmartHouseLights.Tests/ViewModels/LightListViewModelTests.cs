@@ -21,9 +21,11 @@ namespace SmartHouseLights.Tests.ViewModels
         {
             _navServiceMock = new Mock<INavigationService>();
             _lightServiceMock = new Mock<ILightService>();
-            List<Light> lights = new List<Light>();
-            lights.Add(new LightBuilder().WithDummy().WithId(1).Build());
-            lights.Add(new LightBuilder().WithDummy().WithId(2).Build());
+            List<Light> lights = new List<Light>
+            {
+                new LightBuilder().WithDummy().WithId(1).Build(),
+                new LightBuilder().WithDummy().WithId(2).Build()
+            };
 
             _lightServiceMock.Setup(l => l.GetAllLights()).Returns(() => lights);
             _lightListViewModel = new LightListViewModel(_navServiceMock.Object, _lightServiceMock.Object);

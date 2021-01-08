@@ -65,9 +65,11 @@ namespace SmartHouseLights.ViewModels
 
         private LightGroup CreateEmptyGroup()
         {
-            LightGroup group = new LightGroup();
-            group.Id = 0;
-            group.Name = "No Group";
+            LightGroup group = new LightGroup
+            {
+                Id = 0,
+                Name = "No Group"
+            };
             return group;
         }
     }

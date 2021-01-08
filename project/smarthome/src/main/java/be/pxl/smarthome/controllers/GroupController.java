@@ -1,6 +1,6 @@
 package be.pxl.smarthome.controllers;
 
-import be.pxl.smarthome.dto.GroupDto;
+import be.pxl.smarthome.dto.CreateGroupDto;
 import be.pxl.smarthome.exceptions.EntityAlreadyExistsException;
 import be.pxl.smarthome.exceptions.EntityNotFoundException;
 import be.pxl.smarthome.models.Light;
@@ -10,8 +10,6 @@ import be.pxl.smarthome.service.LightService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "groups")
@@ -51,14 +49,14 @@ public class GroupController {
     }
 
     @PostMapping(value = "/addGroup")
-    public LightGroup addGroup(@RequestBody GroupDto groupDto) {
+    public LightGroup addGroup(@RequestBody CreateGroupDto createGroupDto) {
         List<LightGroup> groups = groupService.getAllGroups();
 
-        if (groups.stream().anyMatch(l -> l.getName().equals(groupDto.Name))){
-            throw new EntityAlreadyExistsException(groupDto.Name);
+        if (groups.stream().anyMatch(l -> l.getName().equals(createGroupDto.Name))){
+            throw new EntityAlreadyExistsException(createGroupDto.Name);
         }
 
-        LightGroup group = groupService.addGroup(groupDto);
+        LightGroup group = groupService.addGroup(createGroupDto);
         return group;
     }
 

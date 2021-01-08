@@ -42,6 +42,9 @@ public class LightServiceImpl implements LightService {
             if (groupDao.findById(createLightDto.LightGroupId).isPresent()){
                 LightGroup group = groupDao.findById(createLightDto.LightGroupId).get();
                 List<Light> groupLights = group.getLights();
+                if (groupLights == null || groupLights.size() == 0){
+                    groupLights = new ArrayList<>();
+                }
                 groupLights.add(light);
                 group.setLights(groupLights);
                 groupDao.save(group);

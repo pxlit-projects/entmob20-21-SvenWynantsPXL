@@ -9,4 +9,5 @@ public class LightDto {
     public String Type;
     public boolean OnState;
     public LightManufacturer Manufacturer;
+    public int GroupId;
 }

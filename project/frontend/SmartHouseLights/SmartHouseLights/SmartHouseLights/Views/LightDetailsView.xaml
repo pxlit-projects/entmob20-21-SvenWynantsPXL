@@ -24,6 +24,11 @@
                 <Label Text="Brightness of light: "></Label>
                 <Label Text="{Binding Light.Brightness, Mode=OneWay}"></Label>
             </StackLayout>
+            <Label Text="Group of the light:"></Label>
+            <StackLayout Orientation="Horizontal">
+                <Picker SelectedItem="{Binding CurrentGroup, Mode=TwoWay}" ItemDisplayBinding="{Binding Name}" ItemsSource="{Binding Groups}"></Picker>
+                <Button Text="Save Group" Command="{Binding AddLightToGroupCommand}"></Button>
+            </StackLayout>
             <Button Command="{Binding FlipSwitchCommand}" Text="Flip switch"></Button>
             <Label Text="{Binding ErrorMessage, Mode=OneWay}" TextColor="Red"></Label>
             <Button Command="{Binding DeleteLightCommand}" Text="Delete light" Margin="20"></Button>
