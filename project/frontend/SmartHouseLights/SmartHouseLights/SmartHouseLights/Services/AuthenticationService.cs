@@ -25,7 +25,7 @@ namespace SmartHouseLights.Services
 
             var url = "/users/login";
             var client = _connectionFactory.GetHttpClient();
-            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add("Authorization", authHeader);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
