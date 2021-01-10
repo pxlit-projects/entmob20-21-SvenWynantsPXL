@@ -1,5 +1,8 @@
 ﻿using System;
 using Autofac;
+using SmartHouseLights.Data;
+using SmartHouseLights.Data.Services;
+using SmartHouseLights.Data.Services.Interfaces;
 using SmartHouseLights.Services;
 using SmartHouseLights.Services.Interfaces;
 using SmartHouseLights.ViewModels;
@@ -29,6 +32,10 @@ namespace SmartHouseLights.Util
             builder.RegisterType<LightService>().As<ILightService>().SingleInstance();
             builder.RegisterType<GroupService>().As<IGroupService>().SingleInstance();
             builder.RegisterType<ConnectionFactory>().As<IConnectionFactory>().SingleInstance();
+            builder.RegisterType<StatisticsService>().As<IStatisticsService>().SingleInstance();
+
+            builder.RegisterInstance(SmartHouseContextFactory.Create()).As<SmartHouseContext>();
+
             _container = builder.Build();
         }
 
