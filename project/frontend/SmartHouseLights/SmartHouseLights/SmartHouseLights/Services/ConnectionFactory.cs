@@ -28,5 +28,10 @@ namespace SmartHouseLights.Services
         {
             _authHeader = authHeader;
         }
+
+        public void RemoveHeader()
+        {
+            _authHeader = "";
+        }
     }
 }
