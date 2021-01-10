@@ -7,9 +7,32 @@
              Title="{Binding Title}">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Label Text="{Binding Title}" Style="{DynamicResource TitleStyle}"></Label>
+            <ListView SelectionMode="None" ItemsSource="{Binding Statistics}"
+                      RefreshCommand="{Binding RefreshStatsCommand}" IsRefreshing="{Binding IsRefreshing}" IsPullToRefreshEnabled="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout Orientation="Vertical">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Light with name:" FontAttributes="Bold"></Label>
+                                        <Label Text="{Binding Light.Name}"></Label>
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Last time light was turned on:" FontAttributes="Bold"></Label>
+                                        <Label Text="{Binding TurnedOnTime}"></Label>
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Hours the light has been on:" FontAttributes="Bold"></Label>
+                                        <Label Text="{Binding HoursOn}"></Label>
+                                    </StackLayout>
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
