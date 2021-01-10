@@ -8,10 +8,12 @@ namespace SmartHouseLights
     public partial class AppShell : Xamarin.Forms.Shell
     {
         private readonly INavigationService _service;
+        private readonly IConnectionFactory _connectionFactory;
 
-        public AppShell(INavigationService service)
+        public AppShell(INavigationService service, IConnectionFactory connectionFactory)
         {
             _service = service;
+            _connectionFactory = connectionFactory;
             InitializeComponent();
             Routing.RegisterRoute(nameof(LightDetailsView), typeof(LightDetailsView));
             Routing.RegisterRoute(nameof(AddLightView), typeof(AddLightView));
@@ -21,7 +23,8 @@ namespace SmartHouseLights
 
         private async void OnMenuItemClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("//LoginView");
+            _connectionFactory.RemoveHeader();
+            await _service.NavigateToAsync("//LoginView");
         }
     }
 }
