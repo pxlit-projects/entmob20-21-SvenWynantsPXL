@@ -13,12 +13,14 @@ namespace SmartHouseLights.Tests.ViewModels
     {
         private GroupDetailViewModel _model;
         private Mock<IGroupService> _groupServiceMock;
+        private Mock<INavigationService> _navServiceMock;
 
         [SetUp]
         public void Setup()
         {
             _groupServiceMock = new Mock<IGroupService>();
-            _model = new GroupDetailViewModel(_groupServiceMock.Object);
+            _navServiceMock = new Mock<INavigationService>();
+            _model = new GroupDetailViewModel(_groupServiceMock.Object, _navServiceMock.Object);
         }
 
         [Test]
@@ -88,6 +90,14 @@ namespace SmartHouseLights.Tests.ViewModels
             _model.Group = new GroupBuilder().WithId(1).WithLights().Build();
 
             Assert.That(_model.FlipSwitchCommand.CanExecute(null), Is.True);
+        }
+
+        [Test]
+        public void OnCanFlipSwitchShouldReturnTrueWhenGroupHasLights()
+        {
+            _model.Group = new GroupBuilder().WithId(1).WithLights().Build();
+
+            Assert.That(_model.OnCanFlipSwitch(), Is.True);
         }
     }
 }
