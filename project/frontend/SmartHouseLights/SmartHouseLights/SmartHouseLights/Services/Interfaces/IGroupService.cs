@@ -12,5 +12,6 @@ namespace SmartHouseLights.Services.Interfaces
         LightGroup TurnAllLightsOffInGroup(int groupId);
         LightGroup AddGroup(CreateGroupModel model);
         LightGroup AddLightToGroup(int groupId, int lightId);
+        bool DeleteGroupById(int groupId);
     }
 }
