@@ -19,6 +19,13 @@ namespace SmartHouseLights.Tests.Builders
             return this;
         }
 
+        public UserBuilder WithRegularUser()
+        {
+            _user.Name = Guid.NewGuid().ToString();
+            _user.Role = "ROLE_USER";
+            return this;
+        }
+
         public User Build()
         {
             return _user;
