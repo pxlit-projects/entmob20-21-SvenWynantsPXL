@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -71,6 +72,7 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
+    @Transactional
     public LightGroup turnOnLights(LightGroup group) {
         group.setAllOnState(true);
         for (Light light : group.getLights()) {
@@ -85,6 +87,7 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
+    @Transactional
     public LightGroup turnOffLights(LightGroup group) {
         group.setAllOnState(false);
         group.setHasOnState(false);
