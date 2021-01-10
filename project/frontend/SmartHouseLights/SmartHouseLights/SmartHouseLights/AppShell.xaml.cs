@@ -1,6 +1,7 @@
 ﻿using SmartHouseLights.Views;
 using System;
 using SmartHouseLights.Services.Interfaces;
+using SmartHouseLights.Util;
 using Xamarin.Forms;
 
 namespace SmartHouseLights
@@ -26,6 +27,7 @@ namespace SmartHouseLights
         {
             _connectionFactory.RemoveHeader();
             await _service.NavigateToAsync("//LoginView");
+            Application.Current.MainPage = new AppShell(AppContainer.Resolve<INavigationService>(), AppContainer.Resolve<IConnectionFactory>());
         }
     }
 }
