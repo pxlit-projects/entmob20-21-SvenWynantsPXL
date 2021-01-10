@@ -20,6 +20,7 @@
         <ScrollView Grid.Row="1">
             <StackLayout Orientation="Vertical" Padding="30,24,30,24" Spacing="10">
                 <Label Text="Welcome on the smart home app!" FontSize="Title"/>
+                <Button Text="Go to user management" Command="{Binding GoToUserManagementCommand}" CornerRadius="10" Margin="30"></Button>
                 <Button Text="Show statistics" Command="{Binding GoToStatisticsCommand}" VerticalOptions="EndAndExpand" Margin="30" CornerRadius="10"></Button>
             </StackLayout>
         </ScrollView>

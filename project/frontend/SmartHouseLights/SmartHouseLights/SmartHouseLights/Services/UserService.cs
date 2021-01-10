@@ -48,5 +48,22 @@ namespace SmartHouseLights.Services
 
             return response.IsSuccessStatusCode;
         }
+
+        public User FindUserById(int userId)
+        {
+            var url = $"/users/{userId}";
+
+            HttpResponseMessage response = _client.GetAsync(url).Result;
+
+            User user = null;
+
+            if (response.IsSuccessStatusCode)
+            {
+                string content = response.Content.ReadAsStringAsync().Result;
+                user = JsonConvert.DeserializeObject<User>(content);
+            }
+
+            return user;
+        }
     }
 }

@@ -6,10 +6,39 @@
              x:Class="SmartHouseLights.Views.UserManagementView"
              Title="{Binding Title}">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Orientation="Vertical" x:Name="StackLayout">
+            <Label Text="User to edit:"></Label>
+            <Picker SelectedItem="{Binding CurrentUser, Mode=TwoWay}" ItemDisplayBinding="{Binding Name}" ItemsSource="{Binding Users}"></Picker>
+            <Label Text="Enabled groups:" FontAttributes="Bold"></Label>
+            <ListView ItemsSource="{Binding EnabledGroups}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding Name}" WidthRequest="200"></Label>
+                                    <Button Text="Disable" CommandParameter="{Binding Id}" Command="{Binding Path=BindingContext.DisableGroupCommand, Source={x:Reference StackLayout}}"></Button>
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Label Text="Disabled groups:" FontAttributes="Bold"></Label>
+            <ListView ItemsSource="{Binding DisabledGroups}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding Name}" WidthRequest="200"></Label>
+                                    <Button Text="Enable" CommandParameter="{Binding Id}" Command="{Binding Path=BindingContext.EnableGroupCommand, Source={x:Reference StackLayout}}"></Button>
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

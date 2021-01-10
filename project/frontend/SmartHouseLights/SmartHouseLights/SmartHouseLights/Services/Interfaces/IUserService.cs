@@ -8,5 +8,6 @@ namespace SmartHouseLights.Services.Interfaces
         List<User> GetAllUsers();
         bool RestrictUserForGroup(int userId, int groupId);
         bool RemoveRestriction(int userId, int groupId);
+        User FindUserById(int userId);
     }
 }

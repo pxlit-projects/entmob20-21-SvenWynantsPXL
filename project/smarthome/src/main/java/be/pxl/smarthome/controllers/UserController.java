@@ -40,6 +40,14 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    @GetMapping(value = "/{id}")
+    @Secured({"ROLE_ADMIN"})
+    public ResponseUserDto getUserById(@PathVariable int id){
+        return userService.findUserById(id)
+                .orElseThrow(() -> new EntityNotFoundException(id))
+                .toUserDto();
+    }
+
     @PutMapping(value = "/{userId}/addRestriction/{groupId}")
     @Secured({"ROLE_ADMIN"})
     public void restrictUserToGroup(@PathVariable int userId, @PathVariable int groupId){
