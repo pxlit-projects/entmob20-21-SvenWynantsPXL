@@ -15,12 +15,16 @@ namespace SmartHouseLights.Tests.ViewModels
         private GroupListViewModel _model;
         private Mock<INavigationService> _navServiceMock;
         private Mock<IGroupService> _groupServiceMock;
+        private Mock<IAuthenticationService> _authServiceMock;
 
         [SetUp]
         public void Setup()
         {
             _navServiceMock = new Mock<INavigationService>();
             _groupServiceMock = new Mock<IGroupService>();
+            _authServiceMock = new Mock<IAuthenticationService>();
+            _authServiceMock.Setup(a => a.GetUser())
+                .Returns(() => new UserBuilder().Build());
 
             List<LightGroup> groups = new List<LightGroup> 
             {
@@ -30,7 +34,7 @@ namespace SmartHouseLights.Tests.ViewModels
 
             _groupServiceMock.Setup(g => g.GetAllGroups()).Returns(() => groups);
 
-            _model = new GroupListViewModel(_navServiceMock.Object, _groupServiceMock.Object);
+            _model = new GroupListViewModel(_navServiceMock.Object, _groupServiceMock.Object, _authServiceMock.Object);
         }
 
         [Test]

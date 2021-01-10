@@ -11,7 +11,6 @@ namespace SmartHouseLights.Tests.Builders
             _stat = new UserLightStatistic
             {
                 TurnedOnTime = DateTime.Now,
-                User = new UserBuilder().Build(),
                 UserId = 1,
                 HoursOn = 0
             };

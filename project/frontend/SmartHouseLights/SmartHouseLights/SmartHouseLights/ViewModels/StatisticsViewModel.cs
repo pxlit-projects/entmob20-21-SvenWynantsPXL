@@ -8,8 +8,19 @@ namespace SmartHouseLights.ViewModels
 {
     public class StatisticsViewModel : ViewModelBase
     {
+        private readonly IAuthenticationService _authService;
         private readonly IStatisticsService _statisticsService;
-        private readonly User _user;
+
+        private User _user;
+        public User User
+        {
+            get => _user;
+            set
+            {
+                _user = value;
+                OnPropertyChanged();
+            }
+        }
 
         private bool _isRefreshing = false;
         public bool IsRefreshing
@@ -37,18 +48,20 @@ namespace SmartHouseLights.ViewModels
 
         public StatisticsViewModel(IAuthenticationService authService, IStatisticsService statisticsService)
         {
+            _authService = authService;
             _statisticsService = statisticsService;
             _user = authService.GetUser();
 
-            Title = $"Statistics for {_user.Name}";
+            Title = $"Statistics for {User.Name}";
             
-            Statistics = statisticsService.GetAllStatisticsForUserWithId(_user.Id);
+            Statistics = statisticsService.GetAllStatisticsForUserWithId(User.Id);
         }
 
         private void OnRefreshStats()
         {
             IsRefreshing = true;
-            Statistics = _statisticsService.GetAllStatisticsForUserWithId(_user.Id);
+            User = _authService.GetUser();
+            Statistics = _statisticsService.GetAllStatisticsForUserWithId(User.Id);
             IsRefreshing = false;
         }
     }

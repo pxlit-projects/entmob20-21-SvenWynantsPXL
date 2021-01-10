@@ -8,7 +8,6 @@ namespace SmartHouseLights.Domain.Models
         public int LightId { get; set; }
         public Light Light { get; set; }
         public int UserId { get; set; }
-        public User User { get; set; }
         public DateTime TurnedOnTime { get; set; }
         public double HoursOn { get; set; }
     }

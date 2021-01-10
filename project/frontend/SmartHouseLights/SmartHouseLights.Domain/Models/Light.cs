@@ -36,8 +36,8 @@ namespace SmartHouseLights.Domain.Models
         }
 
         public Manufacturer Manufacturer { get; set; }
+        
         private int _groupId;
-
         public int GroupId
         {
             get => _groupId;

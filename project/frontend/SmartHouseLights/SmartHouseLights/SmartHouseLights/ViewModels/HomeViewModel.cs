@@ -9,7 +9,18 @@ namespace SmartHouseLights.ViewModels
     {
         private readonly INavigationService _navService;
         public Command GoToStatisticsCommand => new Command(OnGoToStats);
-        public User User { get; set; }
+        
+        private User _user;
+        public User User
+        {
+            get => _user;
+            set
+            {
+                _user = value;
+                OnPropertyChanged();
+            }
+        }
+
         public HomeViewModel(IAuthenticationService authenticationService, INavigationService navService)
         {
             _navService = navService;

@@ -11,6 +11,7 @@ namespace SmartHouseLights.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly IGroupService _groupService;
+        private readonly User _user;
 
         public Command FlipSwitchCommand => new Command<int>(OnFlipPressed, OnCanFlipSwitch);
         public Command GroupSelectedCommand => new Command<int>(OnGroupSelected);
@@ -41,10 +42,11 @@ namespace SmartHouseLights.ViewModels
             }
         }
 
-        public GroupListViewModel(INavigationService navigationService, IGroupService groupService)
+        public GroupListViewModel(INavigationService navigationService, IGroupService groupService, IAuthenticationService authService)
         {
             _navigationService = navigationService;
             _groupService = groupService;
+            _user = authService.GetUser();
             Title = "LightGroups";
             Groups = _groupService.GetAllGroups();
         }
@@ -90,11 +92,26 @@ namespace SmartHouseLights.ViewModels
         {
             if (Groups[GetListId(id)].Lights?.Count > 0)
             {
-                return true;
-            }
+                if (_user.Groups == null || _user.Groups.Count < 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    foreach (var lightGroup in _user.Groups)
+                    {
+                        if (id == lightGroup.Id)
+                        {
+                            return false;
+                        }
+                    }
 
+                    return true;
+                }
+            }
             return false;
         }
+
         private int GetListId(int id)
         {
             for (int i = 0; i < Groups.Count; i++)

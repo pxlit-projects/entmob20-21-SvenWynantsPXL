@@ -7,6 +7,6 @@ namespace SmartHouseLights.Domain.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Role { get; set; }
-        public List<UserLightStatistic> Statistics { get; set; }
+        public List<LightGroup> Groups { get; set; }
     }
 }

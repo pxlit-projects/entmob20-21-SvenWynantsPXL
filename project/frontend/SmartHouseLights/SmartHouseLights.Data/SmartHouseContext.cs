@@ -10,7 +10,6 @@ namespace SmartHouseLights.Data
     public class SmartHouseContext : DbContext
     {
         public DbSet<Light> Lights { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<UserLightStatistic> UserLightStatistics { get; set; }
         public SmartHouseContext() { }
 
@@ -31,11 +30,9 @@ namespace SmartHouseLights.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Light>().HasKey(l => l.Id);
-            modelBuilder.Entity<User>().HasKey(u => u.Id);
             modelBuilder.Entity<UserLightStatistic>().HasKey(u => u.Id);
 
-            modelBuilder.Entity<UserLightStatistic>().HasOne<User>(u => u.User).WithMany(s => s.Statistics);
-            modelBuilder.Entity<UserLightStatistic>().HasOne<Light>(u => u.Light).WithMany(s => s.Statistics);
+            modelBuilder.Entity<UserLightStatistic>().HasOne<Light>(u => u.Light).WithMany(s => s.Statistics).HasForeignKey(u => u.LightId);
             base.OnModelCreating(modelBuilder);
         }
     }

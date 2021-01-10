@@ -26,20 +26,6 @@ namespace SmartHouseLights.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true),
-                    Role = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "UserLightStatistics",
                 columns: table => new
                 {
@@ -59,23 +45,12 @@ namespace SmartHouseLights.Data.Migrations
                         principalTable: "Lights",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserLightStatistics_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserLightStatistics_LightId",
                 table: "UserLightStatistics",
                 column: "LightId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserLightStatistics_UserId",
-                table: "UserLightStatistics",
-                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -85,9 +60,6 @@ namespace SmartHouseLights.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Lights");
-
-            migrationBuilder.DropTable(
-                name: "Users");
         }
     }
 }

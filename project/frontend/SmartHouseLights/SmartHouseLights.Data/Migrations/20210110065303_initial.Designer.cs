@@ -9,7 +9,7 @@ using SmartHouseLights.Data;
 namespace SmartHouseLights.Data.Migrations
 {
     [DbContext(typeof(SmartHouseContext))]
-    [Migration("20210110034452_initial")]
+    [Migration("20210110065303_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,23 +47,6 @@ namespace SmartHouseLights.Data.Migrations
                     b.ToTable("Lights");
                 });
 
-            modelBuilder.Entity("SmartHouseLights.Domain.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Role")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
             modelBuilder.Entity("SmartHouseLights.Domain.Models.UserLightStatistic", b =>
                 {
                     b.Property<int>("Id")
@@ -86,8 +69,6 @@ namespace SmartHouseLights.Data.Migrations
 
                     b.HasIndex("LightId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("UserLightStatistics");
                 });
 
@@ -99,23 +80,10 @@ namespace SmartHouseLights.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SmartHouseLights.Domain.Models.User", "User")
-                        .WithMany("Statistics")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Light");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SmartHouseLights.Domain.Models.Light", b =>
-                {
-                    b.Navigation("Statistics");
-                });
-
-            modelBuilder.Entity("SmartHouseLights.Domain.Models.User", b =>
                 {
                     b.Navigation("Statistics");
                 });

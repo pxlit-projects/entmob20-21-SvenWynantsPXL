@@ -63,7 +63,6 @@ namespace SmartHouseLights.Services
                         statistic = new UserLightStatistic
                         {
                             UserId = user.Id,
-                            User = user,
                             Light = light,
                             LightId = light.Id,
                             HoursOn = 0,
