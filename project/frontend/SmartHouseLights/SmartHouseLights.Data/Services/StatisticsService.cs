@@ -22,7 +22,7 @@ namespace SmartHouseLights.Data.Services
                 UserLightStatistic statistic = _context.UserLightStatistics.First(u => u.UserId == userId && u.LightId == lightId);
                 return statistic;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
@@ -31,13 +31,11 @@ namespace SmartHouseLights.Data.Services
         public void SaveStatistic(UserLightStatistic statistic)
         {
             _context.UserLightStatistics.Update(statistic);
-            _context.SaveChanges();
         }
 
         public void AddStatistic(UserLightStatistic statistic)
         {
             _context.UserLightStatistics.Add(statistic);
-            _context.SaveChanges();
         }
 
         public List<UserLightStatistic> GetAllStatisticsForUserWithId(int userId)
