@@ -1,6 +1,7 @@
 ﻿using Moq;
 using NUnit.Framework;
 using SmartHouseLights.Services.Interfaces;
+using SmartHouseLights.Tests.Builders;
 using SmartHouseLights.ViewModels;
 using SmartHouseLights.Views;
 
@@ -18,16 +19,59 @@ namespace SmartHouseLights.Tests.ViewModels
         {
             _navServiceMock = new Mock<INavigationService>();
             _authServiceMock = new Mock<IAuthenticationService>();
+            _authServiceMock.Setup(a => a.GetUser())
+                .Returns(() => new UserBuilder().WithAdminUser().Build());
             _homeViewModel = new HomeViewModel(_navServiceMock.Object, _authServiceMock.Object);
         }
 
         [Test]
-        public void GoToStatisticPageShouldNavigate()
+        public void GoToStatisticPageShouldNavigateToStatisticsView()
         {
-            Assert.That(_homeViewModel.Title, Is.EqualTo("Welcome"));
             _homeViewModel.GoToStatisticsCommand.Execute(null);
 
             _navServiceMock.Verify(n => n.NavigateToAsync($"//{nameof(StatisticsView)}"), Times.Once);
+        }
+
+        [Test]
+        public void GoToUserManagementShouldNavigateToUserManagementView()
+        {
+            _homeViewModel.GoToUserManagementCommand.Execute(null);
+
+            _navServiceMock.Verify(n => n.NavigateToAsync($"{nameof(UserManagementView)}"), Times.Once);
+        }
+
+        [Test]
+        public void OnAdminShouldReturnFalseIfUserIsNoAdmin()
+        {
+            _authServiceMock.Setup(a => a.GetUser())
+                .Returns(() => new UserBuilder().WithRegularUser().Build());
+
+            Assert.False(_homeViewModel.GoToUserManagementCommand.CanExecute(null));
+        }
+
+        [Test]
+        public void OnAdminShouldReturnTrueIfUserIsAdmin()
+        {
+            Assert.True(_homeViewModel.GoToUserManagementCommand.CanExecute(null));
+        }
+
+        [Test]
+        public void TitleShouldBeWelcomeUsername()
+        {
+            var user = new UserBuilder().WithAdminUser().Build();
+
+            _authServiceMock.Setup(a => a.GetUser())
+                .Returns(() => user);
+
+            _homeViewModel = new HomeViewModel(_navServiceMock.Object, _authServiceMock.Object);
+
+            Assert.That(_homeViewModel.Title, Is.EqualTo($"Welcome {user.Name}"));
+        }
+
+        [Test]
+        public void UserShouldBeSetOnCreation()
+        {
+            Assert.That(_homeViewModel.User, Is.Not.Null);
         }
     }
 }
