@@ -9,7 +9,7 @@ namespace SmartHouseLights.Tests.Builders
 
         public UserBuilder()
         {
-            _user = new User();
+            _user = new User {Id = 1};
         }
 
         public UserBuilder WithAdminUser()
