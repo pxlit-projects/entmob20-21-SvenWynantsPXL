@@ -12,7 +12,7 @@ namespace SmartHouseLights.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IGroupService _groupService;
 
-        public Command FlipSwitchCommand => new Command<int>(OnFlipPressed);
+        public Command FlipSwitchCommand => new Command<int>(OnFlipPressed, OnCanFlipSwitch);
         public Command GroupSelectedCommand => new Command<int>(OnGroupSelected);
 
         private bool _isRefreshing = false;
@@ -86,6 +86,15 @@ namespace SmartHouseLights.ViewModels
             IsRefreshing = false;
         }
 
+        private bool OnCanFlipSwitch(int id)
+        {
+            if (Groups[GetListId(id)].Lights?.Count > 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
         private int GetListId(int id)
         {
             for (int i = 0; i < Groups.Count; i++)
