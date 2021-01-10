@@ -37,6 +37,17 @@ namespace SmartHouseLights.ViewModels
         }
         public List<LightGroup> Groups { get; set; }
 
+        private string _errorMessage;
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set
+            {
+                _errorMessage = value;
+                OnPropertyChanged();
+            }
+        }
+
         public AddLightViewModel(INavigationService navigationService, ILightService lightService, IGroupService groupService)
         {
             _navigationService = navigationService;
@@ -58,8 +69,14 @@ namespace SmartHouseLights.ViewModels
                 {
                     LightModel.LightGroupId = CurrentGroup.Id;
                 }
+
+                ErrorMessage = "";
                 Light light = _lightService.AddLight(LightModel);
                 _navigationService.NavigateToAsync($"//{nameof(LightListView)}");
+            }
+            else
+            {
+                ErrorMessage = "All fields need to be entered.";
             }
         }
 
