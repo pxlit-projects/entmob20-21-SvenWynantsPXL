@@ -22,6 +22,7 @@ namespace SmartHouseLights.Tests.ViewModels
         [Test]
         public void GoToStatisticPageShouldNavigate()
         {
+            Assert.That(_homeViewModel.Title, Is.EqualTo("Welcome"));
             _homeViewModel.GoToStatisticsCommand.Execute(null);
 
             _navServiceMock.Verify(n => n.NavigateToAsync($"//{nameof(StatisticsView)}"), Times.Once);

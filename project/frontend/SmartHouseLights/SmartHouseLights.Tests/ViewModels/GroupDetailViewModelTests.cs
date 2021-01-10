@@ -14,13 +14,19 @@ namespace SmartHouseLights.Tests.ViewModels
         private GroupDetailViewModel _model;
         private Mock<IGroupService> _groupServiceMock;
         private Mock<INavigationService> _navServiceMock;
+        private Mock<IAuthenticationService> _authServiceMock;
 
         [SetUp]
         public void Setup()
         {
             _groupServiceMock = new Mock<IGroupService>();
             _navServiceMock = new Mock<INavigationService>();
-            _model = new GroupDetailViewModel(_groupServiceMock.Object, _navServiceMock.Object);
+            _authServiceMock = new Mock<IAuthenticationService>();
+
+            _authServiceMock.Setup(a => a.GetUser())
+                .Returns(() => new UserBuilder().WithAdminUser().Build());
+
+            _model = new GroupDetailViewModel(_groupServiceMock.Object, _navServiceMock.Object, _authServiceMock.Object);
         }
 
         [Test]
@@ -80,24 +86,39 @@ namespace SmartHouseLights.Tests.ViewModels
             Assert.That(_model.FlipSwitchCommand.CanExecute(null), Is.False);
 
             _model.Group.Lights = new List<Light>();
-
+            Assert.That(_model.ErrorMessage, Is.EqualTo("There are no lights to turn on"));
             Assert.That(_model.FlipSwitchCommand.CanExecute(null), Is.False);
         }
 
         [Test]
         public void OnFlipSwitchCanExecuteWhenGroupHasLights()
         {
+            _model.User = new UserBuilder().Build();
             _model.Group = new GroupBuilder().WithId(1).WithLights().Build();
 
+            Assert.That(_model.ErrorMessage, Is.EqualTo(""));
             Assert.That(_model.FlipSwitchCommand.CanExecute(null), Is.True);
         }
 
         [Test]
         public void OnCanFlipSwitchShouldReturnTrueWhenGroupHasLights()
         {
+            _model.User = new UserBuilder().Build();
             _model.Group = new GroupBuilder().WithId(1).WithLights().Build();
 
+            Assert.That(_model.ErrorMessage, Is.EqualTo(""));
             Assert.That(_model.OnCanFlipSwitch(), Is.True);
+        }
+
+        [Test]
+        public void OnCanFlipSwitchShouldReturnFalseWhenUserHasGroupInList()
+        {
+            _model.User = new UserBuilder().Build();
+            _model.Group = new GroupBuilder().WithId(1).WithLights().Build();
+            _model.User.Groups = new List<LightGroup>{_model.Group};
+
+            Assert.That(_model.OnCanFlipSwitch(), Is.False);
+            Assert.That(_model.ErrorMessage, Is.EqualTo("You may not access this group"));
         }
     }
 }

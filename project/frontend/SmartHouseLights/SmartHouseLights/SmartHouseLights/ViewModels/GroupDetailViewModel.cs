@@ -100,12 +100,24 @@ namespace SmartHouseLights.ViewModels
             {
                 if (User.Groups == null || User.Groups.Count < 1)
                 {
+                    ErrorMessage = "";
                     return true;
                 }
 
-                return User.Groups.All(lightGroup => lightGroup.Id != Group.Id);
+                foreach (var lightGroup in User.Groups)
+                {
+                    if (lightGroup.Id == Group.Id)
+                    {
+                        ErrorMessage = "You may not access this group";
+                        return false;
+                    }
+                }
+
+                ErrorMessage = "";
+                return true;
             }
 
+            ErrorMessage = "There are no lights to turn on";
             return false;
         }
 
