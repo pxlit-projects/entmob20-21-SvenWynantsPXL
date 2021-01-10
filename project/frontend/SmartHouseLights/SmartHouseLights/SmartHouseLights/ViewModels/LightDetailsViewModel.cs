@@ -17,7 +17,16 @@ namespace SmartHouseLights.ViewModels
         public Command OnDragCompletedCommand => new Command(OnDragCompleted, CanChangeBrightness);
         public Command AddLightToGroupCommand => new Command(OnAddToGroup);
 
-        public string ErrorMessage { get; set; }
+        private string _errorMessage;
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set
+            {
+                _errorMessage = value;
+                OnPropertyChanged();
+            }
+        }
 
         private LightGroup _currentGroup;
         public LightGroup CurrentGroup
@@ -49,7 +58,7 @@ namespace SmartHouseLights.ViewModels
             _lightService = lightService;
             _navigationService = navigationService;
             _groupService = groupService;
-
+            ErrorMessage = "";
             Groups = new List<LightGroup> {CreateEmptyGroup()};
             Groups.AddRange(groupService.GetAllGroups());
 
@@ -110,7 +119,12 @@ namespace SmartHouseLights.ViewModels
         {
             if (CurrentGroup.Id != 0)
             {
+                ErrorMessage = "";
                 _groupService.AddLightToGroup(CurrentGroup.Id, Light.Id);
+            }
+            else
+            {
+                ErrorMessage = "You cannot add no group!";
             }
         }
 

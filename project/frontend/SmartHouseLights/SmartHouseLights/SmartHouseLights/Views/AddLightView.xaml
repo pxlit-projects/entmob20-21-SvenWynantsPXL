@@ -16,6 +16,7 @@
             <Entry Text="{Binding LightModel.Type, Mode=TwoWay}" Placeholder="Type"></Entry>
             <Label Text="Available groups:"></Label>
             <Picker Title="select a group" SelectedItem="{Binding CurrentGroup, Mode=TwoWay}" ItemDisplayBinding="{Binding Name}" ItemsSource="{Binding Groups}"></Picker>
+            <Label TextColor="Red" Text="{Binding ErrorMessage, Mode=OneWay}" VerticalOptions="EndAndExpand" VerticalTextAlignment="End"></Label>
             <Button Text="Save Light" Command="{Binding SaveLightCommand}"></Button>
         </StackLayout>
     </ContentPage.Content>
