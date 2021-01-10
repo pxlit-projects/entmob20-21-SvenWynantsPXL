@@ -57,6 +57,10 @@ namespace SmartHouseLights.ViewModels
                     _navigationService.NavigateToAsync($"//{nameof(GroupListView)}");
                 }
             }
+            else
+            {
+                ErrorMessage = "You need to fill in Name";
+            }
         }
     }
 }
