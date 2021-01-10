@@ -73,7 +73,7 @@ public class LightsController {
                 .orElseThrow(() -> new EntityNotFoundException(id)).toDto();
     }
 
-    @DeleteMapping(value = "/light/{id}")
+    @DeleteMapping(value = "/{id}")
     @Secured({"ROLE_ADMIN"})
     public void removeLightById(@PathVariable int id) {
         Light light = _lightService.findLightById(id)
