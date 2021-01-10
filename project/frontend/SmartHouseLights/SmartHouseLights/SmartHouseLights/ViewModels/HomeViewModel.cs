@@ -9,17 +9,34 @@ namespace SmartHouseLights.ViewModels
     public class HomeViewModel : ViewModelBase
     {
         private readonly INavigationService _navService;
+        private readonly IAuthenticationService _authService;
         public Command GoToStatisticsCommand => new Command(OnGoToStats);
-        
-        public HomeViewModel(INavigationService navService)
+        public Command GoToUserManagementCommand => new Command(OnGoToUserManagement, OnAdmin);
+        public HomeViewModel(INavigationService navService, IAuthenticationService authService)
         {
             _navService = navService;
+            _authService = authService;
             Title = "Welcome";
         }
 
         private void OnGoToStats()
         {
             _navService.NavigateToAsync($"//{nameof(StatisticsView)}");
+        }
+
+        private void OnGoToUserManagement()
+        {
+            _navService.NavigateToAsync(nameof(UserManagementView));
+        }
+
+        private bool OnAdmin()
+        {
+            if (_authService.GetUser().Role.Equals("ROLE_ADMIN"))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

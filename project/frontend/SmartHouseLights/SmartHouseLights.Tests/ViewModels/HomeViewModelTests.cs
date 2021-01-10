@@ -11,12 +11,14 @@ namespace SmartHouseLights.Tests.ViewModels
     {
         private HomeViewModel _homeViewModel;
         private Mock<INavigationService> _navServiceMock;
+        private Mock<IAuthenticationService> _authServiceMock;
 
         [SetUp]
         public void Setup()
         {
             _navServiceMock = new Mock<INavigationService>();
-            _homeViewModel = new HomeViewModel(_navServiceMock.Object);
+            _authServiceMock = new Mock<IAuthenticationService>();
+            _homeViewModel = new HomeViewModel(_navServiceMock.Object, _authServiceMock.Object);
         }
 
         [Test]

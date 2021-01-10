@@ -19,6 +19,7 @@ namespace SmartHouseLights
             Routing.RegisterRoute(nameof(AddLightView), typeof(AddLightView));
             Routing.RegisterRoute(nameof(GroupDetailView), typeof(GroupDetailView));
             Routing.RegisterRoute(nameof(AddGroupView), typeof(AddGroupView));
+            Routing.RegisterRoute(nameof(UserManagementView), typeof(UserManagementView));
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)
