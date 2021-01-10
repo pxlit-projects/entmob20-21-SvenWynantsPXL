@@ -105,5 +105,25 @@ namespace SmartHouseLights.Tests.ViewModels
 
             _lightServiceMock.Verify(l => l.UpdateLight(_model.Light), Times.Once);
         }
+
+        [Test]
+        public void AddLightToGroupShouldPutLightInAGroup()
+        {
+            _model.CurrentGroup = new GroupBuilder().WithId(0).Build();
+            _model.Light = new LightBuilder().WithId(1).WithDummy().Build();
+            _groupServiceMock.Setup(g => g.AddLightToGroup(1, 1)).Returns(() => _model.CurrentGroup);
+            
+            _model.AddLightToGroupCommand.Execute(null);
+
+            _groupServiceMock.Verify(g => g.AddLightToGroup(0, 1), Times.Never);
+            Assert.That(_model.ErrorMessage, Is.EqualTo("You cannot add no group!"));
+
+            _model.CurrentGroup = new GroupBuilder().WithId(1).Build();
+
+            _model.AddLightToGroupCommand.Execute(null);
+
+            _groupServiceMock.Verify(g => g.AddLightToGroup(1, 1), Times.Once);
+            Assert.That(_model.ErrorMessage, Is.EqualTo(""));
+        }
     }
 }
