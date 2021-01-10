@@ -75,16 +75,17 @@ namespace SmartHouseLights.Services
                         statistic.TurnedOnTime = DateTime.Now;
                         _statisticsService.SaveStatistic(statistic);
                     }
-                    
                 }
                 else
                 {
-                    DateTime turnedOf = DateTime.Now;
-                    statistic.HoursOn += (turnedOf - statistic.TurnedOnTime).TotalHours;
-                    _statisticsService.SaveStatistic(statistic);
+                    if (statistic != null)
+                    {
+                        DateTime turnedOf = DateTime.Now;
+                        statistic.HoursOn += (turnedOf - statistic.TurnedOnTime).TotalHours;
+                        _statisticsService.SaveStatistic(statistic);
+                    }
                 }
             }
-
             return light;
         }
 
