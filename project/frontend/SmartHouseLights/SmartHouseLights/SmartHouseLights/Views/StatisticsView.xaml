@@ -9,22 +9,20 @@
         <StackLayout>
             <Label Text="{Binding Title}" Style="{DynamicResource TitleStyle}"></Label>
             <ListView SelectionMode="None" ItemsSource="{Binding Statistics}"
-                      RefreshCommand="{Binding RefreshStatsCommand}" IsRefreshing="{Binding IsRefreshing}" IsPullToRefreshEnabled="True">
+                      RefreshCommand="{Binding RefreshStatsCommand}" IsRefreshing="{Binding IsRefreshing}" IsPullToRefreshEnabled="True" 
+                      RowHeight="80">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.View>
                                 <StackLayout Orientation="Vertical">
+                                    <Label Text="{Binding Light.Name}" FontAttributes="Bold"></Label>
                                     <StackLayout Orientation="Horizontal">
-                                        <Label Text="Light with name:" FontAttributes="Bold"></Label>
-                                        <Label Text="{Binding Light.Name}"></Label>
-                                    </StackLayout>
-                                    <StackLayout Orientation="Horizontal">
-                                        <Label Text="Last time light was turned on:" FontAttributes="Bold"></Label>
+                                        <Label Text="Time light was turned on:"></Label>
                                         <Label Text="{Binding TurnedOnTime}"></Label>
                                     </StackLayout>
                                     <StackLayout Orientation="Horizontal">
-                                        <Label Text="Hours the light has been on:" FontAttributes="Bold"></Label>
+                                        <Label Text="Hours on:"></Label>
                                         <Label Text="{Binding HoursOn}"></Label>
                                     </StackLayout>
                                 </StackLayout>
