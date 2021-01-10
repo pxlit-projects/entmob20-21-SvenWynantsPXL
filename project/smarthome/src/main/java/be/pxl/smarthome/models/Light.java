@@ -1,8 +1,10 @@
 package be.pxl.smarthome.models;
 
 import be.pxl.smarthome.dto.LightDto;
+import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "lights")
@@ -18,6 +20,8 @@ public class Light {
         this.type = type;
         this.name = name;
         this.manufacturer = manufacturer;
+        this.setOnSunDown(false);
+        this.setOnTimer(null);
     }
 
     @Id
@@ -37,6 +41,10 @@ public class Light {
     private LightManufacturer manufacturer;
     @Column(name = "group_id", nullable = true)
     private Integer group_id;
+    @Column(name = "ontimer")
+    private LocalDateTime onTimer;
+    @Column(name = "onsundown")
+    private boolean onSunDown;
 
     public Integer getId() {
         return id;
@@ -86,6 +94,22 @@ public class Light {
         return this.group_id;
     }
 
+    public LocalDateTime getOnTimer() {
+        return onTimer;
+    }
+
+    public void setOnTimer(LocalDateTime onTimer) {
+        this.onTimer = onTimer;
+    }
+
+    public boolean isOnSunDown() {
+        return onSunDown;
+    }
+
+    public void setOnSunDown(boolean onSunDown) {
+        this.onSunDown = onSunDown;
+    }
+
     public LightDto toDto(){
         LightDto dto = new LightDto();
         dto.Id = this.id;
@@ -94,6 +118,8 @@ public class Light {
         dto.Manufacturer = this.manufacturer;
         dto.OnState = this.isOnState;
         dto.Type = this.type;
+        dto.OnTimer = this.onTimer;
+        dto.OnSunDown = this.onSunDown;
         if (this.group_id == null){
             dto.GroupId = 0;
         } else {

@@ -2,6 +2,8 @@ package be.pxl.smarthome.dto;
 
 import be.pxl.smarthome.models.LightManufacturer;
 
+import java.time.LocalDateTime;
+
 public class LightDto {
     public int Id;
     public String Name;
@@ -10,4 +12,6 @@ public class LightDto {
     public boolean OnState;
     public LightManufacturer Manufacturer;
     public int GroupId;
+    public LocalDateTime OnTimer;
+    public boolean OnSunDown;
 }

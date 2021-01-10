@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using SmartHouseLights.Domain.Annotations;
@@ -44,6 +45,28 @@ namespace SmartHouseLights.Domain.Models
             set
             {
                 _groupId = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private DateTime _onTimer;
+        public DateTime OnTimer
+        {
+            get => _onTimer;
+            set
+            {
+                _onTimer = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _onSunDown;
+        public bool OnSunDown
+        {
+            get => _onSunDown;
+            set
+            {
+                _onSunDown = value;
                 OnPropertyChanged();
             }
         }

@@ -11,9 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 public class LightServiceImpl implements LightService {
@@ -35,6 +34,8 @@ public class LightServiceImpl implements LightService {
         light.setOnState(false);
         light.setType(createLightDto.Type);
         light.setBrightness(100);
+        light.setOnTimer(null);
+        light.setOnSunDown(false);
         light = lightDao.save(light);
         lightApiService.addLight(light);
 
@@ -137,5 +138,27 @@ public class LightServiceImpl implements LightService {
                 }
             }
         }
+    }
+
+    @PostConstruct
+    public void timerToCheckOnTime(){
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                List<Light> lights = lightDao.findAll();
+                for (Light light : lights){
+                    if (light.getOnTimer() != null && !light.getOnState()) {
+                        LocalDateTime lightTime = light.getOnTimer();
+                        if (lightTime.getMinute() == LocalDateTime.now().getMinute() && lightTime.getHour() == LocalDateTime.now().getHour()){
+                            light.setOnState(true);
+                            lightDao.save(light);
+                            System.out.println("light with Id " + light.getId() + " was turned on");
+                        }
+                    }
+                }
+            }
+        };
+        Timer timer = new Timer(true);
+        timer.scheduleAtFixedRate(timerTask, 0, 30 * 1000);
     }
 }
