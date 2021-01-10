@@ -24,11 +24,11 @@ namespace SmartHouseLights.Tests.ViewModels
             _groupServiceMock = new Mock<IGroupService>();
             _authServiceMock = new Mock<IAuthenticationService>();
             _authServiceMock.Setup(a => a.GetUser())
-                .Returns(() => new UserBuilder().Build());
+                .Returns(() => new UserBuilder().WithAdminUser().Build());
 
             List<LightGroup> groups = new List<LightGroup> 
             {
-                new GroupBuilder().WithId(1).Build(),
+                new GroupBuilder().WithId(1).WithLights().Build(),
                 new GroupBuilder().WithId(2).Build()
             };
 
@@ -88,12 +88,16 @@ namespace SmartHouseLights.Tests.ViewModels
         [Test]
         public void RefreshListCommandShouldFillListWithRecentData()
         {
+            var user = _model.User;
+            _authServiceMock.Setup(a => a.GetUser())
+                .Returns(() => new UserBuilder().WithAdminUser().Build());
             _model.Groups = new List<LightGroup>();
             _model.IsRefreshing = true;
             _model.RefreshListCommand.Execute(null);
 
             Assert.That(_model.Groups.Count, Is.EqualTo(2));
             Assert.That(_model.IsRefreshing, Is.False);
+            Assert.That(_model.User.Name, Is.Not.EqualTo(user.Name));
         }
 
         [Test]
@@ -102,6 +106,30 @@ namespace SmartHouseLights.Tests.ViewModels
             _model.AddGroupCommand.Execute(null);
 
             _navServiceMock.Verify(n => n.NavigateToAsync(nameof(AddGroupView)), Times.Once);
+        }
+
+        [Test]
+        public void OnCanFlipSwitchShouldReturnTrueIfUserGroupsIsNullOrEmpty()
+        {
+            Assert.That(_model.FlipSwitchCommand.CanExecute(1), Is.True);
+
+            _model.User.Groups = new List<LightGroup>();
+
+            Assert.That(_model.FlipSwitchCommand.CanExecute(1), Is.True);
+        }
+
+        [Test]
+        public void OnCanFlipSwitchShouldReturnFalseIfGroupLightsAreEmpty()
+        {
+            Assert.That(_model.FlipSwitchCommand.CanExecute(2), Is.False);
+        }
+
+        [Test]
+        public void OnCanFlipSwitchShouldReturnFalseIfGroupIsInUserGroupList()
+        {
+            _model.User.Groups = new List<LightGroup>{_model.Groups[0]};
+
+            Assert.That(_model.FlipSwitchCommand.CanExecute(1), Is.False);
         }
     }
 }
