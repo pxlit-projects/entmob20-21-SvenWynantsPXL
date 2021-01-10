@@ -59,18 +59,19 @@ namespace SmartHouseLights.ViewModels
 
         private void OnFlipPressed(int id)
         {
-            if (Groups[GetListId(id)].AllOnState)
+            int listId = GetListId(id);
+            if (Groups[listId].AllOnState)
             {
                 _groupService.TurnAllLightsOffInGroup(id);
-                Groups[GetListId(id)].HasOnState = false;
+                Groups[listId].HasOnState = false;
             }
             else
             {
                 _groupService.TurnAllLightsOnInGroup(id);
-                Groups[GetListId(id)].HasOnState = true;
+                Groups[listId].HasOnState = true;
             }
 
-            Groups[GetListId(id)].AllOnState = !Groups[GetListId(id)].AllOnState;
+            Groups[listId].AllOnState = !Groups[GetListId(id)].AllOnState;
         }
 
         private void OnAddGroup()
