@@ -80,5 +80,24 @@ namespace SmartHouseLights.Tests.ViewModels
             Assert.That(_model.Groups[0].AllOnState, Is.False);
             Assert.That(_model.Groups[0].HasOnState, Is.False);
         }
+
+        [Test]
+        public void RefreshListCommandShouldFillListWithRecentData()
+        {
+            _model.Groups = new List<LightGroup>();
+            _model.IsRefreshing = true;
+            _model.RefreshListCommand.Execute(null);
+
+            Assert.That(_model.Groups.Count, Is.EqualTo(2));
+            Assert.That(_model.IsRefreshing, Is.False);
+        }
+
+        [Test]
+        public void AddGroupCommandShouldNavigateToAddGroupView()
+        {
+            _model.AddGroupCommand.Execute(null);
+
+            _navServiceMock.Verify(n => n.NavigateToAsync(nameof(AddGroupView)), Times.Once);
+        }
     }
 }
