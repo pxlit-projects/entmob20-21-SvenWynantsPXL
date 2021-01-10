@@ -147,12 +147,7 @@ namespace SmartHouseLights.Services
 
             HttpResponseMessage response = _client.DeleteAsync(url).Result;
 
-            if (response.IsSuccessStatusCode)
-            {
-                return true;
-            }
-
-            return false;
+            return response.IsSuccessStatusCode;
         }
     }
 }
