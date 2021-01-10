@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
+using SmartHouseLights.Data.Services.Interfaces;
 using SmartHouseLights.Domain.Models;
 using SmartHouseLights.Models;
 using SmartHouseLights.Services;
@@ -13,14 +14,22 @@ namespace SmartHouseLights.Tests.Services
     public class GroupServiceTests
     {
         private IGroupService _groupService;
+        private ILightService _lightService;
         private Mock<IConnectionFactory> _connFactoryMock;
+        private Mock<IStatisticsService> _statServiceMock;
+        private Mock<IAuthenticationService> _authServiceMock;
 
         [SetUp]
         public void Setup()
         {
             _connFactoryMock = new Mock<IConnectionFactory>();
+            _authServiceMock = new Mock<IAuthenticationService>();
+            _statServiceMock = new Mock<IStatisticsService>();
+
             _connFactoryMock.Setup(c => c.GetHttpClient()).Returns(() => new ClientBuilder().Build());
+            
             _groupService = new GroupService(_connFactoryMock.Object);
+            _lightService = new LightService(_connFactoryMock.Object, _statServiceMock.Object, _authServiceMock.Object);
         }
 
         [Test]
@@ -83,6 +92,42 @@ namespace SmartHouseLights.Tests.Services
 
             Assert.That(group, Is.Not.Null);
             Assert.That(groupFail, Is.Null);
+        }
+
+        [Test]
+        public void AddLightToGroupShouldAddGivenLightWithIdToGroupWithGivenId()
+        {
+            LightGroup group = _groupService.GetAllGroups()[0];
+            int firstCount = group.Lights.Count;
+
+            Light light = _lightService.GetAllLights()[0];
+
+            LightGroup updatedGroup = _groupService.AddLightToGroup(group.Id, light.Id);
+            int secCount = updatedGroup.Lights.Count;
+
+            Assert.That(firstCount + 1, Is.EqualTo(secCount));
+        }
+
+        [Test]
+        public void DeleteGroupShouldReturnTrueIfSuccess()
+        {
+            CreateGroupModel model = new CreateGroupModel();
+            model.Name = "Testgroup to delete";
+            LightGroup group = _groupService.AddGroup(model);
+
+            bool success = _groupService.DeleteGroupById(group.Id);
+
+            Assert.That(group, Is.Not.Null);
+
+            Assert.True(success);
+        }
+
+        [Test]
+        public void DeleteGroupShouldReturnFalseIfFailed()
+        {
+            bool success = _groupService.DeleteGroupById(0);
+
+            Assert.That(success, Is.False);
         }
     }
 }
