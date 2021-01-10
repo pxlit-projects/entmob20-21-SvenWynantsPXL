@@ -11,6 +11,17 @@ namespace SmartHouseLights.ViewModels
         private readonly IStatisticsService _statisticsService;
         private readonly User _user;
 
+        private bool _isRefreshing = false;
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set
+            {
+                _isRefreshing = value;
+                OnPropertyChanged();
+            }
+        }
+
         private List<UserLightStatistic> _statistics;
         public List<UserLightStatistic> Statistics
         {
@@ -36,7 +47,9 @@ namespace SmartHouseLights.ViewModels
 
         private void OnRefreshStats()
         {
+            IsRefreshing = true;
             Statistics = _statisticsService.GetAllStatisticsForUserWithId(_user.Id);
+            IsRefreshing = false;
         }
     }
 }
