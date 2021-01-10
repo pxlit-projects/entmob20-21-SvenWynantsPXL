@@ -61,6 +61,7 @@ namespace SmartHouseLights.ViewModels
         {
             IsRefreshing = true;
             User = _authService.GetUser();
+            Title = $"Statistics for {User.Name}";
             Statistics = _statisticsService.GetAllStatisticsForUserWithId(User.Id);
             IsRefreshing = false;
         }

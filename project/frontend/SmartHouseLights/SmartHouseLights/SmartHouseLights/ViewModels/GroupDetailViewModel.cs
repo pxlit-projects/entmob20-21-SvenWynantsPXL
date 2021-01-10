@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Serialization;
+﻿using System.Linq;
+using Newtonsoft.Json.Serialization;
 using SmartHouseLights.Domain.Models;
 using SmartHouseLights.Services.Interfaces;
 using SmartHouseLights.Util;
@@ -11,6 +12,7 @@ namespace SmartHouseLights.ViewModels
     {
         private readonly IGroupService _groupService;
         private readonly INavigationService _navigationService;
+        private readonly IAuthenticationService _authService;
 
         private Command _flipSwitchCommand;
         public Command FlipSwitchCommand =>
@@ -40,16 +42,30 @@ namespace SmartHouseLights.ViewModels
             }
         }
 
-        public GroupDetailViewModel(IGroupService groupService, INavigationService navigationService)
+        private User _user;
+        public User User
+        {
+            get => _user;
+            set
+            {
+                _user = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public GroupDetailViewModel(IGroupService groupService, INavigationService navigationService,
+            IAuthenticationService authService)
         {
             _groupService = groupService;
             _navigationService = navigationService;
+            _authService = authService;
             ErrorMessage = "";
             MessagingCenter.Instance.Subscribe<GroupListViewModel, LightGroup>(this, MessageConstants.GroupSelected,
                 (sender, group) =>
                 {
                     Group = group;
                     Title = $"Group: {Group.Name}";
+                    User = _authService.GetUser();
                     RefreshCanExecutes();
                 });
         }
@@ -80,9 +96,14 @@ namespace SmartHouseLights.ViewModels
 
         public bool OnCanFlipSwitch()
         {
-            if (Group?.Lights != null && Group.Lights.Count > 0)
+            if (Group?.Lights?.Count > 0)
             {
-                return true;
+                if (User.Groups == null || User.Groups.Count < 1)
+                {
+                    return true;
+                }
+
+                return User.Groups.All(lightGroup => lightGroup.Id != Group.Id);
             }
 
             return false;

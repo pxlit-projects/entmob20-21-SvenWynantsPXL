@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using SmartHouseLights.Domain.Models;
 using SmartHouseLights.Services.Interfaces;
 using SmartHouseLights.Util;
@@ -11,7 +12,19 @@ namespace SmartHouseLights.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly IGroupService _groupService;
-        private readonly User _user;
+        private readonly IAuthenticationService _authService;
+
+        private User _user;
+        public User User
+        {
+            get => _user;
+            set
+            {
+                _user = value;
+                OnPropertyChanged();
+                FlipSwitchCommand.ChangeCanExecute();
+            }
+        }
 
         public Command FlipSwitchCommand => new Command<int>(OnFlipPressed, OnCanFlipSwitch);
         public Command GroupSelectedCommand => new Command<int>(OnGroupSelected);
@@ -46,9 +59,11 @@ namespace SmartHouseLights.ViewModels
         {
             _navigationService = navigationService;
             _groupService = groupService;
+            _authService = authService;
             _user = authService.GetUser();
             Title = "LightGroups";
             Groups = _groupService.GetAllGroups();
+            FlipSwitchCommand.ChangeCanExecute();
         }
 
         private void OnGroupSelected(int listId)
@@ -84,6 +99,7 @@ namespace SmartHouseLights.ViewModels
         private void OnRefreshList()
         {
             IsRefreshing = true;
+            User = _authService.GetUser();
             Groups = _groupService.GetAllGroups();
             IsRefreshing = false;
         }
@@ -92,22 +108,12 @@ namespace SmartHouseLights.ViewModels
         {
             if (Groups[GetListId(id)].Lights?.Count > 0)
             {
-                if (_user.Groups == null || _user.Groups.Count < 0)
+                if (User.Groups == null || User.Groups.Count < 1)
                 {
                     return true;
                 }
-                else
-                {
-                    foreach (var lightGroup in _user.Groups)
-                    {
-                        if (id == lightGroup.Id)
-                        {
-                            return false;
-                        }
-                    }
 
-                    return true;
-                }
+                return _user.Groups.All(lightGroup => id != lightGroup.Id);
             }
             return false;
         }

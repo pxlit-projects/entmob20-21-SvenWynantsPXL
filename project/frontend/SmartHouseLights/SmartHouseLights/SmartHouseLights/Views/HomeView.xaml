@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              util:ViewModelLocator.AutoWireViewModel="True"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:vm="clr-namespace:SmartHouseLights.ViewModels;"
              x:Class="SmartHouseLights.Views.HomeView"
              xmlns:util="clr-namespace:SmartHouseLights.Util;assembly=SmartHouseLights"
              Title="{Binding Title, Mode=OneWay}">
@@ -20,7 +19,7 @@
         </Grid.RowDefinitions>
         <ScrollView Grid.Row="1">
             <StackLayout Orientation="Vertical" Padding="30,24,30,24" Spacing="10">
-                <Label Text="{Binding User.Name}" FontSize="Title"/>
+                <Label Text="Welcome on the smart home app!" FontSize="Title"/>
                 <Button Text="Show statistics" Command="{Binding GoToStatisticsCommand}" VerticalOptions="EndAndExpand" Margin="30" CornerRadius="10"></Button>
             </StackLayout>
         </ScrollView>

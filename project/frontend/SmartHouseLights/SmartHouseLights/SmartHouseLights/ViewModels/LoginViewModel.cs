@@ -1,7 +1,7 @@
 ﻿using SmartHouseLights.Views;
 using System.Windows.Input;
-using SmartHouseLights.Services;
 using SmartHouseLights.Services.Interfaces;
+using SmartHouseLights.Util;
 using Xamarin.Forms;
 
 namespace SmartHouseLights.ViewModels
