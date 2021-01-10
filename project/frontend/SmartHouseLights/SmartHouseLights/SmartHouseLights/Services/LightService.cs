@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
+using SmartHouseLights.Data.Services.Interfaces;
 using SmartHouseLights.Domain.Models;
 using SmartHouseLights.Models;
 using SmartHouseLights.Services.Interfaces;
@@ -10,10 +12,15 @@ namespace SmartHouseLights.Services
 {
     public class LightService : ILightService
     {
+        private readonly IStatisticsService _statisticsService;
+        private readonly IAuthenticationService _authService;
         private readonly HttpClient _client;
 
-        public LightService(IConnectionFactory connectionFactory)
+        public LightService(IConnectionFactory connectionFactory, IStatisticsService statisticsService,
+            IAuthenticationService authService)
         {
+            _statisticsService = statisticsService;
+            _authService = authService;
             _client = connectionFactory.GetHttpClient();
         }
 
@@ -45,6 +52,38 @@ namespace SmartHouseLights.Services
             {
                 string content = response.Content.ReadAsStringAsync().Result;
                 light = JsonConvert.DeserializeObject<Light>(content);
+
+                User user = _authService.GetUser();
+                UserLightStatistic statistic = _statisticsService.GetStatisticByUserIdAndLightId(user.Id, light.Id);
+
+                if (light.OnState)
+                {
+                    if (statistic == null)
+                    {
+                        statistic = new UserLightStatistic
+                        {
+                            UserId = user.Id,
+                            User = user,
+                            Light = light,
+                            LightId = light.Id,
+                            HoursOn = 0,
+                            TurnedOnTime = DateTime.Now
+                        };
+                        _statisticsService.AddStatistic(statistic);
+                    }
+                    else
+                    {
+                        statistic.TurnedOnTime = DateTime.Now;
+                        _statisticsService.SaveStatistic(statistic);
+                    }
+                    
+                }
+                else
+                {
+                    DateTime turnedOf = DateTime.Now;
+                    statistic.HoursOn += (turnedOf - statistic.TurnedOnTime).TotalHours;
+                    _statisticsService.SaveStatistic(statistic);
+                }
             }
 
             return light;
@@ -105,7 +144,7 @@ namespace SmartHouseLights.Services
 
         public bool DeleteLightById(int lightId)
         {
-            var url = $"/lights/light/{lightId}";
+            var url = $"/lights/{lightId}";
 
             HttpResponseMessage response = _client.DeleteAsync(url).Result;
 
