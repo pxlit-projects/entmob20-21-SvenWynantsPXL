@@ -11,12 +11,24 @@ namespace SmartHouseLights.ViewModels
         private readonly INavigationService _navService;
         private readonly IAuthenticationService _authService;
         public Command GoToStatisticsCommand => new Command(OnGoToStats);
+
+        private User _user;
+        public User User
+        {
+            get => _user;
+            set
+            {
+                _user = value;
+                OnPropertyChanged();
+            }
+        }
         public Command GoToUserManagementCommand => new Command(OnGoToUserManagement, OnAdmin);
         public HomeViewModel(INavigationService navService, IAuthenticationService authService)
         {
             _navService = navService;
             _authService = authService;
-            Title = "Welcome";
+            User = authService.GetUser();
+            Title = "Welcome " + authService.GetUser().Name;
         }
 
         private void OnGoToStats()

@@ -4,11 +4,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SmartHouseLights.Views.HomeView"
              xmlns:util="clr-namespace:SmartHouseLights.Util;assembly=SmartHouseLights"
+             xmlns:converters="clr-namespace:SmartHouseLights.Converters;assembly=SmartHouseLights"
              Title="{Binding Title, Mode=OneWay}">
     
     <ContentPage.Resources>
         <ResourceDictionary>
             <Color x:Key="Accent">#96d1ff</Color>
+            <converters:HomeLabelConverter x:Key="HomeLabelConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -19,7 +21,7 @@
         </Grid.RowDefinitions>
         <ScrollView Grid.Row="1">
             <StackLayout Orientation="Vertical" Padding="30,24,30,24" Spacing="10">
-                <Label Text="Welcome on the smart home app!" FontSize="Title"/>
+                <Label Text="{Binding User.Name, Mode=OneWay, Converter={StaticResource HomeLabelConverter}}" FontSize="Title"/>
                 <Button Text="Go to user management" Command="{Binding GoToUserManagementCommand}" CornerRadius="10" Margin="30"></Button>
                 <Button Text="Show statistics" Command="{Binding GoToStatisticsCommand}" VerticalOptions="EndAndExpand" Margin="30" CornerRadius="10"></Button>
             </StackLayout>
