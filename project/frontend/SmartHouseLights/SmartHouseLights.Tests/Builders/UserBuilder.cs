@@ -9,12 +9,17 @@ namespace SmartHouseLights.Tests.Builders
 
         public UserBuilder()
         {
-            _user = new User {Id = 1};
+            _user = new User {Name = Guid.NewGuid().ToString()};
+        }
+
+        public UserBuilder WithId(int id)
+        {
+            _user.Id = id;
+            return this;
         }
 
         public UserBuilder WithAdminUser()
         {
-            _user.Name = Guid.NewGuid().ToString();
             _user.Role = "ROLE_ADMIN";
             return this;
         }
