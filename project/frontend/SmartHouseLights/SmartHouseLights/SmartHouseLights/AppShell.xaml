@@ -93,6 +93,9 @@
     <FlyoutItem Title="Groups">
         <ShellContent Route="GroupListView" ContentTemplate="{DataTemplate local:GroupListView}" />
     </FlyoutItem>
+    <FlyoutItem Title="Statistics">
+        <ShellContent Route="StatisticsView" ContentTemplate="{DataTemplate local:StatisticsView}" />
+    </FlyoutItem>
 
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->
     <MenuItem Text="Logout" StyleClass="MenuItemLayoutStyle" Clicked="OnMenuItemClicked">
