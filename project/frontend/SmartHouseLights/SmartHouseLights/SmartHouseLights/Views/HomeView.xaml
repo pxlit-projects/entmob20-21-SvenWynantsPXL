@@ -5,7 +5,7 @@
              xmlns:vm="clr-namespace:SmartHouseLights.ViewModels;"
              x:Class="SmartHouseLights.Views.HomeView"
              xmlns:util="clr-namespace:SmartHouseLights.Util;assembly=SmartHouseLights"
-             Title="{Binding Title}">
+             Title="{Binding Title, Mode=OneWay}">
     
     <ContentPage.Resources>
         <ResourceDictionary>
