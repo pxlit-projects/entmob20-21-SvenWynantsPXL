@@ -1,4 +1,6 @@
-﻿using SmartHouseLights.Services.Interfaces;
+﻿using System.IO;
+using SmartHouseLights.Data;
+using SmartHouseLights.Services.Interfaces;
 using SmartHouseLights.Util;
 using Xamarin.Forms;
 
@@ -11,9 +13,12 @@ namespace SmartHouseLights
         {
             InitializeComponent();
 
+            string dbName = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), "smarthouse.db");
+            SmartHouseContextFactory.ConnectionString = $"Data Source = {dbName}";
+
             AppContainer.RegisterDependencies();
             
-            MainPage = new AppShell(AppContainer.Resolve<INavigationService>());
+            MainPage = new AppShell(AppContainer.Resolve<INavigationService>(), AppContainer.Resolve<IConnectionFactory>());
         }
 
         protected override void OnStart()
