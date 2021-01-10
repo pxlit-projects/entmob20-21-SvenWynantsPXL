@@ -17,7 +17,7 @@ namespace SmartHouseLights
             SmartHouseContextFactory.ConnectionString = $"Data Source = {dbName}";
 
             AppContainer.RegisterDependencies();
-            
+
             MainPage = new AppShell(AppContainer.Resolve<INavigationService>(), AppContainer.Resolve<IConnectionFactory>());
         }
 

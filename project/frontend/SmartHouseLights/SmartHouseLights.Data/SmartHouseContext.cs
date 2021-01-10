@@ -14,7 +14,10 @@ namespace SmartHouseLights.Data
         public DbSet<UserLightStatistic> UserLightStatistics { get; set; }
         public SmartHouseContext() { }
 
-        public SmartHouseContext(DbContextOptions<SmartHouseContext> options) : base(options) { }
+        public SmartHouseContext(DbContextOptions<SmartHouseContext> options) : base(options)
+        {
+            Database.EnsureCreated();
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

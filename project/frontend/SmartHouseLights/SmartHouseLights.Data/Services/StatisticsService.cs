@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Data.Sqlite;
 using SmartHouseLights.Data.Services.Interfaces;
 using SmartHouseLights.Domain.Models;
 
@@ -31,11 +32,13 @@ namespace SmartHouseLights.Data.Services
         public void SaveStatistic(UserLightStatistic statistic)
         {
             _context.UserLightStatistics.Update(statistic);
+            _context.SaveChanges();
         }
 
         public void AddStatistic(UserLightStatistic statistic)
         {
             _context.UserLightStatistics.Add(statistic);
+            _context.SaveChanges();
         }
 
         public List<UserLightStatistic> GetAllStatisticsForUserWithId(int userId)
