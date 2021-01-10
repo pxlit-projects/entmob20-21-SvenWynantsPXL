@@ -1,6 +1,7 @@
 package be.pxl.smarthome.service;
 
 import be.pxl.smarthome.dto.ResponseUserDto;
+import be.pxl.smarthome.models.LightGroup;
 import be.pxl.smarthome.models.User;
 
 import java.util.List;
@@ -12,4 +13,8 @@ public interface UserService {
     Optional<User> findUserById(int id);
 
     User findUserByName(String username);
+
+    void restrictUser(User user, LightGroup group);
+
+    void removeRestriction(User user, LightGroup group);
 }

@@ -2,16 +2,16 @@ package be.pxl.smarthome.controllers;
 
 import be.pxl.smarthome.dto.ResponseUserDto;
 import be.pxl.smarthome.exceptions.EntityNotFoundException;
+import be.pxl.smarthome.models.LightGroup;
 import be.pxl.smarthome.models.User;
+import be.pxl.smarthome.service.GroupService;
 import be.pxl.smarthome.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,11 +19,10 @@ import java.util.List;
 @RequestMapping(path = "users")
 public class UserController {
 
-    private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private GroupService groupService;
 
     //Check if user is authorized or not before continuing to next screen
     @GetMapping(value = "/login")
@@ -39,5 +38,27 @@ public class UserController {
     @Secured({"ROLE_ADMIN"})
     public List<ResponseUserDto> getUsers(){
         return userService.getAllUsers();
+    }
+
+    @PutMapping(value = "/{userId}/addRestriction/{groupId}")
+    @Secured({"ROLE_ADMIN"})
+    public void restrictUserToGroup(@PathVariable int userId, @PathVariable int groupId){
+        User user = userService.findUserById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(userId));
+        LightGroup group = groupService.findLightGroupById(groupId)
+                .orElseThrow(() -> new EntityNotFoundException(groupId));
+
+        userService.restrictUser(user, group);
+    }
+
+    @PutMapping(value = "/{userId}/removeRestriction/{groupId}")
+    @Secured({"ROLE_ADMIN"})
+    public void removeRestrictionForUser(@PathVariable int userId, @PathVariable int groupId){
+        User user = userService.findUserById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(userId));
+        LightGroup group = groupService.findLightGroupById(groupId)
+                .orElseThrow(() -> new EntityNotFoundException(groupId));
+
+        userService.removeRestriction(user, group);
     }
 }

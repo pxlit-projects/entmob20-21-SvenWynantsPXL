@@ -2,6 +2,7 @@ package be.pxl.smarthome.service.impl;
 
 import be.pxl.smarthome.dao.UserDao;
 import be.pxl.smarthome.dto.ResponseUserDto;
+import be.pxl.smarthome.models.LightGroup;
 import be.pxl.smarthome.models.User;
 import be.pxl.smarthome.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,30 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserByName(String username) {
         return dao.findUserByName(username);
+    }
+
+    @Override
+    public void restrictUser(User user, LightGroup group) {
+        List<LightGroup> groups = user.getGroups();
+        if (groups == null){
+            groups = new ArrayList<>();
+        }
+        groups.add(group);
+        user.setGroups(groups);
+        dao.save(user);
+    }
+
+    @Override
+    public void removeRestriction(User user, LightGroup group) {
+        List<LightGroup> groups = user.getGroups();
+        if (groups == null){
+            return;
+        }
+        if (groups.contains(group)){
+            groups.remove(group);
+            user.setGroups(groups);
+            dao.save(user);
+        }
     }
 
     @PostConstruct

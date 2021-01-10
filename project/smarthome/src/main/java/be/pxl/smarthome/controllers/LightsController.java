@@ -7,6 +7,7 @@ import be.pxl.smarthome.models.Light;
 import be.pxl.smarthome.models.LightGroup;
 import be.pxl.smarthome.service.GroupService;
 import be.pxl.smarthome.service.LightService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
@@ -17,13 +18,10 @@ import java.util.stream.Collectors;
 @RequestMapping(path = "lights")
 public class LightsController {
 
-    private final GroupService _groupService;
-    private final LightService _lightService;
-
-    public LightsController(GroupService groupService, LightService lightService) {
-        this._groupService = groupService;
-        this._lightService = lightService;
-    }
+    @Autowired
+    private GroupService _groupService;
+    @Autowired
+    private LightService _lightService;
 
     @PostMapping(value = "/light")
     @Secured({"ROLE_ADMIN"})

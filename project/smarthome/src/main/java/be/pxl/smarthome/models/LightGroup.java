@@ -68,4 +68,12 @@ public class LightGroup {
     public void setBrightness(int brightness) {
         this.brightness = brightness;
     }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 }

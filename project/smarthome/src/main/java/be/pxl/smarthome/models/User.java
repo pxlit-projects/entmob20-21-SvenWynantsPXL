@@ -73,11 +73,20 @@ public class User {
         this.role = role;
     }
 
+    public List<LightGroup> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<LightGroup> groups) {
+        this.groups = groups;
+    }
+
     public ResponseUserDto toUserDto() {
         ResponseUserDto dto = new ResponseUserDto();
         dto.id = this.id;
         dto.name = this.name;
         dto.role = this.role;
+        dto.groups = this.groups;
         return dto;
     }
 }

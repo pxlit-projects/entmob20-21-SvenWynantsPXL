@@ -7,6 +7,7 @@ import be.pxl.smarthome.models.Light;
 import be.pxl.smarthome.models.LightGroup;
 import be.pxl.smarthome.service.GroupService;
 import be.pxl.smarthome.service.LightService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,13 +16,10 @@ import java.util.List;
 @RequestMapping(path = "groups")
 public class GroupController {
 
-    private final GroupService groupService;
-    private final LightService lightService;
-
-    public GroupController(GroupService gService, LightService lService) {
-        this.groupService = gService;
-        this.lightService = lService;
-    }
+    @Autowired
+    private GroupService groupService;
+    @Autowired
+    private LightService lightService;
 
     @GetMapping(value = "/{id}")
     public LightGroup getGroup(@PathVariable int id) {
