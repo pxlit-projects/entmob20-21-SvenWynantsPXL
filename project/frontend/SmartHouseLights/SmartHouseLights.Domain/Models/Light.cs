@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using SmartHouseLights.Domain.Annotations;
 
@@ -46,6 +47,8 @@ namespace SmartHouseLights.Domain.Models
                 OnPropertyChanged();
             }
         }
+
+        public List<UserLightStatistic> Statistics { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

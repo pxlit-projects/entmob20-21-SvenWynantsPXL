@@ -92,13 +92,13 @@ namespace SmartHouseLights.Data.Migrations
             modelBuilder.Entity("SmartHouseLights.Domain.Models.UserLightStatistic", b =>
                 {
                     b.HasOne("SmartHouseLights.Domain.Models.Light", "Light")
-                        .WithMany()
+                        .WithMany("Statistics")
                         .HasForeignKey("LightId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SmartHouseLights.Domain.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Statistics")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -106,6 +106,16 @@ namespace SmartHouseLights.Data.Migrations
                     b.Navigation("Light");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SmartHouseLights.Domain.Models.Light", b =>
+                {
+                    b.Navigation("Statistics");
+                });
+
+            modelBuilder.Entity("SmartHouseLights.Domain.Models.User", b =>
+                {
+                    b.Navigation("Statistics");
                 });
 #pragma warning restore 612, 618
         }

@@ -34,6 +34,8 @@ namespace SmartHouseLights.Data
             modelBuilder.Entity<User>().HasKey(u => u.Id);
             modelBuilder.Entity<UserLightStatistic>().HasKey(u => u.Id);
 
+            modelBuilder.Entity<UserLightStatistic>().HasOne<User>(u => u.User).WithMany(s => s.Statistics);
+            modelBuilder.Entity<UserLightStatistic>().HasOne<Light>(u => u.Light).WithMany(s => s.Statistics);
             base.OnModelCreating(modelBuilder);
         }
     }

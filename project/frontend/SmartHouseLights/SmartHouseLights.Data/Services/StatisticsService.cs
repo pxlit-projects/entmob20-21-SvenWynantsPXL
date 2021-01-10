@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using SmartHouseLights.Data.Services.Interfaces;
 using SmartHouseLights.Domain.Models;
 
@@ -43,7 +44,7 @@ namespace SmartHouseLights.Data.Services
 
         public List<UserLightStatistic> GetAllStatisticsForUserWithId(int userId)
         {
-            return _context.UserLightStatistics.Where(u => u.UserId == userId).ToList();
+            return _context.UserLightStatistics.Where(u => u.UserId == userId).Include(s => s.Light).Include(s => s.User).ToList();
         }
     }
 }

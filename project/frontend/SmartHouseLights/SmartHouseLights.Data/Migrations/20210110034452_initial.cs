@@ -8,7 +8,7 @@ namespace SmartHouseLights.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Light",
+                name: "Lights",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -22,11 +22,11 @@ namespace SmartHouseLights.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Light", x => x.Id);
+                    table.PrimaryKey("PK_Lights", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -36,7 +36,7 @@ namespace SmartHouseLights.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -54,15 +54,15 @@ namespace SmartHouseLights.Data.Migrations
                 {
                     table.PrimaryKey("PK_UserLightStatistics", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserLightStatistics_Light_LightId",
+                        name: "FK_UserLightStatistics_Lights_LightId",
                         column: x => x.LightId,
-                        principalTable: "Light",
+                        principalTable: "Lights",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserLightStatistics_User_UserId",
+                        name: "FK_UserLightStatistics_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "User",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -84,10 +84,10 @@ namespace SmartHouseLights.Data.Migrations
                 name: "UserLightStatistics");
 
             migrationBuilder.DropTable(
-                name: "Light");
+                name: "Lights");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "Users");
         }
     }
 }
