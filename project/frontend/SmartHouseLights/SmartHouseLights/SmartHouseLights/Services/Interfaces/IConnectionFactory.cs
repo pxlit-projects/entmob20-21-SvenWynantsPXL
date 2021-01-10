@@ -6,6 +6,6 @@ namespace SmartHouseLights.Services.Interfaces
     {
         HttpClient GetHttpClient();
         void SetAuthenticationHeader(string authHeader);
-
+        void RemoveHeader();
     }
 }
