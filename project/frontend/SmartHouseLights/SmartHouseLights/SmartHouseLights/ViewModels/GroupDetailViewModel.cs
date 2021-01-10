@@ -1,6 +1,8 @@
-﻿using SmartHouseLights.Domain.Models;
+﻿using Newtonsoft.Json.Serialization;
+using SmartHouseLights.Domain.Models;
 using SmartHouseLights.Services.Interfaces;
 using SmartHouseLights.Util;
+using SmartHouseLights.Views;
 using Xamarin.Forms;
 
 namespace SmartHouseLights.ViewModels
@@ -8,8 +10,24 @@ namespace SmartHouseLights.ViewModels
     public class GroupDetailViewModel : ViewModelBase
     {
         private readonly IGroupService _groupService;
+        private readonly INavigationService _navigationService;
 
-        public Command FlipSwitchCommand => new Command(OnFlipSwitch, OnCanFlipSwitch);
+        private Command _flipSwitchCommand;
+        public Command FlipSwitchCommand =>
+            _flipSwitchCommand ??= new Command(OnFlipSwitch, OnCanFlipSwitch);
+
+        public Command DeleteGroupCommand => new Command(OnDelete);
+
+        private string _errorMessage;
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set
+            {
+                _errorMessage = value;
+                OnPropertyChanged();
+            }
+        }
 
         private LightGroup _group;
         public LightGroup Group
@@ -22,9 +40,11 @@ namespace SmartHouseLights.ViewModels
             }
         }
 
-        public GroupDetailViewModel(IGroupService groupService)
+        public GroupDetailViewModel(IGroupService groupService, INavigationService navigationService)
         {
             _groupService = groupService;
+            _navigationService = navigationService;
+            ErrorMessage = "";
             MessagingCenter.Instance.Subscribe<GroupListViewModel, LightGroup>(this, MessageConstants.GroupSelected,
                 (sender, group) =>
                 {
@@ -58,7 +78,7 @@ namespace SmartHouseLights.ViewModels
             }
         }
 
-        private bool OnCanFlipSwitch()
+        public bool OnCanFlipSwitch()
         {
             if (Group?.Lights != null && Group.Lights.Count > 0)
             {
@@ -66,6 +86,27 @@ namespace SmartHouseLights.ViewModels
             }
 
             return false;
+        }
+
+        private async void OnDelete()
+        {
+            var action = await Shell.Current.DisplayAlert("Delete group", "Are you sure you want to delete this group?",
+                "Yes", "No");
+
+            if (action)
+            {
+                bool success = _groupService.DeleteGroupById(Group.Id);
+
+                if (success)
+                {
+                    ErrorMessage = "";
+                    await _navigationService.NavigateToAsync("..");
+                }
+                else
+                {
+                    ErrorMessage = "Something went wrong deleting the group";
+                }
+            }
         }
 
         private void RefreshCanExecutes()

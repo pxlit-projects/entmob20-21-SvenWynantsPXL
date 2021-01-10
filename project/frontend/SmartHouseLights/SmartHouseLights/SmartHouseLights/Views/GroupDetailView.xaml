@@ -43,6 +43,8 @@
                 </ListView.ItemTemplate>
             </ListView>
             <Button Text="Flip Switch" Command="{Binding FlipSwitchCommand}"></Button>
+            <Label Text="{Binding ErrorMessage, Mode=OneWay}" TextColor="Red"></Label>
+            <Button Command="{Binding DeleteGroupCommand}" Text="Delete group" Margin="20"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
