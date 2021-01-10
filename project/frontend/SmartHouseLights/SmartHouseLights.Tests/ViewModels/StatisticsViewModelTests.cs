@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 using SmartHouseLights.Data.Services.Interfaces;
 using SmartHouseLights.Domain.Models;
 using SmartHouseLights.Services.Interfaces;
@@ -84,10 +85,14 @@ namespace SmartHouseLights.Tests.ViewModels
             _model.IsRefreshing = true;
             Assert.That(_model.Statistics, Is.Empty);
 
+            _authServiceMock.Setup(a => a.GetUser())
+                .Returns(() => new UserBuilder().WithAdminUser().Build());
+
             _model.RefreshStatsCommand.Execute(null);
 
             Assert.That(_model.IsRefreshing, Is.False);
             Assert.That(_model.Statistics.Count, Is.EqualTo(2));
+            Assert.That(_model.User.Name, Is.Not.EqualTo(user.Name));
         }
     }
 }

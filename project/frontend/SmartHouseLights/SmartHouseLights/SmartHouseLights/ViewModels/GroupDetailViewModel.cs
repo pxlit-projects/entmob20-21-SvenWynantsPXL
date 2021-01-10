@@ -12,7 +12,6 @@ namespace SmartHouseLights.ViewModels
     {
         private readonly IGroupService _groupService;
         private readonly INavigationService _navigationService;
-        private readonly IAuthenticationService _authService;
 
         private Command _flipSwitchCommand;
         public Command FlipSwitchCommand =>
@@ -58,14 +57,13 @@ namespace SmartHouseLights.ViewModels
         {
             _groupService = groupService;
             _navigationService = navigationService;
-            _authService = authService;
             ErrorMessage = "";
             MessagingCenter.Instance.Subscribe<GroupListViewModel, LightGroup>(this, MessageConstants.GroupSelected,
                 (sender, group) =>
                 {
                     Group = group;
                     Title = $"Group: {Group.Name}";
-                    User = _authService.GetUser();
+                    User = authService.GetUser();
                     RefreshCanExecutes();
                 });
         }
