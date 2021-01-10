@@ -58,8 +58,11 @@ namespace SmartHouseLights.Tests.ViewModels
         {
             _lightServiceMock.Setup(l => l.GetAllLights()).Returns(() => new List<Light>());
 
+            Assert.That(_lightListViewModel.IsRefreshing, Is.False);
+            _lightListViewModel.IsRefreshing = true;
             _lightListViewModel.RefreshListCommand.Execute(null);
 
+            Assert.That(_lightListViewModel.IsRefreshing, Is.False);
             Assert.That(_lightListViewModel.Lights, Is.Empty);
         }
 
@@ -74,6 +77,14 @@ namespace SmartHouseLights.Tests.ViewModels
 
             _lightServiceMock.Verify(l => l.GetLightById(1), Times.Once);
             _navServiceMock.Verify(n => n.NavigateToAsync(nameof(LightDetailsView)), Times.Once);
+        }
+
+        [Test]
+        public void OnClickAddShouldNavigateToAddLightView()
+        {
+            _lightListViewModel.AddLightCommand.Execute(null);
+
+            _navServiceMock.Verify(n => n.NavigateToAsync(nameof(AddLightView)), Times.Once);
         }
     }
 }
