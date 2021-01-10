@@ -119,5 +119,19 @@ namespace SmartHouseLights.Services
 
             return group;
         }
+
+        public bool DeleteGroupById(int groupId)
+        {
+            var url = $"/groups/{groupId}";
+
+            HttpResponseMessage response = _client.DeleteAsync(url).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }
