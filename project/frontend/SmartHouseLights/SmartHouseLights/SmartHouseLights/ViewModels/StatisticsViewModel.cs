@@ -18,6 +18,8 @@ namespace SmartHouseLights.ViewModels
             _user = authService.GetUser();
 
             Title = $"Statistics for {_user.Name}";
+
+            Statistics = _statisticsService.GetAllStatisticsForUserWithId(_user.Id);
         }
     }
 }
