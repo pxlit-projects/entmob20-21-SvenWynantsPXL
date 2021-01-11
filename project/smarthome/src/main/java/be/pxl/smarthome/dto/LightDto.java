@@ -12,6 +12,6 @@ public class LightDto {
     public boolean OnState;
     public LightManufacturer Manufacturer;
     public int GroupId;
-    public LocalDateTime OnTimer;
+    public String OnTimer;
     public boolean OnSunDown;
 }

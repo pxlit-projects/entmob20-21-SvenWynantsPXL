@@ -1,10 +1,12 @@
 package be.pxl.smarthome.models;
 
 import be.pxl.smarthome.dto.LightDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "lights")
@@ -118,7 +120,12 @@ public class Light {
         dto.Manufacturer = this.manufacturer;
         dto.OnState = this.isOnState;
         dto.Type = this.type;
-        dto.OnTimer = this.onTimer;
+        if (this.onTimer != null){
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            dto.OnTimer = this.onTimer.format(formatter);
+        }else {
+            dto.OnTimer = "";
+        }
         dto.OnSunDown = this.onSunDown;
         if (this.group_id == null){
             dto.GroupId = 0;

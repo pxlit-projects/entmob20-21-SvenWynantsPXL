@@ -49,8 +49,9 @@ namespace SmartHouseLights.Domain.Models
             }
         }
 
-        private DateTime _onTimer;
-        public DateTime OnTimer
+        private string _onTimer;
+
+        public string OnTimer
         {
             get => _onTimer;
             set

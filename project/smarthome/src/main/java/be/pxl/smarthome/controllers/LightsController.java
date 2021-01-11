@@ -10,7 +10,10 @@ import be.pxl.smarthome.service.LightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +39,7 @@ public class LightsController {
                 .orElseThrow(() -> new EntityNotFoundException(id));
 
         light = _lightService.flipSwitch(light);
-        if (light.getGroup_id() != null){
+        if (light.getGroup_id() != null) {
             LightGroup group = _groupService.findLightGroupById(light.getGroup_id()).orElse(null);
             if (light.getOnState()) {
                 if (group != null) {
@@ -82,10 +85,17 @@ public class LightsController {
 
     @PutMapping(value = "/updateLight")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
-    public LightDto updateLight(@RequestBody LightDto lightDto){
+    public LightDto updateLight(@RequestBody LightDto lightDto) {
         Light light = _lightService.findLightById(lightDto.Id)
                 .orElseThrow(() -> new EntityNotFoundException(lightDto.Id));
-        light.setName(lightDto.Name);
+        if (lightDto.OnTimer != null) {
+            if (lightDto.OnTimer.equals("")) {
+                light.setOnTimer(null);
+            } else {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+                light.setOnTimer(LocalDateTime.parse(lightDto.OnTimer, formatter));
+            }
+        }
         light.setBrightness(lightDto.Brightness);
         light = _lightService.updateLight(light);
 

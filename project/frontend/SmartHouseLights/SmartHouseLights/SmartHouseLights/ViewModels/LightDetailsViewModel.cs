@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SmartHouseLights.Domain.Models;
 using SmartHouseLights.Services.Interfaces;
 using SmartHouseLights.Util;
@@ -14,7 +15,8 @@ namespace SmartHouseLights.ViewModels
 
         public Command FlipSwitchCommand => new Command(OnFlipSwitch);
         public Command DeleteLightCommand => new Command(OnDelete);
-        public Command OnDragCompletedCommand => new Command(OnDragCompleted, CanChangeBrightness);
+        public Command UpdateLightCommand => new Command(OnUpdate);
+        public Command RemoveTimerCommand => new Command(execute: () => { Light.OnTimer = ""; OnUpdate(); });
         public Command AddLightToGroupCommand => new Command(OnAddToGroup);
 
         private string _errorMessage;
@@ -99,20 +101,10 @@ namespace SmartHouseLights.ViewModels
             }
         }
 
-        private void OnDragCompleted()
+        private void OnUpdate()
         {
             Light = _lightService.UpdateLight(Light);
             RefreshCanExecutes();
-        }
-
-        private bool CanChangeBrightness()
-        {
-            if (Light != null && Light.OnState)
-            {
-                return true;
-            }
-
-            return false;
         }
 
         private void OnAddToGroup()
@@ -130,7 +122,7 @@ namespace SmartHouseLights.ViewModels
 
         private void RefreshCanExecutes()
         {
-            OnDragCompletedCommand.ChangeCanExecute();
+            UpdateLightCommand.ChangeCanExecute();
         }
 
         private LightGroup CreateEmptyGroup()
