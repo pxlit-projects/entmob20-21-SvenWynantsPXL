@@ -36,14 +36,12 @@ public class GroupController {
     }
 
     @PostMapping(value = "/{groupId}/addLight/{lightId}")
-    public LightGroup addLightToGroup(@PathVariable int groupId, @PathVariable int lightId) {
+    public void addLightToGroup(@PathVariable int groupId, @PathVariable int lightId) {
         Light light = lightService.findLightById(lightId)
                 .orElseThrow(() -> new EntityNotFoundException(lightId));
         LightGroup group = groupService.findLightGroupById(groupId)
-                .orElseThrow(() -> new EntityNotFoundException(groupId));
-        group = groupService.addLightToGroup(group, light);
-
-        return group;
+                .orElse(null);
+        groupService.addLightToGroup(group, light);
     }
 
     @PostMapping(value = "/addGroup")

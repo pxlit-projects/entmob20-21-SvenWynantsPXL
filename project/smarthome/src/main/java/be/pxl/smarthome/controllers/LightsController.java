@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -92,8 +93,16 @@ public class LightsController {
             if (lightDto.OnTimer.equals("")) {
                 light.setOnTimer(null);
             } else {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-                light.setOnTimer(LocalDateTime.parse(lightDto.OnTimer, formatter));
+                DateTimeFormatter formatter;
+                LocalDateTime timer;
+                try {
+                    formatter =  DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+                    timer = LocalDateTime.parse(lightDto.OnTimer, formatter);
+                } catch (DateTimeParseException e){
+                    formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+                    timer = LocalDateTime.parse(lightDto.OnTimer, formatter);
+                }
+                light.setOnTimer(timer);
             }
         }
         light.setBrightness(lightDto.Brightness);

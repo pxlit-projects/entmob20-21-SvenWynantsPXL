@@ -92,6 +92,10 @@ public class Light {
         this.manufacturer = manufacturer;
     }
 
+    public void setGroup_id(Integer group_id){
+        this.group_id = group_id;
+    }
+
     public Integer getGroup_id(){
         return this.group_id;
     }

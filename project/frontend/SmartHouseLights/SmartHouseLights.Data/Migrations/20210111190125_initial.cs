@@ -19,7 +19,8 @@ namespace SmartHouseLights.Data.Migrations
                     OnState = table.Column<bool>(type: "INTEGER", nullable: false),
                     Manufacturer = table.Column<int>(type: "INTEGER", nullable: false),
                     GroupId = table.Column<int>(type: "INTEGER", nullable: false),
-                    OnTimer = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    OnTimer = table.Column<string>(type: "TEXT", nullable: true),
+                    OnSunDown = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -9,7 +9,7 @@ using SmartHouseLights.Data;
 namespace SmartHouseLights.Data.Migrations
 {
     [DbContext(typeof(SmartHouseContext))]
-    [Migration("20210110181915_initial")]
+    [Migration("20210111190125_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,7 +39,10 @@ namespace SmartHouseLights.Data.Migrations
                     b.Property<bool>("OnState")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("OnTimer")
+                    b.Property<bool>("OnSunDown")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OnTimer")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Type")

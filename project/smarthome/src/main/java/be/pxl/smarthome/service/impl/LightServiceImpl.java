@@ -7,17 +7,24 @@ import be.pxl.smarthome.models.Light;
 import be.pxl.smarthome.models.LightGroup;
 import be.pxl.smarthome.service.LightApiService;
 import be.pxl.smarthome.service.LightService;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.time.LocalDate;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Stream;
 
 @Service
 public class LightServiceImpl implements LightService {
-
     @Autowired
     private LightService service;
     @Autowired
@@ -143,23 +150,76 @@ public class LightServiceImpl implements LightService {
 
     @PostConstruct
     public void timerToCheckOnTime(){
-        TimerTask timerTask = new TimerTask() {
+        final LocalDateTime[] sunsetTime = {LocalDateTime.of(2020, 1, 1, 0, 0)};
+
+        TimerTask checkTimers = new TimerTask() {
             @Override
             public void run() {
+                LocalDateTime now = LocalDateTime.now().withNano(0);
+
                 List<Light> lights = lightDao.findAll();
                 for (Light light : lights){
-                    if (light.getOnTimer() != null && !light.getOnState()) {
-                        LocalDateTime lightTime = light.getOnTimer();
-                        if (lightTime.getMinute() == LocalDateTime.now().getMinute() && lightTime.getHour() == LocalDateTime.now().getHour()){
-                            light.setOnState(true);
-                            lightDao.save(light);
-                            System.out.println("light with Id " + light.getId() + " was turned on");
+                    if (light.getOnTimer() != null && !light.isOnSunDown()) {
+                        LocalDateTime lightTime = light.getOnTimer().withNano(0).withMonth(now.getMonthValue()).withYear(now.getYear()).withDayOfMonth(now.getDayOfMonth());
+                        if (lightTime.isEqual(now) || lightTime.plusMinutes(31).isAfter(now)){
+                            lightUpdater(light);
+                        }
+                    }
+                    if (sunsetTime[0].getHour() >= now.getHour() && sunsetTime[0].getMinute() >= now.getMinute()){
+                        if (light.isOnSunDown()){
+                            lightUpdater(light);
                         }
                     }
                 }
             }
         };
         Timer timer = new Timer(true);
-        timer.scheduleAtFixedRate(timerTask, 0, 30 * 1000);
+        timer.scheduleAtFixedRate(checkTimers, 0, 18 * 1000);
+
+        TimerTask sunDownCheck = new TimerTask() {
+            @Override
+            public void run() {
+                if (LocalDateTime.now().getHour() == 0){
+                    sunsetTime[0] = getSunsetTime();
+                }
+            }
+        };
+        Timer checkDailySunDown = new Timer(true);
+        long hourPeriod = 1000L * 60L * 60L;
+        checkDailySunDown.scheduleAtFixedRate(sunDownCheck, 0, hourPeriod);
+    }
+
+    private void lightUpdater(Light light) {
+        if (light.getOnState() && light.getBrightness() != 100){
+            light.setBrightness(light.getBrightness() + 1);
+            updateLight(light);
+        } else if (!light.getOnState()) {
+            light.setOnState(true);
+            light.setBrightness(1);
+            updateLight(light);
+        }
+    }
+
+    private LocalDateTime getSunsetTime(){
+        HttpClient client = HttpClient.newHttpClient();
+        var request = HttpRequest.newBuilder(
+                URI.create("https://api.sunrise-sunset.org/json?lat=50.9303735&lng=5.3378043&date=today"))
+                .header("accept", "application/json")
+                .build();
+
+        try {
+            var response = client.send(request, HttpResponse.BodyHandlers.ofLines()).body().findFirst().get();
+
+            int startIndex = response.indexOf("sunset") + 8;
+            String sunsetHour = response.substring(startIndex, startIndex + 9).replace("\"", "").trim();
+            LocalDateTime today = LocalDateTime.now();
+            int [] sunsetTime = Arrays.stream(sunsetHour.split(":")).mapToInt(Integer::parseInt).toArray();
+            LocalDateTime sunset = LocalDateTime.of(today.getYear(), today.getMonthValue(), today.getDayOfMonth(), sunsetTime[0] + 13, sunsetTime[1], sunsetTime[2]).minusMinutes(30);
+            System.out.println(sunset);
+            return sunset;
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

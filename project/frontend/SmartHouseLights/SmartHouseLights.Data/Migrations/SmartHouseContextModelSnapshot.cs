@@ -37,7 +37,10 @@ namespace SmartHouseLights.Data.Migrations
                     b.Property<bool>("OnState")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("OnTimer")
+                    b.Property<bool>("OnSunDown")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OnTimer")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Type")

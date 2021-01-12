@@ -15,6 +15,7 @@ namespace SmartHouseLights.Tests.ViewModels
         private Mock<IGroupService> _groupServiceMock;
         private Mock<INavigationService> _navServiceMock;
         private Mock<IAuthenticationService> _authServiceMock;
+        private Mock<IAlertService> _alertServiceMock;
 
         [SetUp]
         public void Setup()
@@ -22,11 +23,12 @@ namespace SmartHouseLights.Tests.ViewModels
             _groupServiceMock = new Mock<IGroupService>();
             _navServiceMock = new Mock<INavigationService>();
             _authServiceMock = new Mock<IAuthenticationService>();
+            _alertServiceMock = new Mock<IAlertService>();
 
             _authServiceMock.Setup(a => a.GetUser())
                 .Returns(() => new UserBuilder().WithAdminUser().Build());
 
-            _model = new GroupDetailViewModel(_groupServiceMock.Object, _navServiceMock.Object, _authServiceMock.Object);
+            _model = new GroupDetailViewModel(_groupServiceMock.Object, _navServiceMock.Object, _authServiceMock.Object, _alertServiceMock.Object);
         }
 
         [Test]

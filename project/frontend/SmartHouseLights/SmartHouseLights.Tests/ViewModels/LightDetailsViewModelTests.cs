@@ -14,6 +14,8 @@ namespace SmartHouseLights.Tests.ViewModels
         private Mock<ILightService> _lightServiceMock;
         private Mock<INavigationService> _navServiceMock;
         private Mock<IGroupService> _groupServiceMock;
+        private Mock<IAuthenticationService> _authServiceMock;
+        private Mock<IAlertService> _alertServiceMock;
         private LightDetailsViewModel _model;
 
         [SetUp]
@@ -22,6 +24,8 @@ namespace SmartHouseLights.Tests.ViewModels
             _lightServiceMock = new Mock<ILightService>();
             _navServiceMock = new Mock<INavigationService>();
             _groupServiceMock = new Mock<IGroupService>();
+            _authServiceMock = new Mock<IAuthenticationService>();
+            _alertServiceMock = new Mock<IAlertService>();
 
             _groupServiceMock.Setup(g => g.GetAllGroups())
                 .Returns(() =>
@@ -34,7 +38,7 @@ namespace SmartHouseLights.Tests.ViewModels
                     return groups;
                 });
 
-            _model = new LightDetailsViewModel(_lightServiceMock.Object, _navServiceMock.Object, _groupServiceMock.Object);
+            _model = new LightDetailsViewModel(_lightServiceMock.Object, _navServiceMock.Object, _groupServiceMock.Object, _authServiceMock.Object, _alertServiceMock.Object);
         }
 
         [Test]
@@ -87,11 +91,11 @@ namespace SmartHouseLights.Tests.ViewModels
 
             _model.FlipSwitchCommand.Execute(null);
 
-            Assert.That(_model.OnDragCompletedCommand.CanExecute(null), Is.True);
+            Assert.That(_model.UpdateLightCommand.CanExecute(null), Is.True);
 
             _model.FlipSwitchCommand.Execute(null);
 
-            Assert.That(_model.OnDragCompletedCommand.CanExecute(null), Is.False);
+            Assert.That(_model.UpdateLightCommand.CanExecute(null), Is.False);
         }
 
         [Test]
@@ -101,7 +105,7 @@ namespace SmartHouseLights.Tests.ViewModels
 
             _lightServiceMock.Setup(l => l.UpdateLight(_model.Light)).Returns(() => _model.Light);
 
-            _model.OnDragCompletedCommand.Execute(null);
+            _model.UpdateLightCommand.Execute(null);
 
             _lightServiceMock.Verify(l => l.UpdateLight(_model.Light), Times.Once);
         }

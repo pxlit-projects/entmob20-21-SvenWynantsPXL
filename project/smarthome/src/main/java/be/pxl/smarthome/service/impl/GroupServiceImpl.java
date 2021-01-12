@@ -49,14 +49,20 @@ public class GroupServiceImpl implements GroupService {
     }
 
     public LightGroup addLightToGroup(LightGroup group, Light light) {
-        List<Light> lights = group.getLights();
-        if (lights == null || lights.size() == 0){
-            lights = new ArrayList<>();
+        if (group == null){
+            light.setGroup_id(null);
+            lightDao.save(light);
+        } else {
+            List<Light> lights = group.getLights();
+            if (lights == null || lights.size() == 0){
+                lights = new ArrayList<>();
+            }
+            lights.add(light);
+            group.setLights(lights);
+            dao.save(group);
+            return group;
         }
-        lights.add(light);
-        group.setLights(lights);
-        dao.save(group);
-        return group;
+        return null;
     }
 
     @Override

@@ -12,8 +12,9 @@ namespace SmartHouseLights.ViewModels
         private readonly ILightService _lightService;
         private readonly INavigationService _navigationService;
         private readonly IGroupService _groupService;
+        private readonly IAlertService _alertService;
 
-        public Command FlipSwitchCommand => new Command(OnFlipSwitch);
+        public Command FlipSwitchCommand => new Command(OnFlipSwitch, OnCanFlip);
         public Command DeleteLightCommand => new Command(OnDelete);
         public Command UpdateLightCommand => new Command(OnUpdate);
         public Command RemoveTimerCommand => new Command(execute: () => { Light.OnTimer = ""; OnUpdate(); });
@@ -40,7 +41,7 @@ namespace SmartHouseLights.ViewModels
                 OnPropertyChanged();
             }
         }
-
+        public User User { get; set; }
         public List<LightGroup> Groups { get; set; }
 
         private Light _light;
@@ -55,15 +56,16 @@ namespace SmartHouseLights.ViewModels
             }
         }
 
-        public LightDetailsViewModel(ILightService lightService, INavigationService navigationService, IGroupService groupService)
+        public LightDetailsViewModel(ILightService lightService, INavigationService navigationService, IGroupService groupService, IAuthenticationService authService, IAlertService alertService)
         {
             _lightService = lightService;
             _navigationService = navigationService;
             _groupService = groupService;
+            _alertService = alertService;
             ErrorMessage = "";
             Groups = new List<LightGroup> {CreateEmptyGroup()};
             Groups.AddRange(groupService.GetAllGroups());
-
+            User = authService.GetUser();
             MessagingCenter.Instance.Subscribe<LightListViewModel, Light>(this, MessageConstants.LightSelected,
                 (sender, light) => 
                 {
@@ -82,8 +84,7 @@ namespace SmartHouseLights.ViewModels
 
         private async void OnDelete()
         {
-            var action = await Shell.Current.DisplayAlert("Delete light", "Are you sure you want to delete this light?",
-                "Yes", "No");
+            var action = await _alertService.PopupOnDeleteLight();
 
             if (action)
             {
@@ -118,6 +119,27 @@ namespace SmartHouseLights.ViewModels
             {
                 ErrorMessage = "You cannot add no group!";
             }
+        }
+
+        private bool OnCanFlip()
+        {
+            if (User.Groups == null || User.Groups.Count < 1)
+            {
+                ErrorMessage = "";
+                return true;
+            }
+
+            foreach (var lightGroup in User.Groups)
+            {
+                if (lightGroup.Id == Light.GroupId)
+                {
+                    ErrorMessage = "You may not access this group";
+                    return false;
+                }
+            }
+
+            ErrorMessage = "";
+            return true;
         }
 
         private void RefreshCanExecutes()

@@ -9,6 +9,7 @@
     <ContentPage.Resources>
         <converters:LabelStateConverter x:Key="LabelStateConverter" />
         <converters:StringTimeConverter x:Key="TimeConverter" />
+        <converters:OppositeBoolConverter x:Key="OppositeBoolConverter" />
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
@@ -19,6 +20,10 @@
             <StackLayout Orientation="Horizontal">
                 <Label Text="State of Light: " Margin="10, 0, 0, 0" />
                 <Label Text="{Binding Light.OnState, Mode=OneWay, Converter={StaticResource LabelStateConverter}}" Margin="10, 0, 0, 0" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Want to turn on light 30min before sunset?"></Label>
+                <CheckBox IsChecked="{Binding Light.OnSunDown, Mode=TwoWay}"></CheckBox>
             </StackLayout>
             <TimePicker Margin="10" Time="{Binding Light.OnTimer, Mode=TwoWay, Converter={StaticResource TimeConverter}}"></TimePicker>
             <StackLayout Orientation="Horizontal">

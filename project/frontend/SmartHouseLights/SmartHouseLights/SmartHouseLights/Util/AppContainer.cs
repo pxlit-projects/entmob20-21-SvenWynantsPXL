@@ -36,6 +36,7 @@ namespace SmartHouseLights.Util
             builder.RegisterType<ConnectionFactory>().As<IConnectionFactory>().SingleInstance();
             builder.RegisterType<StatisticsService>().As<IStatisticsService>().SingleInstance();
             builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
+            builder.RegisterType<AlertService>().As<IAlertService>().SingleInstance();
 
             builder.RegisterInstance(SmartHouseContextFactory.Create()).As<SmartHouseContext>();
 

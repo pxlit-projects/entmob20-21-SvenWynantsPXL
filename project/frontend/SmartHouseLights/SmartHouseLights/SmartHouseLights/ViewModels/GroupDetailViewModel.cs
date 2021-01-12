@@ -12,6 +12,7 @@ namespace SmartHouseLights.ViewModels
     {
         private readonly IGroupService _groupService;
         private readonly INavigationService _navigationService;
+        private readonly IAlertService _alertService;
 
         private Command _flipSwitchCommand;
         public Command FlipSwitchCommand =>
@@ -53,17 +54,18 @@ namespace SmartHouseLights.ViewModels
         }
 
         public GroupDetailViewModel(IGroupService groupService, INavigationService navigationService,
-            IAuthenticationService authService)
+            IAuthenticationService authService, IAlertService alertService)
         {
             _groupService = groupService;
             _navigationService = navigationService;
+            _alertService = alertService;
             ErrorMessage = "";
+            User = authService.GetUser();
             MessagingCenter.Instance.Subscribe<GroupListViewModel, LightGroup>(this, MessageConstants.GroupSelected,
                 (sender, group) =>
                 {
                     Group = group;
                     Title = $"Group: {Group.Name}";
-                    User = authService.GetUser();
                     RefreshCanExecutes();
                 });
         }
@@ -94,7 +96,7 @@ namespace SmartHouseLights.ViewModels
 
         public bool OnCanFlipSwitch()
         {
-            if (Group?.Lights?.Count > 0)
+            if (Group?.Lights?.Count > 0 && User != null)
             {
                 if (User.Groups == null || User.Groups.Count < 1)
                 {
@@ -121,8 +123,7 @@ namespace SmartHouseLights.ViewModels
 
         private async void OnDelete()
         {
-            var action = await Shell.Current.DisplayAlert("Delete group", "Are you sure you want to delete this group?",
-                "Yes", "No");
+            var action = await _alertService.PopupOnDeleteGroup();
 
             if (action)
             {
