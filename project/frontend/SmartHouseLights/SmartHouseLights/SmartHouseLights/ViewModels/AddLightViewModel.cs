@@ -58,7 +58,6 @@ namespace SmartHouseLights.ViewModels
                 CreateEmptyGroup()
             };
             Groups.AddRange(groupService.GetAllGroups());
-            Title = "Add a light";
         }
 
         public void OnSaveLight()

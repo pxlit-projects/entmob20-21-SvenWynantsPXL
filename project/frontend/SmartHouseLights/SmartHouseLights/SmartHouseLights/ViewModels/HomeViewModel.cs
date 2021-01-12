@@ -28,7 +28,6 @@ namespace SmartHouseLights.ViewModels
             _navService = navService;
             _authService = authService;
             User = authService.GetUser();
-            Title = "Welcome " + authService.GetUser().Name;
         }
 
         private void OnGoToStats()

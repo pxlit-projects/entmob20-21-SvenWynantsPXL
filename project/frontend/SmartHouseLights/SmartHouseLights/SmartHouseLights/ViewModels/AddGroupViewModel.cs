@@ -38,7 +38,6 @@ namespace SmartHouseLights.ViewModels
         {
             _navigationService = navigationService;
             _groupService = groupService;
-            Title = "Add a group";
             GroupModel = new CreateGroupModel();
         }
 

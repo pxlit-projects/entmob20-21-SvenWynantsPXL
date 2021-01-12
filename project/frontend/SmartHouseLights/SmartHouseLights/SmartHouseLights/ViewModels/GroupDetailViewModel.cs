@@ -65,7 +65,6 @@ namespace SmartHouseLights.ViewModels
                 (sender, group) =>
                 {
                     Group = group;
-                    Title = $"Group: {Group.Name}";
                     RefreshCanExecutes();
                 });
         }

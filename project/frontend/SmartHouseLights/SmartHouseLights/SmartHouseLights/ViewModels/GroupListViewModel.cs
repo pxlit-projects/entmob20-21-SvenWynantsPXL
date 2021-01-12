@@ -62,7 +62,6 @@ namespace SmartHouseLights.ViewModels
             _groupService = groupService;
             _authService = authService;
             _user = authService.GetUser();
-            Title = "LightGroups";
             Groups = _groupService.GetAllGroups();
             FlipSwitchCommand.ChangeCanExecute();
         }

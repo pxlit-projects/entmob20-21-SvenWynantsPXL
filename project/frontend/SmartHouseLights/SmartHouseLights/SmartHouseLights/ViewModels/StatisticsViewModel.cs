@@ -51,9 +51,6 @@ namespace SmartHouseLights.ViewModels
             _authService = authService;
             _statisticsService = statisticsService;
             _user = authService.GetUser();
-
-            Title = $"Statistics for {User.Name}";
-            
             Statistics = statisticsService.GetAllStatisticsForUserWithId(User.Id);
         }
 
@@ -61,7 +58,6 @@ namespace SmartHouseLights.ViewModels
         {
             IsRefreshing = true;
             User = _authService.GetUser();
-            Title = $"Statistics for {User.Name}";
             Statistics = _statisticsService.GetAllStatisticsForUserWithId(User.Id);
             IsRefreshing = false;
         }

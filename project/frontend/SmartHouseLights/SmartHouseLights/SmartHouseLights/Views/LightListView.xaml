@@ -7,7 +7,7 @@
              xmlns:behaviors="clr-namespace:SmartHouseLights.Behaviors;assembly=SmartHouseLights"
              x:Class="SmartHouseLights.Views.LightListView"
              xmlns:converters="clr-namespace:SmartHouseLights.Converters;assembly=SmartHouseLights"
-             Title="{Binding Title}">
+             Title="Lights">
     <ContentPage.Resources>
         <converters:ItemSelectedConverter 
             x:Key="ItemSelectedConverter">

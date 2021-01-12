@@ -6,7 +6,7 @@
              xmlns:behaviors="clr-namespace:SmartHouseLights.Behaviors;assembly=SmartHouseLights"
              xmlns:converters="clr-namespace:SmartHouseLights.Converters;assembly=SmartHouseLights"
              x:Class="SmartHouseLights.Views.GroupListView"
-             Title="{Binding Title}">
+             Title="Groups">
     <ContentPage.Resources>
         <converters:ItemSelectedConverter x:Key="ItemSelectedConverter" />
         <converters:ButtonToTextConverter x:Key="ButtonBoolToTextConverter" />

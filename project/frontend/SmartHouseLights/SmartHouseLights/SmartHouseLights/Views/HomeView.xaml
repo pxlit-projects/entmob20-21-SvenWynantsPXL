@@ -5,8 +5,7 @@
              x:Class="SmartHouseLights.Views.HomeView"
              xmlns:util="clr-namespace:SmartHouseLights.Util;assembly=SmartHouseLights"
              xmlns:converters="clr-namespace:SmartHouseLights.Converters;assembly=SmartHouseLights"
-             Title="{Binding Title, Mode=OneWay}">
-    
+             Title="Home">
     <ContentPage.Resources>
         <ResourceDictionary>
             <Color x:Key="Accent">#96d1ff</Color>

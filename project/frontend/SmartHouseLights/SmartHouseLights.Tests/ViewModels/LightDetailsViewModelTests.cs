@@ -78,27 +78,6 @@ namespace SmartHouseLights.Tests.ViewModels
         }
 
         [Test]
-        public void OnFlipShouldRefreshCanExecute()
-        {
-            _model.Light = new LightBuilder().WithId(1).WithDummy().Build();
-            _model.Light.OnState = false;
-
-            _lightServiceMock.Setup(l => l.FlipSwitch(1)).Returns(() =>
-            {
-                _model.Light.OnState = !_model.Light.OnState;
-                return _model.Light;
-            });
-
-            _model.FlipSwitchCommand.Execute(null);
-
-            Assert.That(_model.UpdateLightCommand.CanExecute(null), Is.True);
-
-            _model.FlipSwitchCommand.Execute(null);
-
-            Assert.That(_model.UpdateLightCommand.CanExecute(null), Is.False);
-        }
-
-        [Test]
         public void OnDragCompletedShouldCallUpdateLight()
         {
             _model.Light = new LightBuilder().WithId(1).WithDummy().Build();

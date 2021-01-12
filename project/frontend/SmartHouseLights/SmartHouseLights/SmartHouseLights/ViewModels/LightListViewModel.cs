@@ -58,7 +58,6 @@ namespace SmartHouseLights.ViewModels
         {
             _navigationService = navigationService;
             _lightService = lightService;
-            Title = "Lights";
             Lights = lightService.GetAllLights();
             User = authService.GetUser();
             RefreshCanExecutes();

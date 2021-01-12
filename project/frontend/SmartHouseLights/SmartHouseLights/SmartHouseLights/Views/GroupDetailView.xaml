@@ -5,10 +5,9 @@
              xmlns:util="clr-namespace:SmartHouseLights.Util;assembly=SmartHouseLights"
              xmlns:converters="clr-namespace:SmartHouseLights.Converters;assembly=SmartHouseLights"
              x:Class="SmartHouseLights.Views.GroupDetailView"
-             Title="{Binding Title}">
+             Title="Details of group">
     <ContentPage.Resources>
         <converters:LabelStateConverter x:Key="LabelStateConverter" />
-        <converters:ButtonToTextConverter x:Key="ButtonToTextConverter" />
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">

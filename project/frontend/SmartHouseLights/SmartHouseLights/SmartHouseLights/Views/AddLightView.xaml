@@ -7,7 +7,7 @@
              xmlns:behaviors="clr-namespace:SmartHouseLights.Behaviors;assembly=SmartHouseLights"
              util:ViewModelLocator.AutoWireViewModel="True"
              x:Class="SmartHouseLights.Views.AddLightView"
-             Title="{Binding Title}">
+             Title="Add a light">
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
             <Label Text="Name of light"></Label>

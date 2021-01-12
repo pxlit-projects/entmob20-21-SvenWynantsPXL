@@ -93,16 +93,13 @@ namespace SmartHouseLights.ViewModels
                 (sender, light) => 
                 {
                     Light = light;
-                    Title = Light.Name;
                     CurrentGroup = Groups[GetListId(Light.GroupId)];
-                    RefreshCanExecutes();
                 });
         }
 
         private void OnFlipSwitch()
         {
             Light = _lightService.FlipSwitch(Light.Id);
-            RefreshCanExecutes();
         }
 
         private async void OnDelete()
@@ -128,7 +125,6 @@ namespace SmartHouseLights.ViewModels
         private void OnUpdate()
         {
             Light = _lightService.UpdateLight(Light);
-            RefreshCanExecutes();
         }
 
         private void OnAddToGroup()
@@ -148,13 +144,7 @@ namespace SmartHouseLights.ViewModels
         {
             IsRefreshing = true;
             Light = _lightService.GetLightById(Light.Id);
-            RefreshCanExecutes();
             IsRefreshing = false;
-        }
-
-        private void RefreshCanExecutes()
-        {
-            UpdateLightCommand.ChangeCanExecute();
         }
 
         private LightGroup CreateEmptyGroup()

@@ -8,7 +8,6 @@
              mc:Ignorable="d"
              x:Class="SmartHouseLights.Views.LoginView"
              Shell.NavBarIsVisible="False">
-
     <ContentPage.Content>
         <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
             <Label>Username:</Label>

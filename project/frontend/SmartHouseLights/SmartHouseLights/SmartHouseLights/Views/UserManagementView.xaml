@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:util="clr-namespace:SmartHouseLights.Util;assembly=SmartHouseLights"
              x:Class="SmartHouseLights.Views.UserManagementView"
-             Title="{Binding Title}">
+             Title="User management">
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" x:Name="StackLayout">
             <Label Text="User to edit:"></Label>

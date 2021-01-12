@@ -5,7 +5,7 @@
              xmlns:util="clr-namespace:SmartHouseLights.Util;assembly=SmartHouseLights"
              xmlns:converters="clr-namespace:SmartHouseLights.Converters;assembly=SmartHouseLights"
              x:Class="SmartHouseLights.Views.LightDetailsView"
-             Title="{Binding Title}">
+             Title="Details of light">
     <ContentPage.Resources>
         <converters:LabelStateConverter x:Key="LabelStateConverter" />
         <converters:StringTimeConverter x:Key="TimeConverter" />

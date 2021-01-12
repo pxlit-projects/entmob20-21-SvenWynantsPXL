@@ -65,7 +65,6 @@ namespace SmartHouseLights.ViewModels
             _groupService = groupService;
             Users = userService.GetAllUsers();
             Groups = groupService.GetAllGroups();
-            Title = "UserManagement";
         }
 
         private void OnDisableGroup(int groupId)
