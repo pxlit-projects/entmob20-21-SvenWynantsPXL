@@ -105,6 +105,7 @@ public class LightsController {
                 light.setOnTimer(timer);
             }
         }
+        light.setOnSunDown(lightDto.OnSunDown);
         light.setBrightness(lightDto.Brightness);
         light = _lightService.updateLight(light);
 
