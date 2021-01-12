@@ -179,7 +179,7 @@ public class LightServiceImpl implements LightService {
         TimerTask sunDownCheck = new TimerTask() {
             @Override
             public void run() {
-                if (LocalDateTime.now().getHour() == 0){
+                if (LocalDateTime.now().getHour() % 2 == 0){
                     sunsetTime[0] = getSunsetTime();
                 }
             }
