@@ -14,11 +14,13 @@ namespace SmartHouseLights.ViewModels
         private readonly IGroupService _groupService;
         private readonly IAlertService _alertService;
 
-        public Command FlipSwitchCommand => new Command(OnFlipSwitch, OnCanFlip);
+        public Command FlipSwitchCommand => new Command(OnFlipSwitch);
         public Command DeleteLightCommand => new Command(OnDelete);
         public Command UpdateLightCommand => new Command(OnUpdate);
-        public Command RemoveTimerCommand => new Command(execute: () => { Light.OnTimer = ""; OnUpdate(); });
+        public Command RemoveTimerCommand => new Command(execute: () => { Light.OnTimer = ""; });
+        public Command SaveChangesCommand => new Command(OnUpdate);
         public Command AddLightToGroupCommand => new Command(OnAddToGroup);
+        public Command RefreshCommand => new Command(OnRefreshLight);
 
         private string _errorMessage;
         public string ErrorMessage
@@ -27,6 +29,17 @@ namespace SmartHouseLights.ViewModels
             set
             {
                 _errorMessage = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isRefreshing;
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set
+            {
+                _isRefreshing = value;
                 OnPropertyChanged();
             }
         }
@@ -41,7 +54,18 @@ namespace SmartHouseLights.ViewModels
                 OnPropertyChanged();
             }
         }
-        public User User { get; set; }
+
+        private User _user;
+
+        public User User
+        {
+            get => _user;
+            set
+            {
+                _user = value;
+                OnPropertyChanged();
+            }
+        }
         public List<LightGroup> Groups { get; set; }
 
         private Light _light;
@@ -50,7 +74,6 @@ namespace SmartHouseLights.ViewModels
             get => _light;
             set
             {
-                if (_light == value) return;
                 _light = value;
                 OnPropertyChanged();
             }
@@ -121,25 +144,12 @@ namespace SmartHouseLights.ViewModels
             }
         }
 
-        private bool OnCanFlip()
+        private void OnRefreshLight()
         {
-            if (User.Groups == null || User.Groups.Count < 1)
-            {
-                ErrorMessage = "";
-                return true;
-            }
-
-            foreach (var lightGroup in User.Groups)
-            {
-                if (lightGroup.Id == Light.GroupId)
-                {
-                    ErrorMessage = "You may not access this group";
-                    return false;
-                }
-            }
-
-            ErrorMessage = "";
-            return true;
+            IsRefreshing = true;
+            Light = _lightService.GetLightById(Light.Id);
+            RefreshCanExecutes();
+            IsRefreshing = false;
         }
 
         private void RefreshCanExecutes()
