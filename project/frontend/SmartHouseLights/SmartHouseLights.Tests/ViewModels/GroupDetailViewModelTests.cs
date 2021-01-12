@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using Moq;
 using NUnit.Framework;
 using SmartHouseLights.Domain.Models;
@@ -98,8 +101,19 @@ namespace SmartHouseLights.Tests.ViewModels
             _model.User = new UserBuilder().Build();
             _model.Group = new GroupBuilder().WithId(1).WithLights().Build();
 
-            Assert.That(_model.ErrorMessage, Is.EqualTo(""));
             Assert.That(_model.FlipSwitchCommand.CanExecute(null), Is.True);
+        }
+
+        [Test]
+        public void OnCanFlipShouldReturnTrueIfUserHasGroupsButCurrentGroup()
+        {
+            LightGroup denialGroup = new GroupBuilder().WithLights().WithId(2).Build();
+            _model.User = new UserBuilder().WithAdminUser().WithId(1).Build();
+            _model.Group = new GroupBuilder().WithLights().WithId(1).Build();
+            _model.User.Groups = new List<LightGroup>{denialGroup};
+
+            Assert.That(_model.FlipSwitchCommand.CanExecute(null), Is.True);
+            Assert.That(_model.DeleteGroupCommand.CanExecute(null), Is.True);
         }
 
         [Test]
@@ -121,6 +135,67 @@ namespace SmartHouseLights.Tests.ViewModels
 
             Assert.That(_model.OnCanFlipSwitch(), Is.False);
             Assert.That(_model.ErrorMessage, Is.EqualTo("You may not access this group"));
+        }
+
+        [Test]
+        public void OnCanFlipSwitchShouldCheckForDeleteCommand()
+        {
+            _model.Group = null;
+            Assert.That(_model.DeleteGroupCommand.CanExecute(null), Is.False);
+
+            _model.Group = new GroupBuilder().WithId(1).Build();
+            _model.User = null;
+
+            Assert.That(_model.DeleteGroupCommand.CanExecute(null), Is.False);
+            Assert.That(_model.ErrorMessage, Is.EqualTo("There are no lights to turn on"));
+        }
+
+        [Test]
+        public void DeleteCannotExecuteIfUserHasGroupInGroups()
+        {
+            _model.Group = new GroupBuilder().WithId(1).WithLights().Build();
+            _model.User.Groups = new List<LightGroup>{_model.Group};
+
+            Assert.That(_model.DeleteGroupCommand.CanExecute(null), Is.False);
+        }
+
+        [Test]
+        public void OnDeleteShouldDeleteIfConfirmedPopUp()
+        {
+            _model.Group = new GroupBuilder().WithId(1).Build();
+            _alertServiceMock.Setup(a => a.PopupOnDeleteGroup()).Returns(() => Task.FromResult(true));
+            _groupServiceMock.Setup(g => g.DeleteGroupById(1)).Returns(() => true);
+
+            _model.DeleteGroupCommand.Execute(null);
+
+            Assert.That(_model.ErrorMessage, Is.EqualTo(""));
+            _navServiceMock.Verify(n => n.NavigateToAsync(".."), Times.Once);
+            _groupServiceMock.Verify(g => g.DeleteGroupById(1), Times.Once);
+        }
+
+        [Test]
+        public void OnDeleteShouldDoNothingIfCanceledPopUp()
+        {
+            _model.Group = new GroupBuilder().WithId(1).Build();
+            _alertServiceMock.Setup(a => a.PopupOnDeleteGroup()).Returns(() => Task.FromResult(false));
+
+            _model.DeleteGroupCommand.Execute(null);
+
+            _navServiceMock.Verify(n => n.NavigateToAsync(".."), Times.Never);
+            _groupServiceMock.Verify(g => g.DeleteGroupById(1), Times.Never);
+        }
+
+        [Test]
+        public void OnDeleteShouldSetErrorMessageIfDeleteDidNotWork()
+        {
+            _model.Group = new GroupBuilder().WithId(1).Build();
+            _alertServiceMock.Setup(a => a.PopupOnDeleteGroup()).Returns(() => Task.FromResult(true));
+            _groupServiceMock.Setup(g => g.DeleteGroupById(1)).Returns(() => false);
+
+            _model.DeleteGroupCommand.Execute(null);
+
+            Assert.That(_model.ErrorMessage, Is.EqualTo("Something went wrong deleting the group"));
+            _navServiceMock.Verify(n => n.NavigateToAsync(".."), Times.Never);
         }
     }
 }

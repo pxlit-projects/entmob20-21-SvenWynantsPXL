@@ -121,9 +121,9 @@ namespace SmartHouseLights.ViewModels
             return false;
         }
 
-        private async void OnDelete()
+        private void OnDelete()
         {
-            var action = await _alertService.PopupOnDeleteGroup();
+            var action = _alertService.PopupOnDeleteGroup().Result;
 
             if (action)
             {
@@ -132,7 +132,7 @@ namespace SmartHouseLights.ViewModels
                 if (success)
                 {
                     ErrorMessage = "";
-                    await _navigationService.NavigateToAsync("..");
+                    _navigationService.NavigateToAsync("..");
                 }
                 else
                 {
