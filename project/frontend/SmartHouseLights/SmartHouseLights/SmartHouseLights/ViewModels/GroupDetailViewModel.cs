@@ -18,7 +18,7 @@ namespace SmartHouseLights.ViewModels
         public Command FlipSwitchCommand =>
             _flipSwitchCommand ??= new Command(OnFlipSwitch, OnCanFlipSwitch);
 
-        public Command DeleteGroupCommand => new Command(OnDelete);
+        public Command DeleteGroupCommand => new Command(OnDelete, OnCanFlipSwitch);
 
         private string _errorMessage;
         public string ErrorMessage
@@ -144,6 +144,7 @@ namespace SmartHouseLights.ViewModels
         private void RefreshCanExecutes()
         {
             FlipSwitchCommand.ChangeCanExecute();
+            DeleteGroupCommand.ChangeCanExecute();
         }
     }
 }
