@@ -25,21 +25,6 @@ namespace SmartHouseLights.Tests.ViewModels
         }
 
         [Test]
-        public void OnCreateModelShouldSetUserAndTitle()
-        {
-            var user = new UserBuilder().WithAdminUser().Build();
-            _authServiceMock.Setup(a => a.GetUser())
-                .Returns(() => user);
-            _statServiceMock.Setup(s => s.GetAllStatisticsForUserWithId(user.Id))
-                .Returns(() => new List<UserLightStatistic>());
-
-            _model = new StatisticsViewModel(_authServiceMock.Object, _statServiceMock.Object);
-
-            Assert.That(_model.IsRefreshing, Is.False);
-            Assert.That(_model.Title, Is.EqualTo($"Statistics for {user.Name}"));
-        }
-
-        [Test]
         public void OnCreateModelShouldFillListWithStats()
         {
             var user = new UserBuilder().WithAdminUser().Build();

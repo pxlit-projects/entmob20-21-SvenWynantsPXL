@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using SmartHouseLights.Domain.Models;
 using SmartHouseLights.Services.Interfaces;
 using SmartHouseLights.Tests.Builders;
 using SmartHouseLights.ViewModels;
+using Xamarin.Forms;
 
 namespace SmartHouseLights.Tests.ViewModels
 {
@@ -37,6 +40,7 @@ namespace SmartHouseLights.Tests.ViewModels
                     };
                     return groups;
                 });
+            _authServiceMock.Setup(a => a.GetUser()).Returns(() => new UserBuilder().WithAdminUser().WithId(1).Build());
 
             _model = new LightDetailsViewModel(_lightServiceMock.Object, _navServiceMock.Object, _groupServiceMock.Object, _authServiceMock.Object, _alertServiceMock.Object);
         }
@@ -107,6 +111,87 @@ namespace SmartHouseLights.Tests.ViewModels
 
             _groupServiceMock.Verify(g => g.AddLightToGroup(1, 1), Times.Once);
             Assert.That(_model.ErrorMessage, Is.EqualTo(""));
+        }
+
+        [Test]
+        public void OnDeleteShouldNavigateToPreviousPageAndEmptyMessage()
+        {
+            _model.Light = new LightBuilder().WithId(1).Build();
+            _alertServiceMock.Setup(a => a.PopupOnDeleteLight()).Returns(() => Task.FromResult(true));
+            _lightServiceMock.Setup(l => l.DeleteLightById(1)).Returns(() => true);
+
+            _model.DeleteLightCommand.Execute(null);
+
+            Assert.That(_model.ErrorMessage, Is.EqualTo(""));
+            _navServiceMock.Verify(n => n.NavigateToAsync(".."), Times.Once);
+        }
+
+        [Test]
+        public void OnDeleteShouldSetErrorMessageIfDeleteWentWrong()
+        {
+            _model.Light = new LightBuilder().WithId(1).Build();
+            _alertServiceMock.Setup(a => a.PopupOnDeleteLight()).Returns(() => Task.FromResult(true));
+            _lightServiceMock.Setup(l => l.DeleteLightById(1)).Returns(() => false);
+
+            _model.DeleteLightCommand.Execute(null);
+
+            Assert.That(_model.ErrorMessage, Is.EqualTo("Something went wrong deleting the light"));
+        }
+
+        [Test]
+        public void UserShouldBeSetOnCreationOfModel()
+        {
+            Assert.That(_model.User, Is.Not.Null);
+        }
+
+        [Test]
+        public void RefreshCommandShouldRefreshLight()
+        {
+            _model.IsRefreshing = true;
+            _model.Light = new LightBuilder().WithId(1).WithDummy().Build();
+            Light updatedLight = new LightBuilder().WithId(1).WithDummy().Build();
+            updatedLight.Manufacturer = Manufacturer.PHILIPS;
+            _lightServiceMock.Setup(l => l.GetLightById(1)).Returns(() => updatedLight);
+            Light light = _model.Light;
+
+            _model.RefreshCommand.Execute(null);
+
+            Assert.That(updatedLight.Id, Is.EqualTo(light.Id));
+            Assert.That(updatedLight.Manufacturer, Is.Not.EqualTo(light.Manufacturer));
+            Assert.That(_model.IsRefreshing, Is.False);
+        }
+
+        [Test]
+        public void RemoveTimerShouldSetTimerOfLightToEmptyString()
+        {
+            _model.Light = new LightBuilder().WithId(1).WithDummy().Build();
+            _model.Light.OnTimer = "test string";
+
+            _model.RemoveTimerCommand.Execute(null);
+
+            Assert.That(_model.Light.OnTimer, Is.EqualTo(""));
+        }
+
+        [Test]
+        public void SaveChangesCommandShouldCallUpdateLight()
+        {
+            _model.Light = new LightBuilder().WithId(1).Build();
+            _model.Light.Brightness = 100;
+            _lightServiceMock.Setup(l => l.UpdateLight(_model.Light)).Returns(() => _model.Light);
+
+            _model.SaveChangesCommand.Execute(null);
+
+            _lightServiceMock.Verify(l => l.UpdateLight(_model.Light), Times.Once);
+        }
+
+        [Test]
+        public void GetListIdShouldThrowErrorIfGroupIdDoesNotExist()
+        {
+            _model.Light = new LightBuilder().WithId(1).WithDummy().Build();
+            _lightServiceMock.Setup(l => l.GetLightById(1)).Returns(_model.Light);
+            _model.Light.GroupId = 5;
+            
+            Assert.Throws<InvalidOperationException>(() => _model.RefreshCommand.Execute(null));
         }
     }
 }

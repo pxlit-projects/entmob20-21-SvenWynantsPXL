@@ -94,7 +94,7 @@ namespace SmartHouseLights.ViewModels
             if (CurrentUser != null)
             {
                 _user = _userService.FindUserById(CurrentUser.Id);
-                if (_user.Groups == null || _user.Groups.Count == 0)
+                if (CurrentUser.Groups == null || CurrentUser.Groups.Count == 0)
                 {
                     EnabledGroups = Groups;
                     DisabledGroups = new List<LightGroup>();
@@ -105,7 +105,7 @@ namespace SmartHouseLights.ViewModels
                     List<LightGroup> disabled = new List<LightGroup>();
                     foreach (var lightGroup in Groups)
                     {
-                        if (_user.Groups.Select(g => g.Id).Contains(lightGroup.Id))
+                        if (CurrentUser.Groups.Select(g => g.Id).Contains(lightGroup.Id))
                         {
                             disabled.Add(lightGroup);
                         }

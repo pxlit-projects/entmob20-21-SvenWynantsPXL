@@ -58,5 +58,13 @@ namespace SmartHouseLights.Tests.ViewModels
             Assert.That(_model.DisableGroupCommand.CanExecute(1), Is.False);
             Assert.That(_model.EnableGroupCommand.CanExecute(1), Is.False);
         }
+
+        [Test]
+        public void CreationOfModelShouldFillUsersAndGroups()
+        {
+            Assert.That(_model.Groups, Is.Not.Null);
+            Assert.That(_model.Users, Is.Not.Null);
+        }
+
     }
 }

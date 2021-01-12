@@ -56,19 +56,6 @@ namespace SmartHouseLights.Tests.ViewModels
         }
 
         [Test]
-        public void TitleShouldBeWelcomeUsername()
-        {
-            var user = new UserBuilder().WithAdminUser().Build();
-
-            _authServiceMock.Setup(a => a.GetUser())
-                .Returns(() => user);
-
-            _homeViewModel = new HomeViewModel(_navServiceMock.Object, _authServiceMock.Object);
-
-            Assert.That(_homeViewModel.Title, Is.EqualTo($"Welcome {user.Name}"));
-        }
-
-        [Test]
         public void UserShouldBeSetOnCreation()
         {
             Assert.That(_homeViewModel.User, Is.Not.Null);

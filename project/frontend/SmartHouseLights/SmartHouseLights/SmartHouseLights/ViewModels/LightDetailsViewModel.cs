@@ -93,7 +93,7 @@ namespace SmartHouseLights.ViewModels
                 (sender, light) => 
                 {
                     Light = light;
-                    CurrentGroup = Groups[GetListId(Light.GroupId)];
+                    OnRefreshLight();
                 });
         }
 
@@ -102,9 +102,9 @@ namespace SmartHouseLights.ViewModels
             Light = _lightService.FlipSwitch(Light.Id);
         }
 
-        private async void OnDelete()
+        private void OnDelete()
         {
-            var action = await _alertService.PopupOnDeleteLight();
+            var action = _alertService.PopupOnDeleteLight().Result;
 
             if (action)
             {
@@ -113,7 +113,7 @@ namespace SmartHouseLights.ViewModels
                 if (success)
                 {
                     ErrorMessage = "";
-                    await _navigationService.NavigateToAsync($"..");
+                    _navigationService.NavigateToAsync($"..");
                 }
                 else
                 {
@@ -144,6 +144,7 @@ namespace SmartHouseLights.ViewModels
         {
             IsRefreshing = true;
             Light = _lightService.GetLightById(Light.Id);
+            CurrentGroup = Groups[GetListId(Light.GroupId)];
             IsRefreshing = false;
         }
 
@@ -168,7 +169,7 @@ namespace SmartHouseLights.ViewModels
                 }
             }
 
-            return 0;
+            throw new InvalidOperationException(id.ToString());
         }
     }
 }
