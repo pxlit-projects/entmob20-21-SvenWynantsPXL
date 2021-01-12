@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SmartHouseLights.Domain.Models;
 using SmartHouseLights.Services.Interfaces;
@@ -127,8 +128,7 @@ namespace SmartHouseLights.ViewModels
                     return i;
                 }
             }
-
-            return 0;
+            throw new InvalidOperationException(id.ToString());
         }
     }
 }

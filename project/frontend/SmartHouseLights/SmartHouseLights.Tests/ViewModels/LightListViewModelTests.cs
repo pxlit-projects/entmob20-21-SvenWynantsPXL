@@ -15,12 +15,15 @@ namespace SmartHouseLights.Tests.ViewModels
         private LightListViewModel _lightListViewModel;
         private Mock<INavigationService> _navServiceMock;
         private Mock<ILightService> _lightServiceMock;
+        private Mock<IAuthenticationService> _authServiceMock;
 
         [SetUp]
         public void Setup()
         {
             _navServiceMock = new Mock<INavigationService>();
             _lightServiceMock = new Mock<ILightService>();
+            _authServiceMock = new Mock<IAuthenticationService>();
+
             List<Light> lights = new List<Light>
             {
                 new LightBuilder().WithDummy().WithId(1).Build(),
@@ -28,7 +31,7 @@ namespace SmartHouseLights.Tests.ViewModels
             };
 
             _lightServiceMock.Setup(l => l.GetAllLights()).Returns(() => lights);
-            _lightListViewModel = new LightListViewModel(_navServiceMock.Object, _lightServiceMock.Object);
+            _lightListViewModel = new LightListViewModel(_navServiceMock.Object, _lightServiceMock.Object, _authServiceMock.Object);
         }
 
         [Test]

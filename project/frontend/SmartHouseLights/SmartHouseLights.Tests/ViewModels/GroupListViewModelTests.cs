@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
 using SmartHouseLights.Domain.Models;
@@ -130,6 +131,12 @@ namespace SmartHouseLights.Tests.ViewModels
             _model.User.Groups = new List<LightGroup>{_model.Groups[0]};
 
             Assert.That(_model.FlipSwitchCommand.CanExecute(1), Is.False);
+        }
+
+        [Test]
+        public void WrongIdOfGroupShouldThrowInvalidOperationError()
+        {
+            Assert.Throws<InvalidOperationException>(() => _model.FlipSwitchCommand.CanExecute(0));
         }
     }
 }

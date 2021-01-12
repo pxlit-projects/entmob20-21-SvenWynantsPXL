@@ -9,7 +9,6 @@
     <ContentPage.Resources>
         <converters:LabelStateConverter x:Key="LabelStateConverter" />
         <converters:StringTimeConverter x:Key="TimeConverter" />
-        <converters:OppositeBoolConverter x:Key="OppositeBoolConverter" />
     </ContentPage.Resources>
     <ContentPage.Content>
         <ListView IsPullToRefreshEnabled="True" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
@@ -28,10 +27,7 @@
                         <CheckBox IsChecked="{Binding Light.OnSunDown, Mode=TwoWay}"></CheckBox>
                     </StackLayout>
                     <TimePicker Margin="10" Time="{Binding Light.OnTimer, Mode=TwoWay, Converter={StaticResource TimeConverter}}"></TimePicker>
-                    <StackLayout Orientation="Horizontal">
-                        <Button Text="Set time" Margin="10" Command="{Binding UpdateLightCommand}"></Button>
-                        <Button Text="Remove Timer" Margin="10" Command="{Binding RemoveTimerCommand}"></Button>
-                    </StackLayout>
+                    <Button Text="Remove Timer" Margin="10" Command="{Binding RemoveTimerCommand}"></Button>
                     <StackLayout Orientation="Horizontal">
                         <Label Text="Brightness of light: " Margin="10, 0, 0, 0" ></Label>
                         <Label Text="{Binding Light.Brightness, Mode=OneWay}" Margin="10, 0, 0, 0" ></Label>
@@ -41,7 +37,7 @@
                     <Picker Margin="10" SelectedItem="{Binding CurrentGroup, Mode=TwoWay}" ItemDisplayBinding="{Binding Name}" ItemsSource="{Binding Groups}"></Picker>
                     <Button Text="Save Group" Command="{Binding AddLightToGroupCommand}" Margin="10"></Button>
                     <Button Command="{Binding FlipSwitchCommand}" Text="Flip switch" Margin="10"></Button>
-                    <Button Command="{Binding SaveChangesCommand}" Text="Save changes"></Button>
+                    <Button Command="{Binding UpdateLightCommand}" Text="Save changes"></Button>
                     <Label Text="{Binding ErrorMessage, Mode=OneWay}" TextColor="Red" Margin="10, 0, 0, 0"></Label>
                     <Button Command="{Binding DeleteLightCommand}" Text="Delete light" Margin="20"></Button>
                 </StackLayout>
