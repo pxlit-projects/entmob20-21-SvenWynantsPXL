@@ -11,7 +11,7 @@ namespace SmartHouseLights.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly ILightService _lightService;
-        public Command LightSelectedCommand => new Command<int>(OnLightSelected);
+        public Command LightSelectedCommand => new Command<int>(OnLightSelected, OnCanSelect);
 
         public Command AddLightCommand => new Command(OnClickAdd);
 
@@ -27,8 +27,20 @@ namespace SmartHouseLights.ViewModels
             }
         }
 
+        private User _user;
+
+        public User User
+        {
+            get => _user;
+            set
+            {
+                _user = value;
+                OnPropertyChanged();
+            }
+        }
+
         public Command RefreshListCommand => new Command(OnRefreshList);
-        public Command FlipSwitchCommand => new Command<int>(OnFlipPressed);
+        public Command FlipSwitchCommand => new Command<int>(OnFlipPressed, OnCanFlip);
 
         private List<Light> _lights;
         public List<Light> Lights 
@@ -41,12 +53,15 @@ namespace SmartHouseLights.ViewModels
             }
         }
 
-        public LightListViewModel(INavigationService navigationService, ILightService lightService)
+        public LightListViewModel(INavigationService navigationService, ILightService lightService,
+            IAuthenticationService authService)
         {
             _navigationService = navigationService;
             _lightService = lightService;
             Title = "Lights";
             Lights = lightService.GetAllLights();
+            User = authService.GetUser();
+            RefreshCanExecutes();
         }
 
         private void OnLightSelected(int lightId)
@@ -68,10 +83,46 @@ namespace SmartHouseLights.ViewModels
             _navigationService.NavigateToAsync(nameof(AddLightView));
         }
 
+        private bool OnCanFlip(int lightId)
+        {
+            return CheckPrivilege(GetListId(lightId));
+        }
+
+        private bool OnCanSelect(int listId)
+        {
+            return CheckPrivilege(listId);
+        }
+
+        private bool CheckPrivilege(int id)
+        {
+            if (Lights[id]?.GroupId != 0)
+            {
+                if (User?.Groups == null || User.Groups.Count == 0)
+                {
+                    return true;
+                }
+                foreach (var lightGroup in User.Groups)
+                {
+                    if (lightGroup.Id == Lights[id].GroupId)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        private void RefreshCanExecutes()
+        {
+            FlipSwitchCommand.ChangeCanExecute();
+        }
+
         private void OnRefreshList()
         {
             IsRefreshing = true;
             Lights = _lightService.GetAllLights();
+            RefreshCanExecutes();
             IsRefreshing = false;
         }
 
