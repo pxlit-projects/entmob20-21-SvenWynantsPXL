@@ -12,35 +12,40 @@
         <converters:OppositeBoolConverter x:Key="OppositeBoolConverter" />
     </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical">
-            <Label Text="{Binding Light.Name}"
+        <ListView IsPullToRefreshEnabled="True" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
+            <ListView.Header>
+                <StackLayout Orientation="Vertical">
+                    <Label Text="{Binding Light.Name}"
                    VerticalOptions="StartAndExpand" 
                    HorizontalOptions="CenterAndExpand"
                    Style="{DynamicResource TitleStyle}"/>
-            <StackLayout Orientation="Horizontal">
-                <Label Text="State of Light: " Margin="10, 0, 0, 0" />
-                <Label Text="{Binding Light.OnState, Mode=OneWay, Converter={StaticResource LabelStateConverter}}" Margin="10, 0, 0, 0" />
-            </StackLayout>
-            <StackLayout Orientation="Horizontal">
-                <Label Text="Want to turn on light 30min before sunset?"></Label>
-                <CheckBox IsChecked="{Binding Light.OnSunDown, Mode=TwoWay}"></CheckBox>
-            </StackLayout>
-            <TimePicker Margin="10" Time="{Binding Light.OnTimer, Mode=TwoWay, Converter={StaticResource TimeConverter}}"></TimePicker>
-            <StackLayout Orientation="Horizontal">
-                <Button Text="Set time" Margin="10" Command="{Binding UpdateLightCommand}"></Button>
-                <Button Text="Remove Timer" Margin="10" Command="{Binding RemoveTimerCommand}"></Button>
-            </StackLayout>
-            <StackLayout Orientation="Horizontal">
-                <Label Text="Brightness of light: " Margin="10, 0, 0, 0" ></Label>
-                <Label Text="{Binding Light.Brightness, Mode=OneWay}" Margin="10, 0, 0, 0" ></Label>
-            </StackLayout>
-            <Slider Value="{Binding Light.Brightness, Mode=TwoWay}" DragCompletedCommand="{Binding UpdateLightCommand}" Minimum="0" Maximum="100" Margin="10"></Slider>
-            <Label Text="Group of the light:" Margin="10, 0, 0, 0" ></Label>
-            <Picker Margin="10" SelectedItem="{Binding CurrentGroup, Mode=TwoWay}" ItemDisplayBinding="{Binding Name}" ItemsSource="{Binding Groups}"></Picker>
-            <Button Text="Save Group" Command="{Binding AddLightToGroupCommand}" Margin="10"></Button>
-            <Button Command="{Binding FlipSwitchCommand}" Text="Flip switch" Margin="10"></Button>
-            <Label Text="{Binding ErrorMessage, Mode=OneWay}" TextColor="Red" Margin="10, 0, 0, 0"></Label>
-            <Button Command="{Binding DeleteLightCommand}" Text="Delete light" Margin="20"></Button>
-        </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="State of Light: " Margin="10, 0, 0, 0" />
+                        <Label Text="{Binding Light.OnState, Mode=OneWay, Converter={StaticResource LabelStateConverter}}" Margin="10, 0, 0, 0" />
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Want to turn on light 30min before sunset?"></Label>
+                        <CheckBox IsChecked="{Binding Light.OnSunDown, Mode=TwoWay}"></CheckBox>
+                    </StackLayout>
+                    <TimePicker Margin="10" Time="{Binding Light.OnTimer, Mode=TwoWay, Converter={StaticResource TimeConverter}}"></TimePicker>
+                    <StackLayout Orientation="Horizontal">
+                        <Button Text="Set time" Margin="10" Command="{Binding UpdateLightCommand}"></Button>
+                        <Button Text="Remove Timer" Margin="10" Command="{Binding RemoveTimerCommand}"></Button>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Brightness of light: " Margin="10, 0, 0, 0" ></Label>
+                        <Label Text="{Binding Light.Brightness, Mode=OneWay}" Margin="10, 0, 0, 0" ></Label>
+                    </StackLayout>
+                    <Slider Value="{Binding Light.Brightness, Mode=TwoWay}" DragCompletedCommand="{Binding UpdateLightCommand}" Minimum="0" Maximum="100" Margin="10"></Slider>
+                    <Label Text="Group of the light:" Margin="10, 0, 0, 0" ></Label>
+                    <Picker Margin="10" SelectedItem="{Binding CurrentGroup, Mode=TwoWay}" ItemDisplayBinding="{Binding Name}" ItemsSource="{Binding Groups}"></Picker>
+                    <Button Text="Save Group" Command="{Binding AddLightToGroupCommand}" Margin="10"></Button>
+                    <Button Command="{Binding FlipSwitchCommand}" Text="Flip switch" Margin="10"></Button>
+                    <Button Command="{Binding SaveChangesCommand}" Text="Save changes"></Button>
+                    <Label Text="{Binding ErrorMessage, Mode=OneWay}" TextColor="Red" Margin="10, 0, 0, 0"></Label>
+                    <Button Command="{Binding DeleteLightCommand}" Text="Delete light" Margin="20"></Button>
+                </StackLayout>
+            </ListView.Header>
+        </ListView>
     </ContentPage.Content>
 </ContentPage>
