@@ -3,8 +3,12 @@
              util:ViewModelLocator.AutoWireViewModel="True"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:util="clr-namespace:SmartHouseLights.Util;assembly=SmartHouseLights"
+             xmlns:converters="clr-namespace:SmartHouseLights.Converters;assembly=SmartHouseLights"
              x:Class="SmartHouseLights.Views.StatisticsView"
              Title="Statistics">
+    <ContentPage.Resources>
+        <converters:TimeStampConverter x:Key="TimeStampConverter" />
+    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout>
             <Label Text="{Binding Title, Mode=OneWay}" Style="{DynamicResource TitleStyle}"></Label>
@@ -22,8 +26,8 @@
                                         <Label Text="{Binding TurnedOnTime}"></Label>
                                     </StackLayout>
                                     <StackLayout Orientation="Horizontal">
-                                        <Label Text="Hours on:"></Label>
-                                        <Label Text="{Binding HoursOn}"></Label>
+                                        <Label Text="Time on:"></Label>
+                                        <Label Text="{Binding HoursOn, Converter={StaticResource TimeStampConverter}, Mode=OneWay}"></Label>
                                     </StackLayout>
                                 </StackLayout>
                             </ViewCell.View>

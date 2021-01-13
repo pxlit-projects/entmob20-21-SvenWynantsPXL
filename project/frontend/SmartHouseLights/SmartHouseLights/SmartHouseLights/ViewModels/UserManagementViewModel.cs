@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SmartHouseLights.Domain.Models;
 using SmartHouseLights.Services.Interfaces;
@@ -93,8 +94,10 @@ namespace SmartHouseLights.ViewModels
         {
             if (CurrentUser != null)
             {
-                _user = _userService.FindUserById(CurrentUser.Id);
-                if (CurrentUser.Groups == null || CurrentUser.Groups.Count == 0)
+                int id = CurrentUser.Id;
+
+                _user = _userService.FindUserById(id);
+                if (_user.Groups == null || _user.Groups.Count == 0)
                 {
                     EnabledGroups = Groups;
                     DisabledGroups = new List<LightGroup>();
@@ -105,7 +108,7 @@ namespace SmartHouseLights.ViewModels
                     List<LightGroup> disabled = new List<LightGroup>();
                     foreach (var lightGroup in Groups)
                     {
-                        if (CurrentUser.Groups.Select(g => g.Id).Contains(lightGroup.Id))
+                        if (_user.Groups.Select(g => g.Id).Contains(lightGroup.Id))
                         {
                             disabled.Add(lightGroup);
                         }

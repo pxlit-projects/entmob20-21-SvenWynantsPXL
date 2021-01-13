@@ -11,7 +11,7 @@ namespace SmartHouseLights.Data
 
         public SmartHouseContext(DbContextOptions<SmartHouseContext> options) : base(options)
         {
-            Database.EnsureCreated();
+            Database.Migrate();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -41,6 +41,7 @@ namespace SmartHouseLights.Tests.ViewModels
                     };
                     return users;
                 });
+            _userServiceMock.Setup(u => u.FindUserById(It.IsAny<int>())).Returns(() => new UserBuilder().WithAdminUser().WithId(1).Build());
 
             _model = new UserManagementViewModel(_userServiceMock.Object, _groupServiceMock.Object);
         }
@@ -66,5 +67,57 @@ namespace SmartHouseLights.Tests.ViewModels
             Assert.That(_model.Users, Is.Not.Null);
         }
 
+        [Test]
+        public void EnableGroupShouldCreateEmptyDisabledGroupsListIfUserHasNoGroups()
+        {
+            var user = new UserBuilder().WithId(1).WithAdminUser().Build();
+            _model.CurrentUser = user;
+
+            _model.EnableGroupCommand.Execute(1);
+            _userServiceMock.Verify(u => u.RemoveRestriction(1, 1), Times.Once);
+            Assert.That(_model.DisabledGroups.Count, Is.EqualTo(0));
+            Assert.That(_model.EnabledGroups.Count, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void DisableAndEnableGroupShouldCheckIfUserSelected()
+        {
+            _model.CurrentUser = _model.Users[0];
+
+            Assert.True(_model.DisableGroupCommand.CanExecute(1));
+            Assert.True(_model.EnableGroupCommand.CanExecute(1));
+        }
+
+        [Test]
+        public void DisableGroupShouldCallRestrictUser()
+        {
+            _model.CurrentUser = _model.Users[0];
+            
+            _model.DisableGroupCommand.Execute(1);
+
+            _userServiceMock.Verify(u => u.RestrictUserForGroup(1, 1), Times.Once);
+        }
+
+        [Test]
+        public void DisableGroupShouldAddGroupToDisabledGroupList()
+        {
+            var user = new UserBuilder().WithAdminUser().WithId(1).Build();
+            var lightGroup = new GroupBuilder().WithLights().WithId(1).Build();
+            _userServiceMock.Setup(u => u.FindUserById(1))
+                .Returns(() =>
+                {
+                    user.Groups = new List<LightGroup> {lightGroup};
+                    return user;
+                });
+
+            _model = new UserManagementViewModel(_userServiceMock.Object, _groupServiceMock.Object);
+
+            _model.CurrentUser = user;
+
+            _model.DisableGroupCommand.Execute(1);
+
+            Assert.That(_model.DisabledGroups.Count, Is.EqualTo(1));
+            Assert.That(_model.EnabledGroups.Count, Is.EqualTo(1));
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace SmartHouseLights.Data.Services.Interfaces
         void SaveStatistic(UserLightStatistic statistic);
         void AddStatistic(UserLightStatistic statistic);
         List<UserLightStatistic> GetAllStatisticsForUserWithId(int userId);
+        void DeleteStatisticsByLight(int lightId);
     }
 }

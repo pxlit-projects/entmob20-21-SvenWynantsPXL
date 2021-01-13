@@ -45,6 +45,7 @@ namespace SmartHouseLights.Tests.ViewModels
 
             Assert.That(_model.Statistics, Is.Not.Null);
             Assert.That(_model.Statistics.Count, Is.EqualTo(2));
+            Assert.That(_model.Title, Is.EqualTo("Statistics for " + _model.User.Name));
         }
 
         [Test]

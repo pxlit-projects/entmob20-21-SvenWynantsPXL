@@ -33,6 +33,17 @@ namespace SmartHouseLights.ViewModels
             }
         }
 
+        private string _title;
+        public string Title
+        {
+            get => _title;
+            set
+            {
+                _title = value;
+                OnPropertyChanged();
+            }
+        }
+
         private List<UserLightStatistic> _statistics;
         public List<UserLightStatistic> Statistics
         {
@@ -52,6 +63,7 @@ namespace SmartHouseLights.ViewModels
             _statisticsService = statisticsService;
             _user = authService.GetUser();
             Statistics = statisticsService.GetAllStatisticsForUserWithId(User.Id);
+            Title = "Statistics for " + _user.Name;
         }
 
         private void OnRefreshStats()

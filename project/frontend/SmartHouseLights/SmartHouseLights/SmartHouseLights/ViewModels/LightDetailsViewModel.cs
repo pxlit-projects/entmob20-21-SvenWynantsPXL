@@ -102,9 +102,9 @@ namespace SmartHouseLights.ViewModels
             Light = _lightService.FlipSwitch(Light.Id);
         }
 
-        private void OnDelete()
+        private async void OnDelete()
         {
-            var action = _alertService.PopupOnDeleteLight().Result;
+            var action = await _alertService.PopupOnDeleteLight();
 
             if (action)
             {
@@ -113,7 +113,7 @@ namespace SmartHouseLights.ViewModels
                 if (success)
                 {
                     ErrorMessage = "";
-                    _navigationService.NavigateToAsync($"..");
+                    await _navigationService.NavigateToAsync($"..").ConfigureAwait(false);
                 }
                 else
                 {
@@ -129,15 +129,7 @@ namespace SmartHouseLights.ViewModels
 
         private void OnAddToGroup()
         {
-            if (CurrentGroup.Id != 0)
-            {
-                ErrorMessage = "";
-                _groupService.AddLightToGroup(CurrentGroup.Id, Light.Id);
-            }
-            else
-            {
-                ErrorMessage = "You cannot add no group!";
-            }
+            _groupService.AddLightToGroup(CurrentGroup.Id, Light.Id);
         }
 
         private void OnRefreshLight()

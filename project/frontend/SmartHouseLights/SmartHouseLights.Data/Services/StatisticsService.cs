@@ -49,5 +49,15 @@ namespace SmartHouseLights.Data.Services
         {
             return _context.UserLightStatistics.Where(u => u.UserId == userId).Include(s => s.Light).ToList();
         }
+
+        public void DeleteStatisticsByLight(int lightId)
+        {
+            List<UserLightStatistic> statistics =
+                _context.UserLightStatistics.Where(u => u.LightId == lightId).ToList();
+            if (statistics.Count != 0)
+            {
+                _context.UserLightStatistics.RemoveRange(statistics);
+            }
+        }
     }
 }

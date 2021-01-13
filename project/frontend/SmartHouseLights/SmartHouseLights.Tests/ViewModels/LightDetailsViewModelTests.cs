@@ -94,26 +94,6 @@ namespace SmartHouseLights.Tests.ViewModels
         }
 
         [Test]
-        public void AddLightToGroupShouldPutLightInAGroup()
-        {
-            _model.CurrentGroup = new GroupBuilder().WithId(0).Build();
-            _model.Light = new LightBuilder().WithId(1).WithDummy().Build();
-            _groupServiceMock.Setup(g => g.AddLightToGroup(1, 1)).Returns(() => _model.CurrentGroup);
-            
-            _model.AddLightToGroupCommand.Execute(null);
-
-            _groupServiceMock.Verify(g => g.AddLightToGroup(0, 1), Times.Never);
-            Assert.That(_model.ErrorMessage, Is.EqualTo("You cannot add no group!"));
-
-            _model.CurrentGroup = new GroupBuilder().WithId(1).Build();
-
-            _model.AddLightToGroupCommand.Execute(null);
-
-            _groupServiceMock.Verify(g => g.AddLightToGroup(1, 1), Times.Once);
-            Assert.That(_model.ErrorMessage, Is.EqualTo(""));
-        }
-
-        [Test]
         public void OnDeleteShouldNavigateToPreviousPageAndEmptyMessage()
         {
             _model.Light = new LightBuilder().WithId(1).Build();
@@ -142,6 +122,17 @@ namespace SmartHouseLights.Tests.ViewModels
         public void UserShouldBeSetOnCreationOfModel()
         {
             Assert.That(_model.User, Is.Not.Null);
+        }
+
+        [Test]
+        public void OnAddGroupShouldSetChosenGroupForLight()
+        {
+            _model.CurrentGroup = new GroupBuilder().WithLights().WithId(1).Build();
+            _model.Light = new LightBuilder().WithId(1).Build();
+
+            _model.AddLightToGroupCommand.Execute(null);
+
+            _groupServiceMock.Verify(g => g.AddLightToGroup(1, 1), Times.Once);
         }
 
         [Test]
