@@ -38,6 +38,19 @@ namespace SmartHouseLights.Tests.ViewModels
         }
 
         [Test]
+        public void OnLightSelectedShouldNavigateToDetailPage()
+        {
+            int id = 0;
+            Light light = _model.Lights[id];
+            _lightServiceMock.Setup(l => l.GetLightById(1)).Returns(() => light);
+
+            _model.LightSelectedCommand.Execute(id);
+
+            _lightServiceMock.Verify(l => l.GetLightById(1), Times.Once);
+            _navServiceMock.Verify(n => n.NavigateToAsync("LightDetailsView"), Times.Once);
+        }
+
+        [Test]
         public void CreateModelShouldSetLights()
         {
             Assert.That(_model.Lights, Is.Not.Null);
@@ -69,19 +82,6 @@ namespace SmartHouseLights.Tests.ViewModels
 
             Assert.That(_model.IsRefreshing, Is.False);
             Assert.That(_model.Lights, Is.Empty);
-        }
-
-        [Test]
-        public void OnLightSelectedShouldNavigateToDetailPage()
-        {
-            int id = 0;
-            Light light = _model.Lights[id];
-            _lightServiceMock.Setup(l => l.GetLightById(1)).Returns(() => light);
-
-            _model.LightSelectedCommand.Execute(id);
-
-            _lightServiceMock.Verify(l => l.GetLightById(1), Times.Once);
-            _navServiceMock.Verify(n => n.NavigateToAsync(nameof(LightDetailsView)), Times.Once);
         }
 
         [Test]

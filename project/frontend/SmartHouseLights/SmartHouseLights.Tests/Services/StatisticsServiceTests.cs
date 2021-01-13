@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
@@ -42,17 +43,31 @@ namespace SmartHouseLights.Tests.Services
             Assert.That(_context.UserLightStatistics.ToList().Count, Is.EqualTo(3));
         }
 
+        [Test]
+        public void GetAllStatisticsForUserWithIdShouldReturnAllStatsForThisUser()
+        {
+            List<UserLightStatistic> stats = _statisticsService.GetAllStatisticsForUserWithId(1);
+
+            Assert.That(stats.Count, Is.EqualTo(2));
+        }
+
         private void FillContextWithStatistics()
         {
             Light light = new LightBuilder().WithId(1).WithDummy().Fill().Build();
             Light light2 = new LightBuilder().WithId(2).WithDummy().Fill().Build();
-            _context.Lights.Add(light);
-            _context.Lights.Add(light2);
-            
+            if (_context.Lights.ToList().Count == 0)
+            {
+                _context.Lights.Add(light);
+                _context.Lights.Add(light2);
+            }
+
             UserLightStatistic stat1 = new StatisticBuilder().WithLight(light).WithUserId(1).Build();
             UserLightStatistic stat2 = new StatisticBuilder().WithLight(light2).WithUserId(1).Build();
-            _context.UserLightStatistics.Add(stat1);
-            _context.UserLightStatistics.Add(stat2);
+            if (_context.UserLightStatistics.ToList().Count == 0)
+            {
+                _context.UserLightStatistics.Add(stat1);
+                _context.UserLightStatistics.Add(stat2);
+            }
             _context.SaveChanges();
         }
     }
