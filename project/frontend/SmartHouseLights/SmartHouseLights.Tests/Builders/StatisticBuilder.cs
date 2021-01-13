@@ -3,10 +3,10 @@ using SmartHouseLights.Domain.Models;
 
 namespace SmartHouseLights.Tests.Builders
 {
-    public class UserLightStatisticBuilder
+    public class StatisticBuilder
     {
         private UserLightStatistic _stat;
-        public UserLightStatisticBuilder()
+        public StatisticBuilder()
         {
             _stat = new UserLightStatistic
             {
@@ -16,10 +16,24 @@ namespace SmartHouseLights.Tests.Builders
             };
         }
 
-        public UserLightStatisticBuilder WithLight(int id)
+        public StatisticBuilder WithLight(int id)
         {
             _stat.Light = new LightBuilder().WithId(id).Build();
             _stat.LightId = id;
+            return this;
+        }
+
+        public StatisticBuilder WithUserId(int id)
+        {
+            _stat.UserId = id;
+            return this;
+        }
+
+        public StatisticBuilder WithLight(Light light)
+        {
+            _stat.Light = light;
+            _stat.LightId = light.Id;
+
             return this;
         }
 

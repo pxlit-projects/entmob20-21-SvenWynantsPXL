@@ -28,6 +28,17 @@ namespace SmartHouseLights.Tests.Builders
             return this;
         }
 
+        public LightBuilder Fill()
+        {
+            _light.Brightness = 100;
+            _light.GroupId = 0;
+            _light.OnSunDown = false;
+            _light.OnTimer = "";
+            _light.Type = "dummy";
+            
+            return this;
+        }
+
         public Light Build()
         {
             return _light;

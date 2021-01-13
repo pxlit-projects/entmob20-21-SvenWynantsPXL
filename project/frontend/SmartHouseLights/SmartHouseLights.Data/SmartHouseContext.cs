@@ -11,7 +11,10 @@ namespace SmartHouseLights.Data
 
         public SmartHouseContext(DbContextOptions<SmartHouseContext> options) : base(options)
         {
-            Database.Migrate();
+            if (!Database.ProviderName.ToLower().Equals("microsoft.entityframeworkcore.inmemory"))
+            {
+                Database.Migrate();
+            }
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

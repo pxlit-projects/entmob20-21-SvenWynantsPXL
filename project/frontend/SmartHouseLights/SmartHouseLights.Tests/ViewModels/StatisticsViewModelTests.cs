@@ -35,8 +35,8 @@ namespace SmartHouseLights.Tests.ViewModels
                 {
                     var stats = new List<UserLightStatistic>
                     {
-                        new UserLightStatisticBuilder().WithLight(1).Build(),
-                        new UserLightStatisticBuilder().WithLight(2).Build()
+                        new StatisticBuilder().WithLight(1).Build(),
+                        new StatisticBuilder().WithLight(2).Build()
                     };
                     return stats;
                 });
@@ -59,8 +59,8 @@ namespace SmartHouseLights.Tests.ViewModels
                 {
                     var stats = new List<UserLightStatistic>
                     {
-                        new UserLightStatisticBuilder().WithLight(1).Build(),
-                        new UserLightStatisticBuilder().WithLight(2).Build()
+                        new StatisticBuilder().WithLight(1).Build(),
+                        new StatisticBuilder().WithLight(2).Build()
                     };
                     return stats;
                 });
