@@ -1,13 +1,10 @@
-package be.pxl.smarthome.service.impl;
+package be.pxl.smarthome.service;
 
 import be.pxl.smarthome.dao.LightDao;
 import be.pxl.smarthome.dao.LightGroupDao;
 import be.pxl.smarthome.dto.CreateLightDto;
 import be.pxl.smarthome.models.Light;
 import be.pxl.smarthome.models.LightGroup;
-import be.pxl.smarthome.service.LightApiService;
-import be.pxl.smarthome.service.LightService;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +15,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Stream;
 
 @Service
 public class LightServiceImpl implements LightService {

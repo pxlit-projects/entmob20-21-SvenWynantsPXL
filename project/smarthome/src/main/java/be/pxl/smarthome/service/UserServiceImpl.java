@@ -1,4 +1,4 @@
-package be.pxl.smarthome.service.impl;
+package be.pxl.smarthome.service;
 
 import be.pxl.smarthome.dao.UserDao;
 import be.pxl.smarthome.dto.ResponseUserDto;

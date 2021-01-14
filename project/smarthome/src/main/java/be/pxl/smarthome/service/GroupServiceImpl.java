@@ -1,12 +1,10 @@
-package be.pxl.smarthome.service.impl;
+package be.pxl.smarthome.service;
 
 import be.pxl.smarthome.dao.LightDao;
 import be.pxl.smarthome.dao.LightGroupDao;
 import be.pxl.smarthome.dto.CreateGroupDto;
 import be.pxl.smarthome.models.Light;
 import be.pxl.smarthome.models.LightGroup;
-import be.pxl.smarthome.service.GroupService;
-import be.pxl.smarthome.service.LightApiService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
