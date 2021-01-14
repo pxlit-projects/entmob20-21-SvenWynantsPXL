@@ -77,7 +77,7 @@ public class LightServiceImpl implements LightService {
     @Override
     public Light flipSwitch(Light light) {
         light.setOnState(!light.getOnState());
-        lightDao.save(light);
+        light = lightDao.save(light);
         lightApiService.flipSwitch(light);
         return light;
     }

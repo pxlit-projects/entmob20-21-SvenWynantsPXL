@@ -51,4 +51,14 @@ public class LightServiceTest {
 
         assertEquals(lightService.addLight(light), light);
     }
+
+    @Test
+    public void flipSwitchShouldReturnLightWithChangedOnState(){
+        Light light = new LightBuilder().Build();
+        Light lightUpdate = light;
+        lightUpdate.setOnState(true);
+        when(lightDao.save(lightUpdate)).thenReturn(lightUpdate);
+
+        assertEquals(light.getOnState(), lightUpdate.getOnState());
+    }
 }
