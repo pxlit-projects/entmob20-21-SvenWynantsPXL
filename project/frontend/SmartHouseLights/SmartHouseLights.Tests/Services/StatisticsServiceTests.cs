@@ -28,6 +28,12 @@ namespace SmartHouseLights.Tests.Services
             _statisticsService = new StatisticsService(_context);
         }
 
+        [TearDown]
+        public void EmptyContext()
+        {
+            _context.Database.EnsureDeleted();
+        }
+
         [Test]
         public void AddStatisticShouldAddStatistic()
         {
@@ -55,19 +61,14 @@ namespace SmartHouseLights.Tests.Services
         {
             Light light = new LightBuilder().WithId(1).WithDummy().Fill().Build();
             Light light2 = new LightBuilder().WithId(2).WithDummy().Fill().Build();
-            if (_context.Lights.ToList().Count == 0)
-            {
-                _context.Lights.Add(light);
-                _context.Lights.Add(light2);
-            }
+            _context.Lights.Add(light);
+            _context.Lights.Add(light2);
 
             UserLightStatistic stat1 = new StatisticBuilder().WithLight(light).WithUserId(1).Build();
             UserLightStatistic stat2 = new StatisticBuilder().WithLight(light2).WithUserId(1).Build();
-            if (_context.UserLightStatistics.ToList().Count == 0)
-            {
-                _context.UserLightStatistics.Add(stat1);
-                _context.UserLightStatistics.Add(stat2);
-            }
+            _context.UserLightStatistics.Add(stat1);
+            _context.UserLightStatistics.Add(stat2);
+
             _context.SaveChanges();
         }
     }
