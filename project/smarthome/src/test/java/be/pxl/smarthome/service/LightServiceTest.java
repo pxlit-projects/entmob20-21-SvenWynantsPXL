@@ -44,5 +44,11 @@ public class LightServiceTest {
     }
 
     @Test
-    public void 
+    public void addLightShouldSaveLight(){
+        Light light = new LightBuilder().Build();
+
+        when(lightDao.save(light)).thenReturn(light);
+
+        assertEquals(lightService.addLight(light), light);
+    }
 }
