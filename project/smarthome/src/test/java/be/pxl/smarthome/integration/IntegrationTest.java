@@ -38,7 +38,7 @@ public class IntegrationTest {
 
     @Test
     @Transactional
-    @WithMockUser(username = "sven", password = "pxl", authorities = "ROLE_ADMIN, ROLE_USER")
+    @WithMockUser(username = "sven", password = "pxl", authorities = "ROLE_ADMIN")
     public void createGroupAndGetGroupTest() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         CreateGroupDto createGroupDto = new CreateGroupDto();

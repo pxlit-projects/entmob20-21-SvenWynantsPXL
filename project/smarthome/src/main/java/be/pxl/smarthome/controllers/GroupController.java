@@ -24,7 +24,7 @@ public class GroupController {
     private LightService lightService;
 
     @GetMapping(value = "/{id}")
-    @Secured({"ROLE_ADMIN, ROLE_USER"})
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public LightGroup getGroup(@PathVariable int id) {
         LightGroup group = groupService.findLightGroupById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
@@ -32,7 +32,7 @@ public class GroupController {
     }
 
     @DeleteMapping(value = "/{id}")
-    @Secured({"ROLE_ADMIN, ROLE_USER"})
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public void removeGroupById(@PathVariable int id) {
         LightGroup group = groupService.findLightGroupById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
@@ -40,7 +40,7 @@ public class GroupController {
     }
 
     @PostMapping(value = "/{groupId}/addLight/{lightId}")
-    @Secured({"ROLE_ADMIN, ROLE_USER"})
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public void addLightToGroup(@PathVariable int groupId, @PathVariable int lightId) {
         Light light = lightService.findLightById(lightId)
                 .orElseThrow(() -> new EntityNotFoundException(lightId));
@@ -50,7 +50,7 @@ public class GroupController {
     }
 
     @PostMapping(value = "/addGroup")
-    @Secured({"ROLE_ADMIN, ROLE_USER"})
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public LightGroup addGroup(@RequestBody CreateGroupDto createGroupDto) {
         List<LightGroup> groups = groupService.getAllGroups();
 
@@ -63,7 +63,7 @@ public class GroupController {
     }
 
     @PutMapping(value = "/{id}/turnAllOn")
-    @Secured({"ROLE_ADMIN, ROLE_USER"})
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public LightGroup turnAllLightsOn(@PathVariable int id) {
         LightGroup group = groupService.findLightGroupById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
@@ -72,7 +72,7 @@ public class GroupController {
     }
 
     @PutMapping(value = "/{id}/turnAllOff")
-    @Secured({"ROLE_ADMIN, ROLE_USER"})
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public LightGroup turnAllLightsOff(@PathVariable int id) {
         LightGroup group = groupService.findLightGroupById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
@@ -81,7 +81,7 @@ public class GroupController {
     }
 
     @GetMapping(value = "/groups")
-    @Secured({"ROLE_ADMIN, ROLE_USER"})
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public List<LightGroup> getAllGroups() {
         return groupService.getAllGroups();
     }
