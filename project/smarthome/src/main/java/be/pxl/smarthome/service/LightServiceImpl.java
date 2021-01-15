@@ -209,7 +209,6 @@ public class LightServiceImpl implements LightService {
             LocalDateTime today = LocalDateTime.now();
             int [] sunsetTime = Arrays.stream(sunsetHour.split(":")).mapToInt(Integer::parseInt).toArray();
             LocalDateTime sunset = LocalDateTime.of(today.getYear(), today.getMonthValue(), today.getDayOfMonth(), sunsetTime[0] + 13, sunsetTime[1], sunsetTime[2]).minusMinutes(30).withNano(0);
-            System.out.println(sunset);
             return sunset;
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

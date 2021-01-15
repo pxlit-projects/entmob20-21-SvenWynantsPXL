@@ -8,6 +8,7 @@ import be.pxl.smarthome.models.LightGroup;
 import be.pxl.smarthome.service.GroupService;
 import be.pxl.smarthome.service.LightService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,9 @@ import java.util.stream.Collectors;
 public class LightsController {
 
     @Autowired
+    private JmsTemplate jmsTemplate;
+
+    @Autowired
     private GroupService _groupService;
     @Autowired
     private LightService _lightService;
@@ -30,12 +34,14 @@ public class LightsController {
     @PostMapping(value = "/light")
     @Secured({"ROLE_ADMIN"})
     public Light addLight(@Valid @RequestBody CreateLightDto createLightDto) {
+        jmsTemplate.convertAndSend("lightListener", "light with " + createLightDto.Name + " added");
         return _lightService.addLight(createLightDto);
     }
 
     @PutMapping(value = "/{id}/flipSwitch")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public LightDto flipSwitch(@PathVariable int id) {
+        jmsTemplate.convertAndSend("lightListener", "light with " + id + " requested.");
         Light light = _lightService.findLightById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
 
@@ -66,11 +72,13 @@ public class LightsController {
 
     @GetMapping(value = "/lights")
     public List<LightDto> getAllLights() {
+        jmsTemplate.convertAndSend("lightListener", "All lights are requested from controller");
         return _lightService.getAllLights().stream().map(Light::toDto).collect(Collectors.toList());
     }
 
     @GetMapping(value = "/light/{id}")
     public LightDto getLightById(@PathVariable int id) {
+        jmsTemplate.convertAndSend("lightListener", "Light with id " + id + " requested");
         return _lightService.findLightById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id)).toDto();
     }
@@ -80,6 +88,8 @@ public class LightsController {
     public void removeLightById(@PathVariable int id) {
         Light light = _lightService.findLightById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
+
+        jmsTemplate.convertAndSend("lightListener", "Light with id " + id + " requested to delete");
 
         _lightService.removeLight(light);
     }
@@ -108,7 +118,7 @@ public class LightsController {
         light.setOnSunDown(lightDto.OnSunDown);
         light.setBrightness(lightDto.Brightness);
         light = _lightService.updateLight(light);
-
+        jmsTemplate.convertAndSend("lightListener", "Light with id " + lightDto.Id + " updated");
         return light.toDto();
     }
 }

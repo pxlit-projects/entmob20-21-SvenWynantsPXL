@@ -17,13 +17,11 @@ import java.util.List;
 @RequestMapping(path = "groups")
 public class GroupController {
 
-    private final GroupService groupService;
-    private final LightService lightService;
+    @Autowired
+    private GroupService groupService;
 
-    public GroupController(GroupService groupService, LightService lightService) {
-        this.groupService = groupService;
-        this.lightService = lightService;
-    }
+    @Autowired
+    private LightService lightService;
 
     @GetMapping(value = "/{id}")
     @Secured({"ROLE_ADMIN, ROLE_USER"})
@@ -52,7 +50,7 @@ public class GroupController {
     }
 
     @PostMapping(value = "/addGroup")
-    @Secured({"ROLE_ADMIN"})
+    @Secured({"ROLE_ADMIN, ROLE_USER"})
     public LightGroup addGroup(@RequestBody CreateGroupDto createGroupDto) {
         List<LightGroup> groups = groupService.getAllGroups();
 
