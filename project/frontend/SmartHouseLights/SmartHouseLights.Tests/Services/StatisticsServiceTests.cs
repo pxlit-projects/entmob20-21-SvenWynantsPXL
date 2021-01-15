@@ -37,12 +37,14 @@ namespace SmartHouseLights.Tests.Services
         [Test]
         public void AddStatisticShouldAddStatistic()
         {
-            UserLightStatistic statistic = new UserLightStatistic();
-            statistic.Light = new LightBuilder().WithId(1).Build();
-            statistic.TurnedOnTime = DateTime.Now;
-            statistic.HoursOn = 2;
-            statistic.UserId = 2;
-            statistic.LightId = 1;
+            UserLightStatistic statistic = new UserLightStatistic
+            {
+                Light = new LightBuilder().WithId(1).Build(),
+                TurnedOnTime = DateTime.Now,
+                HoursOn = 2,
+                UserId = 2,
+                LightId = 1
+            };
 
             _statisticsService.AddStatistic(statistic);
 
