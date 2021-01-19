@@ -32,7 +32,7 @@ public class GroupController {
     }
 
     @DeleteMapping(value = "/{id}")
-    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    @Secured({"ROLE_ADMIN"})
     public void removeGroupById(@PathVariable int id) {
         LightGroup group = groupService.findLightGroupById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
@@ -40,7 +40,7 @@ public class GroupController {
     }
 
     @PostMapping(value = "/{groupId}/addLight/{lightId}")
-    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    @Secured({"ROLE_ADMIN"})
     public void addLightToGroup(@PathVariable int groupId, @PathVariable int lightId) {
         Light light = lightService.findLightById(lightId)
                 .orElseThrow(() -> new EntityNotFoundException(lightId));
@@ -50,7 +50,7 @@ public class GroupController {
     }
 
     @PostMapping(value = "/addGroup")
-    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    @Secured({"ROLE_ADMIN"})
     public LightGroup addGroup(@RequestBody CreateGroupDto createGroupDto) {
         List<LightGroup> groups = groupService.getAllGroups();
 
