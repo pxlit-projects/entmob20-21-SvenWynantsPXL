@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class LoggerAspect {
-    @Before("execution(* be.pxl.smarthome.controllers.LightsController.getAllLights())")
-    public void beforeDeletingLight(){
-        System.out.println("All lights requested");
+    @Before("execution(* be.pxl.smarthome.service.LightServiceImpl.getAllLights())")
+    public void beforeGetAllLights(){
+        System.out.println("All lights requesting");
     }
 }

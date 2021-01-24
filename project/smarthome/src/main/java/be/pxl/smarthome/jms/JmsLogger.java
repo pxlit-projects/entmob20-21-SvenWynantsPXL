@@ -6,7 +6,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class JmsLogger {
     @JmsListener(destination = "lightListener", containerFactory = "myFactory")
-    public void receiveMessage(String message){
+    public void receiveLightMessage(String message){
+        System.out.println(message);
+    }
+
+    @JmsListener(destination = "sunset", containerFactory = "myFactory")
+    public void receiveSunsetMessage(String message) {
         System.out.println(message);
     }
 }

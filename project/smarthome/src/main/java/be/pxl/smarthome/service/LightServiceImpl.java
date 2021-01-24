@@ -6,6 +6,7 @@ import be.pxl.smarthome.dto.CreateLightDto;
 import be.pxl.smarthome.models.Light;
 import be.pxl.smarthome.models.LightGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -19,6 +20,9 @@ import java.util.*;
 
 @Service
 public class LightServiceImpl implements LightService {
+    @Autowired
+    private JmsTemplate jmsTemplate;
+
     @Autowired
     private LightService service;
     @Autowired
@@ -207,6 +211,7 @@ public class LightServiceImpl implements LightService {
             LocalDateTime today = LocalDateTime.now();
             int [] sunsetTime = Arrays.stream(sunsetHour.split(":")).mapToInt(Integer::parseInt).toArray();
             LocalDateTime sunset = LocalDateTime.of(today.getYear(), today.getMonthValue(), today.getDayOfMonth(), sunsetTime[0] + 13, sunsetTime[1], sunsetTime[2]).minusMinutes(30).withNano(0);
+            jmsTemplate.convertAndSend("sunset", sunset.toString());
             return sunset;
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
