@@ -159,7 +159,7 @@ public class LightServiceImpl implements LightService {
                             lightUpdater(light);
                         }
                     }
-                    if (sunsetTime[0].isEqual(now) || sunsetTime[0].plusMinutes(31).isAfter(now)){
+                    if (sunsetTime[0].withSecond(0).isEqual(now.withSecond(0)) || sunsetTime[0].plusMinutes(31).isAfter(now)){
                         if (light.isOnSunDown()){
                             lightUpdater(light);
                         }
@@ -173,9 +173,7 @@ public class LightServiceImpl implements LightService {
         TimerTask sunDownCheck = new TimerTask() {
             @Override
             public void run() {
-                if (LocalDateTime.now().getHour() % 2 == 0){
-                    sunsetTime[0] = getSunsetTime();
-                }
+                sunsetTime[0] = getSunsetTime();
             }
         };
         Timer checkDailySunDown = new Timer(true);
