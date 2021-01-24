@@ -113,7 +113,6 @@ namespace SmartHouseLights.Tests.ViewModels
             _model.User.Groups = new List<LightGroup>{denialGroup};
 
             Assert.That(_model.FlipSwitchCommand.CanExecute(null), Is.True);
-            Assert.That(_model.DeleteGroupCommand.CanExecute(null), Is.True);
         }
 
         [Test]
@@ -123,7 +122,7 @@ namespace SmartHouseLights.Tests.ViewModels
             _model.Group = new GroupBuilder().WithId(1).WithLights().Build();
 
             Assert.That(_model.ErrorMessage, Is.EqualTo(""));
-            Assert.That(_model.OnCanFlipSwitch(), Is.True);
+            Assert.That(_model.FlipSwitchCommand.CanExecute(null), Is.True);
         }
 
         [Test]
@@ -133,21 +132,8 @@ namespace SmartHouseLights.Tests.ViewModels
             _model.Group = new GroupBuilder().WithId(1).WithLights().Build();
             _model.User.Groups = new List<LightGroup>{_model.Group};
 
-            Assert.That(_model.OnCanFlipSwitch(), Is.False);
+            Assert.That(_model.FlipSwitchCommand.CanExecute(null), Is.False);
             Assert.That(_model.ErrorMessage, Is.EqualTo("You may not access this group"));
-        }
-
-        [Test]
-        public void OnCanFlipSwitchShouldCheckForDeleteCommand()
-        {
-            _model.Group = null;
-            Assert.That(_model.DeleteGroupCommand.CanExecute(null), Is.False);
-
-            _model.Group = new GroupBuilder().WithId(1).Build();
-            _model.User = null;
-
-            Assert.That(_model.DeleteGroupCommand.CanExecute(null), Is.False);
-            Assert.That(_model.ErrorMessage, Is.EqualTo("There are no lights to turn on"));
         }
 
         [Test]
@@ -157,6 +143,31 @@ namespace SmartHouseLights.Tests.ViewModels
             _model.User.Groups = new List<LightGroup>{_model.Group};
 
             Assert.That(_model.DeleteGroupCommand.CanExecute(null), Is.False);
+        }
+
+        [Test]
+        public void DeleteCannotExecuteIfUserIsNull()
+        {
+            _model.User = null;
+            _model.Group = new GroupBuilder().WithLights().WithId(1).Build();
+
+            Assert.That(_model.DeleteGroupCommand.CanExecute(null), Is.False);
+        }
+
+        [Test]
+        public void DeleteCanExecuteIfUserDoesNotHaveGroupInGroups()
+        {
+            Assert.That(_model.DeleteGroupCommand.CanExecute(null), Is.True);
+
+            _model.User.Groups = new List<LightGroup>
+            {
+                new GroupBuilder().WithId(1).Build(),
+                new GroupBuilder().WithId(2).Build()
+            };
+
+            _model.Group = new GroupBuilder().WithId(3).Build();
+
+            Assert.That(_model.DeleteGroupCommand.CanExecute(null), Is.True);
         }
 
         [Test]

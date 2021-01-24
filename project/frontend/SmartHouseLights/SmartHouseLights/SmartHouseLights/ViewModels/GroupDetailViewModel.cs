@@ -18,7 +18,7 @@ namespace SmartHouseLights.ViewModels
         public Command FlipSwitchCommand =>
             _flipSwitchCommand ??= new Command(OnFlipSwitch, OnCanFlipSwitch);
 
-        public Command DeleteGroupCommand => new Command(OnDelete, OnCanFlipSwitch);
+        public Command DeleteGroupCommand => new Command(OnDelete, OnCanDelete);
 
         private string _errorMessage;
         public string ErrorMessage
@@ -93,7 +93,7 @@ namespace SmartHouseLights.ViewModels
             }
         }
 
-        public bool OnCanFlipSwitch()
+        private bool OnCanFlipSwitch()
         {
             if (Group?.Lights?.Count > 0 && User != null)
             {
@@ -103,13 +103,10 @@ namespace SmartHouseLights.ViewModels
                     return true;
                 }
 
-                foreach (var lightGroup in User.Groups)
+                if (User.Groups.Any(lightGroup => lightGroup.Id == Group.Id))
                 {
-                    if (lightGroup.Id == Group.Id)
-                    {
-                        ErrorMessage = "You may not access this group";
-                        return false;
-                    }
+                    ErrorMessage = "You may not access this group";
+                    return false;
                 }
 
                 ErrorMessage = "";
@@ -118,6 +115,30 @@ namespace SmartHouseLights.ViewModels
 
             ErrorMessage = "There are no lights to turn on";
             return false;
+        }
+
+        private bool OnCanDelete()
+        {
+            if (Group != null)
+            {
+                if (User?.Groups != null && User.Groups.Count > 0)
+                {
+                    if (User.Groups.Any(lightGroup => lightGroup.Id == Group.Id))
+                    {
+                        ErrorMessage = "You may not access this group";
+                        return false;
+                    }
+
+                    ErrorMessage = "";
+                    return true;
+                }
+
+                ErrorMessage = "No user available";
+                return false;
+            }
+
+            ErrorMessage = "";
+            return true;
         }
 
         private async void OnDelete()
