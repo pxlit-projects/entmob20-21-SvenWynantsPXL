@@ -34,14 +34,14 @@ public class LightsController {
     @PostMapping(value = "/light")
     @Secured({"ROLE_ADMIN"})
     public Light addLight(@Valid @RequestBody CreateLightDto createLightDto) {
-        jmsTemplate.convertAndSend("lightListener", "light with " + createLightDto.Name + " added");
+        jmsTemplate.convertAndSend("lightListener", "light with name: " + createLightDto.Name + " added");
         return _lightService.addLight(createLightDto);
     }
 
     @PutMapping(value = "/{id}/flipSwitch")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public LightDto flipSwitch(@PathVariable int id) {
-        jmsTemplate.convertAndSend("lightListener", "light with " + id + " requested.");
+        jmsTemplate.convertAndSend("lightListener", "light with id: " + id + " requesting.");
         Light light = _lightService.findLightById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
 
@@ -78,7 +78,7 @@ public class LightsController {
 
     @GetMapping(value = "/light/{id}")
     public LightDto getLightById(@PathVariable int id) {
-        jmsTemplate.convertAndSend("lightListener", "Light with id " + id + " requested");
+        jmsTemplate.convertAndSend("lightListener", "Light with id: " + id + " requested");
         return _lightService.findLightById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id)).toDto();
     }
@@ -89,7 +89,7 @@ public class LightsController {
         Light light = _lightService.findLightById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
 
-        jmsTemplate.convertAndSend("lightListener", "Light with id " + id + " requested to delete");
+        jmsTemplate.convertAndSend("lightListener", "Light with id: " + id + " requested to delete");
 
         _lightService.removeLight(light);
     }
@@ -118,7 +118,7 @@ public class LightsController {
         light.setOnSunDown(lightDto.OnSunDown);
         light.setBrightness(lightDto.Brightness);
         light = _lightService.updateLight(light);
-        jmsTemplate.convertAndSend("lightListener", "Light with id " + lightDto.Id + " updated");
+        jmsTemplate.convertAndSend("lightListener", "Light with id: " + lightDto.Id + " updated");
         return light.toDto();
     }
 }
